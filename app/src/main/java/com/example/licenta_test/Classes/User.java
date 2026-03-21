@@ -1,16 +1,17 @@
-package com.example.licenta_test;
+package com.example.licenta_test.Classes;
 
 import com.google.firebase.firestore.DocumentId;
 
-public class Utilizator {
+//A CLASS TO EXPLAIN THE USER ATTRIBUTES
+public class User {
     @DocumentId
     private String id;
     private String username;
     private String email;
-    // Parola va sta strict in Firebase Authentication pentru securitate
-    public Utilizator(){};
+    // The password will strictly stay in Firebase Authentication for security purposes
+    public User(){};
 
-    public Utilizator(String username, String email) {
+    public User(String username, String email) {
         this.username = username;
         this.email = email;
     }
