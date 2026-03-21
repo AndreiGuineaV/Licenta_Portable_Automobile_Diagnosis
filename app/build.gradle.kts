@@ -35,11 +35,15 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.github.bumptech.glide:glide:5.0.5")
+    implementation("com.opencsv:opencsv:5.12.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
