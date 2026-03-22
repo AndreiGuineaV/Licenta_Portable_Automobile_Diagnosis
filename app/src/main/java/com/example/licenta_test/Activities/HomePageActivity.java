@@ -68,21 +68,21 @@ public class HomePageActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(this.getAssets().open("final_warning_lights.csv")));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(this.getAssets().open("warning_lights_with_symptoms.csv")));
             CSVReader csvReader = new CSVReader(reader);
 
             String[] line = null;
             csvReader.readNext();
 
             while((line = csvReader.readNext()) != null){
-                if(line.length >= 4){
                     String warningLightName = line[0];
                     String[] causes = line[1].split(" \\| ");
                     String otherDetails = line[2];
                     String imageName = line[3];
+                    String[] symptoms = line[4].split(";");
 
                     String safeDocumentId = warningLightName.replace("/", "-");// ...
-                    WarningLight warningLight = new WarningLight(warningLightName, List.of(causes), otherDetails, imageName);
+                    WarningLight warningLight = new WarningLight(warningLightName, List.of(causes), otherDetails, imageName, List.of(symptoms));
                     db.collection("Warning_Lights")
                             .document(safeDocumentId)
                             .set(warningLight)
@@ -92,7 +92,6 @@ public class HomePageActivity extends AppCompatActivity {
                             .addOnFailureListener(e ->{
                                 Log.e("FIREBASE_UPLOAD", "Eroare la salvarea: " + warningLightName, e);
                             });
-                }
             }
             csvReader.close();
         } catch (FileNotFoundException e) {
