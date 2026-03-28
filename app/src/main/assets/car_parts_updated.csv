@@ -1,0 +1,767 @@
+part_name,category,compatible_fuels,symptoms_if_broken,image_filename
+Tire,Tires rims and accessories,gasoline;diesel;hybrid;electric,Vibration while driving;poor handling;blowout risk;uneven tread wear,tire.jpg
+Rim / Wheel,Tires rims and accessories,gasoline;diesel;hybrid;electric,Vibration;wobbling wheel;visible cracks or bends;air leaks,rim___wheel.jpg
+Center Cap,Tires rims and accessories,gasoline;diesel;hybrid;electric,Missing cosmetic cover;rattling noise from wheel area,center_cap.jpg
+Wheel Spacer,Tires rims and accessories,gasoline;diesel;hybrid;electric,Vibration;wheel instability;unusual rubbing sounds,wheel_spacer.jpg
+Lug Nut,Tires rims and accessories,gasoline;diesel;hybrid;electric,Wheel looseness;wobbling;risk of wheel detachment,lug_nut.jpg
+Lug Bolt,Tires rims and accessories,gasoline;diesel;hybrid;electric,Wheel looseness;wobbling;risk of wheel detachment,lug_bolt.jpg
+Valve Stem,Tires rims and accessories,gasoline;diesel;hybrid;electric,Slow air loss;flat tire;inability to maintain pressure,valve_stem.jpg
+Valve Stem Cap,Tires rims and accessories,gasoline;diesel;hybrid;electric,Dust and debris entering valve;slow pressure loss,valve_stem_cap.jpg
+Tire Pressure Monitoring Sensor (TPMS),Tires rims and accessories,gasoline;diesel;hybrid;electric,TPMS warning light on;incorrect pressure readings,tire_pressure_monitoring_sensor_tpms.jpg
+Wheel Balancing Weight,Tires rims and accessories,gasoline;diesel;hybrid;electric,Steering wheel vibration;uneven tire wear;vibration at speed,wheel_balancing_weight.jpg
+Tire Repair Kit (sealant + inflator),Tires rims and accessories,gasoline;diesel;hybrid;electric,Cannot temporarily repair flat tire on the road,tire_repair_kit_sealant__inflator.jpg
+Snow Chain,Tires rims and accessories,gasoline;diesel;hybrid;electric,Loss of traction on snow/ice without chains,snow_chain.jpg
+Tire Studs,Tires rims and accessories,gasoline;diesel;hybrid;electric,Reduced grip on ice;poor winter traction,tire_studs.jpg
+Anti-theft Lug Nut / Bolt Set,Tires rims and accessories,gasoline;diesel;hybrid;electric,Wheel theft vulnerability,anti-theft_lug_nut___bolt_set.jpg
+Hub Ring / Spigot Ring,Tires rims and accessories,gasoline;diesel;hybrid;electric,Vibration;hub-centric rattle;wheel imbalance,hub_ring___spigot_ring.jpg
+Wheel Rim Protector,Tires rims and accessories,gasoline;diesel;hybrid;electric,Curb damage to rim edges,wheel_rim_protector.jpg
+Tire Mobility Kit,Tires rims and accessories,gasoline;diesel;hybrid;electric,Inability to handle minor punctures without spare tire,tire_mobility_kit.jpg
+Spare Tire (full-size),Tires rims and accessories,gasoline;diesel;hybrid;electric,No backup in case of flat tire,spare_tire_full-size.jpg
+Spare Tire (compact/space-saver),Tires rims and accessories,gasoline;diesel;hybrid;electric,No backup in case of flat tire,spare_tire_compact_space-saver.jpg
+Engine Oil,Oils and fluids,gasoline;diesel;hybrid,Engine knocking;overheating;seized engine;increased fuel consumption,engine_oil.jpg
+Transmission Fluid (ATF),Oils and fluids,gasoline;diesel;hybrid,Rough gear shifts;slipping gears;transmission overheating,transmission_fluid_atf.jpg
+Manual Gearbox Oil,Oils and fluids,gasoline;diesel;hybrid,Hard gear engagement;grinding noise when shifting;gearbox wear,manual_gearbox_oil.jpg
+Brake Fluid,Oils and fluids,gasoline;diesel;hybrid;electric,Spongy brake pedal;brake fade;reduced stopping power,brake_fluid.jpg
+Coolant / Antifreeze,Oils and fluids,gasoline;diesel;hybrid;electric,Engine overheating;heater not working;coolant leaks,coolant___antifreeze.jpg
+Power Steering Fluid,Oils and fluids,gasoline;diesel;hybrid,Heavy steering;whining noise when turning;steering pump damage,power_steering_fluid.jpg
+Differential Oil,Oils and fluids,gasoline;diesel;hybrid,Whining noise from axle;overheating differential;increased wear,differential_oil.jpg
+Transfer Case Fluid,Oils and fluids,gasoline;diesel;hybrid,Grinding noise from transfer case;difficulty shifting 4WD modes,transfer_case_fluid.jpg
+Windshield Washer Fluid,Oils and fluids,gasoline;diesel;hybrid;electric,Inability to clean windshield;reduced visibility,windshield_washer_fluid.jpg
+Hydraulic Clutch Fluid,Oils and fluids,gasoline;diesel;hybrid,Clutch not disengaging;spongy clutch pedal,hydraulic_clutch_fluid.jpg
+Fuel System Cleaner / Additive,Oils and fluids,gasoline;diesel;hybrid,Dirty injectors;poor fuel economy;rough idle,fuel_system_cleaner___additive.jpg
+AdBlue / DEF (Diesel Exhaust Fluid),Oils and fluids,diesel,AdBlue warning light;engine power reduction;failed emissions test,adblue___def_diesel_exhaust_fluid.jpg
+Grease (chassis/multipurpose),Oils and fluids,gasoline;diesel;hybrid;electric,Squeaking joints;accelerated wear on lubricated parts,grease_chassis_multipurpose.jpg
+Air Conditioning Refrigerant (R134a / R1234yf),Oils and fluids,gasoline;diesel;hybrid;electric,No cold air from AC;compressor damage,air_conditioning_refrigerant_r134a___r1234yf.jpg
+Battery Electrolyte,Oils and fluids,gasoline;diesel;hybrid;electric,Battery not holding charge;reduced battery life,battery_electrolyte.jpg
+Rust Inhibitor / Underbody Coating,Oils and fluids,gasoline;diesel;hybrid;electric,Accelerated corrosion of underbody components,rust_inhibitor___underbody_coating.jpg
+Brake Pad,Braking system,gasoline;diesel;hybrid;electric,Squealing/grinding noise when braking;increased stopping distance;brake fade,brake_pad.jpg
+Brake Disc / Rotor,Braking system,gasoline;diesel;hybrid;electric,Vibration when braking;pulsating brake pedal;squealing noise,brake_disc___rotor.jpg
+Brake Drum,Braking system,gasoline;diesel;hybrid;electric,Pulling to one side;grinding noise;reduced braking efficiency,brake_drum.jpg
+Brake Shoe,Braking system,gasoline;diesel;hybrid;electric,Grinding noise;reduced braking;vehicle pulling to one side,brake_shoe.jpg
+Brake Caliper,Braking system,gasoline;diesel;hybrid;electric,Uneven braking;vehicle pulling;sticking/dragging brakes;overheating,brake_caliper.jpg
+Brake Master Cylinder,Braking system,gasoline;diesel;hybrid;electric,Soft or sinking brake pedal;brake fluid leak;loss of braking power,brake_master_cylinder.jpg
+Brake Wheel Cylinder,Braking system,gasoline;diesel;hybrid;electric,Brake fluid leak at drum;soft pedal;poor rear braking,brake_wheel_cylinder.jpg
+Brake Booster / Vacuum Servo,Braking system,gasoline;diesel;hybrid,Hard brake pedal;reduced braking assistance;hissing noise,brake_booster___vacuum_servo.jpg
+Brake Hose,Braking system,gasoline;diesel;hybrid;electric,Brake fluid leak;spongy pedal;restricted braking;vehicle pulling,brake_hose.jpg
+Brake Line / Pipe,Braking system,gasoline;diesel;hybrid;electric,Brake fluid leak;total brake failure;spongy pedal,brake_line___pipe.jpg
+Brake Caliper Repair Kit,Braking system,gasoline;diesel;hybrid;electric,Seized caliper;uneven brake wear;overheating brakes,brake_caliper_repair_kit.jpg
+Brake Caliper Bracket / Mount,Braking system,gasoline;diesel;hybrid;electric,Caliper misalignment;uneven pad wear;noise when braking,brake_caliper_bracket___mount.jpg
+Handbrake Cable,Braking system,gasoline;diesel;hybrid;electric,Handbrake not holding vehicle;slack or stuck handbrake lever,handbrake_cable.jpg
+Electronic Parking Brake Actuator,Braking system,gasoline;diesel;hybrid;electric,Parking brake not engaging/releasing;warning light on,electronic_parking_brake_actuator.jpg
+ABS Sensor / Wheel Speed Sensor,Braking system,gasoline;diesel;hybrid;electric,ABS warning light;ABS not activating;traction control issues,error.jpg
+ABS Control Module,Braking system,gasoline;diesel;hybrid;electric,ABS light on;ABS inoperative;stability control failure,abs_control_module.jpg
+Brake Pad Wear Sensor,Braking system,gasoline;diesel;hybrid;electric,Warning light not alerting worn pads;no early wear indication,brake_pad_wear_sensor.jpg
+Brake Disc Dust Shield / Splash Guard,Braking system,gasoline;diesel;hybrid;electric,Increased disc contamination;noise from debris contact,brake_disc_dust_shield___splash_guard.jpg
+Brake Proportioning Valve,Braking system,gasoline;diesel;hybrid;electric,Rear wheels locking up prematurely;uneven braking balance,error.jpg
+Brake Pressure Regulator,Braking system,gasoline;diesel;hybrid;electric,Unequal front/rear braking;wheel lockup,brake_pressure_regulator.jpg
+Brake Fluid Reservoir,Braking system,gasoline;diesel;hybrid;electric,Brake fluid leak;air in brake lines;brake failure,brake_fluid_reservoir.jpg
+Air Filter (engine),Filters,gasoline;diesel;hybrid,Reduced engine power;poor fuel economy;rough idle;black smoke,air_filter_engine.jpg
+Cabin Air Filter / Pollen Filter,Filters,gasoline;diesel;hybrid;electric,Bad odors in cabin;reduced HVAC airflow;poor air quality,cabin_air_filter___pollen_filter.jpg
+Oil Filter,Filters,gasoline;diesel;hybrid,Contaminated engine oil;accelerated engine wear;oil pressure issues,oil_filter.jpg
+Fuel Filter,Filters,gasoline;diesel;hybrid,Engine hesitation;poor acceleration;stalling;hard starting,fuel_filter.jpg
+Diesel Particulate Filter (DPF),Filters,diesel;hybrid,Loss of power;increased fuel consumption;DPF warning light,diesel_particulate_filter_dpf.jpg
+Transmission Filter,Filters,gasoline;diesel;hybrid,Rough shifting;transmission slipping;overheating gearbox,transmission_filter.jpg
+Hydraulic Filter,Filters,gasoline;diesel;hybrid,Loss of hydraulic pressure;erratic system operation,hydraulic_filter.jpg
+Crankcase Ventilation Filter / PCV Filter,Filters,gasoline;diesel;hybrid,Excessive oil consumption;rough idle;oil leaks,crankcase_ventilation_filter___pcv_filter.jpg
+Fuel Vapor Canister Filter,Filters,gasoline;diesel;hybrid,Fuel smell;evaporative emission faults;rough idle,fuel_vapor_canister_filter.jpg
+Intercooler Charge Air Filter,Filters,diesel;gasoline;hybrid,Reduced turbo efficiency;dirty charge air,intercooler_charge_air_filter.jpg
+Water Separator Filter,Filters,diesel;hybrid,Water in fuel causing misfires;injector damage,water_separator_filter.jpg
+Hydraulic Steering Filter,Filters,gasoline;diesel;hybrid,Whining steering pump;erratic power steering response,hydraulic_steering_filter.jpg
+Engine Block,Engine,gasoline;diesel;hybrid,Coolant/oil leaks;overheating;loss of compression;catastrophic failure,engine_block.jpg
+Cylinder Head,Engine,gasoline;diesel;hybrid,Overheating;white exhaust smoke;coolant in oil;loss of compression,cylinder_head.jpg
+Piston,Engine,gasoline;diesel;hybrid,Blue/white smoke;loss of power;excessive oil consumption;knocking,piston.jpg
+Piston Ring Set,Engine,gasoline;diesel;hybrid,Blue exhaust smoke;poor compression;oil fouled spark plugs,piston_ring_set.jpg
+Connecting Rod,Engine,gasoline;diesel;hybrid,Knocking noise;engine vibration;catastrophic engine failure,connecting_rod.jpg
+Crankshaft,Engine,gasoline;diesel;hybrid,Engine knock;vibration;complete engine failure,crankshaft.jpg
+Camshaft,Engine,gasoline;diesel;hybrid,Rough idle;misfires;loss of power;valve timing issues,camshaft.jpg
+Camshaft Bearing,Engine,gasoline;diesel;hybrid,Ticking/knocking noise;oil pressure loss;engine damage,camshaft_bearing.jpg
+Valve (intake/exhaust),Engine,gasoline;diesel;hybrid,Loss of compression;misfires;rough idle;poor performance,valve_intake_exhaust.jpg
+Valve Spring,Engine,gasoline;diesel;hybrid,Misfires;valve bounce at high RPM;loss of power,valve_spring.jpg
+Valve Guide,Engine,gasoline;diesel;hybrid,Excessive oil consumption;blue smoke;valve stem wear,valve_guide.jpg
+Valve Seat,Engine,gasoline;diesel;hybrid,Compression loss;valve burning;rough idle,valve_seat.jpg
+Rocker Arm,Engine,gasoline;diesel;hybrid,Ticking noise;misfires;poor valve actuation,rocker_arm.jpg
+Rocker Arm Shaft,Engine,gasoline;diesel;hybrid,Ticking noise;oil pressure issues;valve train damage,rocker_arm_shaft.jpg
+Push Rod,Engine,gasoline;diesel;hybrid,Misfires;ticking;bent rod causing valve damage,push_rod.jpg
+Lifter / Tappet (hydraulic or solid),Engine,gasoline;diesel;hybrid,Ticking noise;rough idle;poor valve opening,lifter___tappet_hydraulic_or_solid.jpg
+Variable Valve Timing (VVT) Actuator / Phaser,Engine,gasoline;diesel;hybrid,Rough idle;loss of power;engine warning light;poor fuel economy,variable_valve_timing_vvt_actuator___phaser.jpg
+Oil Pump,Engine,gasoline;diesel;hybrid,Low oil pressure warning;engine knock;accelerated wear;seizure,oil_pump.jpg
+Oil Sump / Oil Pan,Engine,gasoline;diesel;hybrid,Oil leak;low oil level;engine damage from oil starvation,oil_sump___oil_pan.jpg
+Oil Sump Gasket,Engine,gasoline;diesel;hybrid,Oil leak from engine base;low oil level,oil_sump_gasket.jpg
+Oil Sump Drain Plug,Engine,gasoline;diesel;hybrid,Oil leak;oil loss during drain,oil_sump_drain_plug.jpg
+Timing Cover,Engine,gasoline;diesel;hybrid,Oil leak;timing chain/belt damage from exposure,timing_cover.jpg
+Engine Mount / Motor Mount,Engine,gasoline;diesel;hybrid;electric,Excessive engine vibration;clunking noise;vibration felt in cabin,engine_mount___motor_mount.jpg
+Flywheel,Engine,gasoline;diesel;hybrid,Difficulty starting;gear engagement issues;clutch chatter;vibration,flywheel.jpg
+Flex Plate,Engine,gasoline;diesel;hybrid,Cracking noise;starter engagement issues;vibration,flex_plate.jpg
+Harmonic Balancer / Crankshaft Pulley,Engine,gasoline;diesel;hybrid,Vibration;belt misalignment;rattling noise;engine damage,harmonic_balancer___crankshaft_pulley.jpg
+Crankshaft Pulley Bolt,Engine,gasoline;diesel;hybrid,Pulley detachment;belt loss;engine damage,crankshaft_pulley_bolt.jpg
+Intake Manifold,Engine,gasoline;diesel;hybrid,Vacuum leaks;rough idle;poor performance;coolant leaks,intake_manifold.jpg
+Exhaust Manifold,Engine,gasoline;diesel;hybrid,Ticking/hissing noise;exhaust smell in cabin;power loss,exhaust_manifold.jpg
+Engine Valve Cover,Engine,gasoline;diesel;hybrid,Oil leaks;oil burning smell;fouled spark plugs,engine_valve_cover.jpg
+Valve Cover Gasket,Engine,gasoline;diesel;hybrid,Oil leak from top of engine;oil smell,valve_cover_gasket.jpg
+Head Gasket,Engine,gasoline;diesel;hybrid,White smoke;coolant in oil;overheating;loss of compression,head_gasket.jpg
+Intake Manifold Gasket,Engine,gasoline;diesel;hybrid,Vacuum leak;rough idle;coolant/oil leak,intake_manifold_gasket.jpg
+Exhaust Manifold Gasket,Engine,gasoline;diesel;hybrid,Ticking noise;exhaust smell;burnt smell from engine bay,exhaust_manifold_gasket.jpg
+Windshield Washer Pump,Windshield cleaning system,gasoline;diesel;hybrid;electric,No washer fluid spray;intermittent or weak spray,windshield_washer_pump.jpg
+Windshield Washer Reservoir / Tank,Windshield cleaning system,gasoline;diesel;hybrid;electric,Fluid leaking;insufficient fluid storage;pump not priming,windshield_washer_reservoir___tank.jpg
+Windshield Wiper Motor (front),Windshield cleaning system,gasoline;diesel;hybrid;electric,Wipers not moving or moving slowly;wipers stopping mid-sweep,windshield_wiper_motor_front.jpg
+Windshield Wiper Motor (rear),Windshield cleaning system,gasoline;diesel;hybrid;electric,Rear wiper not working;slow or erratic rear wiper movement,windshield_wiper_motor_rear.jpg
+Wiper Linkage / Mechanism,Windshield cleaning system,gasoline;diesel;hybrid;electric,Wipers moving erratically;not sweeping correctly;clunking noise,wiper_linkage___mechanism.jpg
+Wiper Blade (front),Windshield cleaning system,gasoline;diesel;hybrid;electric,Streaking;poor visibility in rain;squeaking noise,wiper_blade_front.jpg
+Wiper Blade (rear),Windshield cleaning system,gasoline;diesel;hybrid;electric,Poor rear visibility in rain;streaking on rear window,wiper_blade_rear.jpg
+Wiper Arm (front),Windshield cleaning system,gasoline;diesel;hybrid;electric,Wiper blade not making contact;blade flying off at speed,wiper_arm_front.jpg
+Wiper Arm (rear),Windshield cleaning system,gasoline;diesel;hybrid;electric,Rear wiper blade not pressing correctly against glass,wiper_arm_rear.jpg
+Washer Jet / Nozzle,Windshield cleaning system,gasoline;diesel;hybrid;electric,No fluid spray;misaligned spray direction;blocked jet,washer_jet___nozzle.jpg
+Washer Hose / Pipe,Windshield cleaning system,gasoline;diesel;hybrid;electric,Fluid leaking under hood;no spray at nozzle,washer_hose___pipe.jpg
+Washer Fluid Heating Element,Windshield cleaning system,gasoline;diesel;hybrid;electric,Frozen washer fluid in cold weather;no spray in winter,washer_fluid_heating_element.jpg
+Headlight Washer Pump,Windshield cleaning system,gasoline;diesel;hybrid;electric,No headlight cleaning;reduced light output in dirty conditions,headlight_washer_pump.jpg
+Headlight Washer Nozzle,Windshield cleaning system,gasoline;diesel;hybrid;electric,No headlight wash spray;misaligned cleaning,headlight_washer_nozzle.jpg
+Wiper Switch / Stalk,Windshield cleaning system,gasoline;diesel;hybrid;electric,Wipers not responding to controls;incorrect speed selection,wiper_switch___stalk.jpg
+Spark Plug,Ignition system and glow plugs,gasoline;hybrid,Misfires;rough idle;poor fuel economy;hard starting;engine hesitation,spark_plug.jpg
+Glow Plug,Ignition system and glow plugs,diesel;hybrid,Hard cold starting;white smoke on startup;rough cold idle,glow_plug.jpg
+Glow Plug Control Unit / Timer,Ignition system and glow plugs,diesel;hybrid,Hard starting;glow plug warning light;slow preheating,glow_plug_control_unit___timer.jpg
+Ignition Coil,Ignition system and glow plugs,gasoline;hybrid,Misfires;rough idle;check engine light;loss of power,ignition_coil.jpg
+Distributor,Ignition system and glow plugs,gasoline,Misfires;rough idle;engine won't start;ignition timing issues,distributor.jpg
+Distributor Cap,Ignition system and glow plugs,gasoline,Misfires;hard starting;rough idle;engine hesitation,distributor_cap.jpg
+Distributor Rotor,Ignition system and glow plugs,gasoline,Misfires;rough idle;hard starting;poor performance,distributor_rotor.jpg
+Ignition Module / Igniter,Ignition system and glow plugs,gasoline;hybrid,Engine won't start;stalling;no spark;misfires,ignition_module___igniter.jpg
+Ignition Control Unit (ICU / ECU ignition),Ignition system and glow plugs,gasoline;hybrid,No start;random misfires;engine stalling,ignition_control_unit_icu___ecu_ignition.jpg
+Ignition Switch,Ignition system and glow plugs,gasoline;diesel;hybrid,Car won't start;electrical accessories not working;stalling while driving,ignition_switch.jpg
+Spark Plug Wire Set / HT Leads,Ignition system and glow plugs,gasoline;hybrid,Misfires;rough idle;poor acceleration;arcing noise,spark_plug_wire_set___ht_leads.jpg
+Crankshaft Position Sensor (CKP),Ignition system and glow plugs,gasoline;diesel;hybrid,Engine won't start;stalling;misfires;check engine light,crankshaft_position_sensor_ckp.jpg
+Camshaft Position Sensor (CMP),Ignition system and glow plugs,gasoline;diesel;hybrid,Rough idle;stalling;hard starting;poor performance,camshaft_position_sensor_cmp.jpg
+Knock Sensor,Ignition system and glow plugs,gasoline;diesel;hybrid,Engine knock;reduced power;check engine light;poor fuel economy,knock_sensor.jpg
+Ignition Timing Adjuster,Ignition system and glow plugs,gasoline,Rough idle;poor performance;engine knock,ignition_timing_adjuster.jpg
+Shock Absorber / Damper (front),Suspension rods,gasoline;diesel;hybrid;electric,Excessive bouncing;poor handling;nose diving when braking;uneven tire wear,shock_absorber___damper_front.jpg
+Shock Absorber / Damper (rear),Suspension rods,gasoline;diesel;hybrid;electric,Excessive rear bounce;swaying;poor ride quality,shock_absorber___damper_rear.jpg
+Coil Spring (front),Suspension rods,gasoline;diesel;hybrid;electric,Vehicle sagging;harsh ride;clunking noise;handling issues,coil_spring_front.jpg
+Coil Spring (rear),Suspension rods,gasoline;diesel;hybrid;electric,Rear sagging;harsh ride;knocking noise over bumps,coil_spring_rear.jpg
+Leaf Spring,Suspension rods,gasoline;diesel;hybrid;electric,Sagging rear;poor load handling;squeaking;breaking,leaf_spring.jpg
+Torsion Bar,Suspension rods,gasoline;diesel;hybrid;electric,Uneven ride height;poor handling;clunking noise,torsion_bar.jpg
+Strut Assembly (MacPherson),Suspension rods,gasoline;diesel;hybrid;electric,Excessive bounce;noise over bumps;poor steering response,strut_assembly_macpherson.jpg
+Strut Mount / Top Mount,Suspension rods,gasoline;diesel;hybrid;electric,Knocking noise on turns;poor steering feel;uneven tire wear,strut_mount___top_mount.jpg
+Strut Bearing / Thrust Bearing,Suspension rods,gasoline;diesel;hybrid;electric,Creaking on steering;knocking from suspension,strut_bearing___thrust_bearing.jpg
+Control Arm (upper),Suspension rods,gasoline;diesel;hybrid;electric,Clunking;poor alignment;pulling to one side;uneven wear,control_arm_upper.jpg
+Control Arm (lower),Suspension rods,gasoline;diesel;hybrid;electric,Clunking;poor handling;pulling;uneven tire wear,control_arm_lower.jpg
+Control Arm Bushing,Suspension rods,gasoline;diesel;hybrid;electric,Vibration;clunking;poor alignment;uneven tire wear,control_arm_bushing.jpg
+Ball Joint (upper),Suspension rods,gasoline;diesel;hybrid;electric,Clunking noise;wandering steering;tire wear;dangerous failure risk,ball_joint_upper.jpg
+Ball Joint (lower),Suspension rods,gasoline;diesel;hybrid;electric,Clunking;poor handling;pulling;wheel separation risk,ball_joint_lower.jpg
+Tie Rod End (inner),Suspension rods,gasoline;diesel;hybrid;electric,Loose steering;clunking;uneven tire wear;poor alignment,tie_rod_end_inner.jpg
+Tie Rod End (outer),Suspension rods,gasoline;diesel;hybrid;electric,Loose steering;pulling;clunking;uneven tire wear,tie_rod_end_outer.jpg
+Steering Rack / Rack and Pinion,Suspension rods,gasoline;diesel;hybrid;electric,Wandering steering;loose steering;fluid leak;clunking,steering_rack___rack_and_pinion.jpg
+Steering Rack Boots / Bellows,Suspension rods,gasoline;diesel;hybrid;electric,Torn boots allowing contamination;clunking;stiff steering,steering_rack_boots___bellows.jpg
+Power Steering Pump,Suspension rods,gasoline;diesel;hybrid,Heavy steering;whining noise;fluid leak,power_steering_pump.jpg
+Power Steering Hose,Suspension rods,gasoline;diesel;hybrid,Power steering fluid leak;loss of steering assistance,power_steering_hose.jpg
+Steering Column,Suspension rods,gasoline;diesel;hybrid;electric,Stiff or loose steering;knocking;airbag light on,steering_column.jpg
+Steering Column Universal Joint (UJ),Suspension rods,gasoline;diesel;hybrid;electric,Clunking on turns;loose or stiff steering,steering_column_universal_joint_uj.jpg
+Stabilizer Bar / Anti-Roll Bar,Suspension rods,gasoline;diesel;hybrid;electric,Excessive body roll;clunking;poor handling in corners,stabilizer_bar___anti-roll_bar.jpg
+Stabilizer Bar Link / Drop Link,Suspension rods,gasoline;diesel;hybrid;electric,Rattling/clunking over bumps;increased body roll,stabilizer_bar_link___drop_link.jpg
+Stabilizer Bar Bushing,Suspension rods,gasoline;diesel;hybrid;electric,Clunking;squeaking;increased body roll,stabilizer_bar_bushing.jpg
+Trailing Arm,Suspension rods,gasoline;diesel;hybrid;electric,Pulling to one side;clunking;poor alignment,trailing_arm.jpg
+Trailing Arm Bushing,Suspension rods,gasoline;diesel;hybrid;electric,Clunking;vibration;misalignment,trailing_arm_bushing.jpg
+Subframe / Crossmember,Suspension rods,gasoline;diesel;hybrid;electric,Handling issues;knocking;structural misalignment,subframe___crossmember.jpg
+Subframe Bushing,Suspension rods,gasoline;diesel;hybrid;electric,Vibration;clunking;poor handling,subframe_bushing.jpg
+Wheel Hub / Hub Assembly,Suspension rods,gasoline;diesel;hybrid;electric,Humming/grinding noise;wheel wobble;ABS issues,wheel_hub___hub_assembly.jpg
+Knuckle / Upright / Spindle,Suspension rods,gasoline;diesel;hybrid;electric,Poor alignment;handling issues after impact,knuckle___upright___spindle.jpg
+Battery (12V lead-acid),Electrical,gasoline;diesel;hybrid;electric,Engine won't start;slow cranking;electrical failures,battery_12v_lead-acid.jpg
+Battery (High Voltage / EV Traction),Electrical,hybrid;electric,Loss of range;power reduction;battery warning light;vehicle shutdown,battery_high_voltage___ev_traction.jpg
+Alternator,Electrical,gasoline;diesel;hybrid,Battery warning light;battery drain;dim lights;electrical failures,alternator.jpg
+Starter Motor,Electrical,gasoline;diesel;hybrid,Engine won't crank;slow cranking;clicking noise when starting,starter_motor.jpg
+Starter Solenoid,Electrical,gasoline;diesel;hybrid,No click when starting;engine won't crank;intermittent starting,starter_solenoid.jpg
+Voltage Regulator,Electrical,gasoline;diesel;hybrid,Overcharging battery;electrical faults;battery warning light,voltage_regulator.jpg
+Fuse Box / Fusebox,Electrical,gasoline;diesel;hybrid;electric,Multiple electrical failures;blown fuses;system outages,fuse_box___fusebox.jpg
+Fuse,Electrical,gasoline;diesel;hybrid;electric,Loss of specific electrical circuit or component,fuse.jpg
+Relay,Electrical,gasoline;diesel;hybrid;electric,Electrical component not functioning;clicking noise;intermittent failures,relay.jpg
+Wiring Harness,Electrical,gasoline;diesel;hybrid;electric,Multiple electrical faults;short circuits;component failures,wiring_harness.jpg
+Ground Strap / Earth Cable,Electrical,gasoline;diesel;hybrid;electric,Electrical gremlins;hard starting;component malfunctions,ground_strap___earth_cable.jpg
+Positive Battery Cable,Electrical,gasoline;diesel;hybrid;electric,No power;vehicle not starting;electrical failures,positive_battery_cable.jpg
+Negative Battery Cable,Electrical,gasoline;diesel;hybrid;electric,Electrical malfunctions;hard starting;ground faults,negative_battery_cable.jpg
+Battery Terminal / Clamp,Electrical,gasoline;diesel;hybrid;electric,Corrosion;intermittent power loss;hard starting,battery_terminal___clamp.jpg
+Horn,Electrical,gasoline;diesel;hybrid;electric,No horn sound;weak horn sound,horn.jpg
+Clock Spring / Spiral Cable,Electrical,gasoline;diesel;hybrid;electric,Airbag light on;horn not working;steering controls unresponsive,clock_spring___spiral_cable.jpg
+Inverter (EV/Hybrid),Electrical,hybrid;electric,Loss of power;vehicle warning light;reduced performance,inverter_ev_hybrid.jpg
+DC-DC Converter,Electrical,hybrid;electric,12V battery drain;electrical accessories failing,dc-dc_converter.jpg
+On-Board Charger (OBC),Electrical,electric;hybrid,Unable to charge battery;slow charging;charging fault light,on-board_charger_obc.jpg
+Charging Port / Inlet,Electrical,electric;hybrid,Unable to connect charger;poor charging connection;charging failures,charging_port___inlet.jpg
+Charge Cable / EVSE Cable,Electrical,electric;hybrid,Unable to charge vehicle;intermittent charging,charge_cable___evse_cable.jpg
+Brake Light Switch,Electrical,gasoline;diesel;hybrid;electric,Brake lights not working;cruise control not disengaging;ABS issues,brake_light_switch.jpg
+Brake Light Bulb,Electrical,gasoline;diesel;hybrid;electric,Brake lights not functioning;rear-end collision risk,brake_light_bulb.jpg
+Turn Signal Flasher / Relay,Electrical,gasoline;diesel;hybrid;electric,Turn signals not flashing or too fast/slow,error.jpg
+Central Locking Module,Electrical,gasoline;diesel;hybrid;electric,Doors not locking/unlocking remotely;one door not responding,central_locking_module.jpg
+Window Regulator Motor,Electrical,gasoline;diesel;hybrid;electric,Power window not moving;slow window movement;window off track,window_regulator_motor.jpg
+Window Regulator Mechanism,Electrical,gasoline;diesel;hybrid;electric,Window not moving;window falling down;grinding noise,window_regulator_mechanism.jpg
+Mirror Motor,Electrical,gasoline;diesel;hybrid;electric,Mirror not adjusting electrically,mirror_motor.jpg
+Mirror Heating Element,Electrical,gasoline;diesel;hybrid;electric,Mirror not defogging in cold weather,mirror_heating_element.jpg
+Seat Heating Element,Electrical,gasoline;diesel;hybrid;electric,Seat not warming;uneven heating;warning light,seat_heating_element.jpg
+Sunroof Motor,Electrical,gasoline;diesel;hybrid;electric,Sunroof not opening or closing;stuck mid-position,sunroof_motor.jpg
+Radiator Fan Motor,Electrical,gasoline;diesel;hybrid;electric,Engine overheating;fan not spinning;overheating at idle,radiator_fan_motor.jpg
+Fuel Pump (electric),Electrical,gasoline;diesel;hybrid,Engine stalling;hard starting;loss of power;fuel delivery issues,fuel_pump_electric.jpg
+Condenser Fan Motor,Electrical,gasoline;diesel;hybrid;electric,AC not cooling;compressor overheating,condenser_fan_motor.jpg
+Wiper Motor Relay,Electrical,gasoline;diesel;hybrid;electric,Wipers not working or stuck on,wiper_motor_relay.jpg
+Blower Motor Resistor,Electrical,gasoline;diesel;hybrid;electric,Fan only works on certain speeds;no fan at low settings,blower_motor_resistor.jpg
+Engine Control Unit (ECU / PCM),Depreciation,gasoline;diesel;hybrid;electric,Check engine light;poor performance;starting issues;multiple faults,engine_control_unit_ecu___pcm.jpg
+Transmission Control Unit (TCU),Depreciation,gasoline;diesel;hybrid,Erratic shifting;transmission warning light;wrong gear selection,transmission_control_unit_tcu.jpg
+Body Control Module (BCM),Depreciation,gasoline;diesel;hybrid;electric,Multiple electrical failures;lighting issues;central locking faults,body_control_module_bcm.jpg
+ABS / ESP Control Module,Depreciation,gasoline;diesel;hybrid;electric,ABS/ESP warning light;disabled stability control,abs___esp_control_module.jpg
+Airbag Control Unit (ACU / SRS Module),Depreciation,gasoline;diesel;hybrid;electric,Airbag warning light;airbags not deploying in accident,airbag_control_unit_acu___srs_module.jpg
+Instrument Cluster,Depreciation,gasoline;diesel;hybrid;electric,Missing or incorrect gauge readings;warning lights not working,instrument_cluster.jpg
+Speedometer,Depreciation,gasoline;diesel;hybrid;electric,Incorrect speed reading;no speed display,speedometer.jpg
+Odometer,Depreciation,gasoline;diesel;hybrid;electric,Incorrect or no mileage display,odometer.jpg
+Catalytic Converter,Depreciation,gasoline;diesel;hybrid,Check engine light;rattling noise;loss of power;failed emissions,catalytic_converter.jpg
+Diesel Particulate Filter (DPF) assembly,Depreciation,diesel;hybrid,DPF warning light;power loss;frequent regeneration cycles,diesel_particulate_filter_dpf_assembly.jpg
+EGR Valve,Exhaust gas recirculation,gasoline;diesel;hybrid,Rough idle;black smoke;check engine light;stalling;poor fuel economy,egr_valve.jpg
+EGR Cooler,Exhaust gas recirculation,gasoline;diesel;hybrid,Coolant in oil;overheating;white smoke;coolant loss,egr_cooler.jpg
+EGR Pipe / Tube,Exhaust gas recirculation,gasoline;diesel;hybrid,Vacuum leaks;rough idle;check engine light,egr_pipe___tube.jpg
+EGR Gasket,Exhaust gas recirculation,gasoline;diesel;hybrid,Exhaust leak;rough idle;check engine light,egr_gasket.jpg
+EGR Position Sensor,Exhaust gas recirculation,gasoline;diesel;hybrid,Check engine light;rough idle;poor fuel economy,egr_position_sensor.jpg
+EGR Temperature Sensor,Exhaust gas recirculation,gasoline;diesel;hybrid,Check engine light;EGR system fault;poor emissions control,egr_temperature_sensor.jpg
+EGR Pressure Sensor / Differential Pressure Sensor,Exhaust gas recirculation,gasoline;diesel;hybrid,DPF/EGR fault codes;poor emissions control,egr_pressure_sensor___differential_pressure_sensor.jpg
+EGR Vacuum Solenoid / Modulator,Exhaust gas recirculation,gasoline;diesel;hybrid,EGR not opening or closing;rough idle;fault codes,egr_vacuum_solenoid___modulator.jpg
+EGR Blanking Plate (delete kit),Exhaust gas recirculation,gasoline;diesel;hybrid,N/A - used for delete purposes,egr_blanking_plate_delete_kit.jpg
+Timing Belt,Belts chains rollers,gasoline;diesel;hybrid,Engine skipping;rough running;catastrophic engine failure if broken,timing_belt.jpg
+Timing Chain,Belts chains rollers,gasoline;diesel;hybrid,Rattling on startup;poor timing;engine failure,timing_chain.jpg
+Timing Belt Tensioner,Belts chains rollers,gasoline;diesel;hybrid,Belt slipping;squealing;timing failure,timing_belt_tensioner.jpg
+Timing Chain Tensioner,Belts chains rollers,gasoline;diesel;hybrid,Rattling on startup;chain slapping;poor timing,timing_chain_tensioner.jpg
+Timing Belt Idler Pulley,Belts chains rollers,gasoline;diesel;hybrid,Squealing;belt wear;timing failure,timing_belt_idler_pulley.jpg
+Timing Chain Guide / Rail,Belts chains rollers,gasoline;diesel;hybrid,Chain rattle;poor timing;chain jumping,timing_chain_guide___rail.jpg
+Timing Belt Kit (belt + tensioner + pulleys),Belts chains rollers,gasoline;diesel;hybrid,Engine timing issues;belt/tensioner failure,timing_belt_kit_belt__tensioner__pulleys.jpg
+Serpentine Belt / Poly-V Belt,Belts chains rollers,gasoline;diesel;hybrid,Squealing;loss of alternator/AC/PS;battery warning light,serpentine_belt___poly-v_belt.jpg
+Serpentine Belt Tensioner,Belts chains rollers,gasoline;diesel;hybrid,Belt slipping;squealing;belt wear,serpentine_belt_tensioner.jpg
+Serpentine Belt Idler Pulley,Belts chains rollers,gasoline;diesel;hybrid,Squealing;belt misalignment;belt wear,serpentine_belt_idler_pulley.jpg
+V-Belt / Fan Belt,Belts chains rollers,gasoline;diesel;hybrid,Squealing;overheating (no water pump);battery drain,v-belt___fan_belt.jpg
+Drive Chain (transfer case),Belts chains rollers,gasoline;diesel;hybrid,Noise from transfer case;4WD not engaging properly,drive_chain_transfer_case.jpg
+Balance Shaft Belt / Chain,Belts chains rollers,gasoline;diesel;hybrid,Engine vibration;rough running;balance shaft noise,balance_shaft_belt___chain.jpg
+Oil Pump Chain / Belt,Belts chains rollers,gasoline;diesel;hybrid,Low oil pressure;engine knocking;oil pressure warning,oil_pump_chain___belt.jpg
+Turbocharger,Forced induction components,gasoline;diesel;hybrid,Loss of power;excessive smoke;turbo lag;whining noise;oil consumption,turbocharger.jpg
+Supercharger,Forced induction components,gasoline;hybrid,Loss of power;belt squeal;whining noise;boost pressure drop,supercharger.jpg
+Intercooler / Charge Air Cooler,Forced induction components,gasoline;diesel;hybrid,Reduced power;poor fuel economy;overheating intake air,intercooler___charge_air_cooler.jpg
+Intercooler Pipe / Hose,Forced induction components,gasoline;diesel;hybrid,Boost leak;loss of power;hissing noise under load,intercooler_pipe___hose.jpg
+Turbo Inlet Pipe / Air Intake Hose,Forced induction components,gasoline;diesel;hybrid,Boost loss;hissing noise;reduced performance,turbo_inlet_pipe___air_intake_hose.jpg
+Blow-Off Valve (BOV) / Diverter Valve,Forced induction components,gasoline;hybrid,Compressor surge;poor throttle response;hissing noise,blow-off_valve_bov___diverter_valve.jpg
+Waste Gate (internal/external),Forced induction components,gasoline;diesel;hybrid,Overboost/underboost;poor performance;check engine light,waste_gate_internal_external.jpg
+Turbo Oil Feed Line,Forced induction components,gasoline;diesel;hybrid,Turbo oil starvation;seizure;blue smoke,turbo_oil_feed_line.jpg
+Turbo Oil Return Line,Forced induction components,gasoline;diesel;hybrid,Oil pooling in turbo;blue smoke;oil leak,turbo_oil_return_line.jpg
+Turbo Coolant Feed/Return Line,Forced induction components,gasoline;diesel;hybrid,Turbo overheating after shutdown;coking,turbo_coolant_feed_return_line.jpg
+Turbo Heat Shield,Forced induction components,gasoline;diesel;hybrid,Heat damage to nearby components;burning smell,turbo_heat_shield.jpg
+Boost Pressure Sensor / MAP Sensor (turbo),Forced induction components,gasoline;diesel;hybrid,Check engine light;poor performance;boost errors,boost_pressure_sensor___map_sensor_turbo.jpg
+Supercharger Pulley,Forced induction components,gasoline;hybrid,Belt squeal;loss of boost;noise from engine,supercharger_pulley.jpg
+Intercooler Water Spray Kit,Forced induction components,gasoline;diesel;hybrid,Reduced intercooler effectiveness in performance applications,intercooler_water_spray_kit.jpg
+Radiator,Engine cooling system,gasoline;diesel;hybrid;electric,Engine overheating;coolant leak;temperature warning light,radiator.jpg
+Radiator Cap,Engine cooling system,gasoline;diesel;hybrid;electric,Coolant boiling over;overheating;coolant loss,radiator_cap.jpg
+Water Pump,Engine cooling system,gasoline;diesel;hybrid,Engine overheating;coolant leak;whining noise;no heat from heater,water_pump.jpg
+Thermostat,Engine cooling system,gasoline;diesel;hybrid,Engine slow to warm up or overheating;poor heater output,thermostat.jpg
+Thermostat Housing,Engine cooling system,gasoline;diesel;hybrid,Coolant leak;overheating;housing cracks,thermostat_housing.jpg
+Coolant Temperature Sensor,Engine cooling system,gasoline;diesel;hybrid,Incorrect temperature reading;poor fueling;check engine light,coolant_temperature_sensor.jpg
+Radiator Fan (electric),Engine cooling system,gasoline;diesel;hybrid;electric,Overheating at idle/low speed;fan not spinning,radiator_fan_electric.jpg
+Radiator Fan Clutch,Engine cooling system,gasoline;diesel;hybrid,Overheating;fan not engaging at high temps;loud fan noise,radiator_fan_clutch.jpg
+Coolant Hose (upper radiator),Engine cooling system,gasoline;diesel;hybrid;electric,Coolant leak;overheating;hose collapse,coolant_hose_upper_radiator.jpg
+Coolant Hose (lower radiator),Engine cooling system,gasoline;diesel;hybrid;electric,Coolant leak;overheating,coolant_hose_lower_radiator.jpg
+Coolant Overflow / Expansion Tank,Engine cooling system,gasoline;diesel;hybrid;electric,Coolant loss;overheating;cracked reservoir,coolant_overflow___expansion_tank.jpg
+Heater Core,Engine cooling system,gasoline;diesel;hybrid,No heat in cabin;coolant smell inside car;foggy windows,heater_core.jpg
+Coolant Bypass Hose,Engine cooling system,gasoline;diesel;hybrid,Coolant leak;poor coolant circulation;overheating,coolant_bypass_hose.jpg
+Engine Oil Cooler,Engine cooling system,gasoline;diesel;hybrid,Oil overheating;oil/coolant mixing;oil degradation,engine_oil_cooler.jpg
+Oil Cooler Hose,Engine cooling system,gasoline;diesel;hybrid,Oil leak;coolant contamination in oil,oil_cooler_hose.jpg
+Bumper (front),Body,gasoline;diesel;hybrid;electric,Poor aesthetics;loss of pedestrian protection;no fog light housing,bumper_front.jpg
+Bumper (rear),Body,gasoline;diesel;hybrid;electric,Poor aesthetics;no rear parking sensor housing;loss of impact protection,bumper_rear.jpg
+Bumper Cover / Fascia,Body,gasoline;diesel;hybrid;electric,Damaged appearance;poor aerodynamics;mounting issues,bumper_cover___fascia.jpg
+Front Fender / Wing,Body,gasoline;diesel;hybrid;electric,Exposed wheel arch;poor appearance;aerodynamic issues,front_fender___wing.jpg
+Rear Fender / Quarter Panel,Body,gasoline;diesel;hybrid;electric,Corrosion risk;poor appearance;no wheel arch protection,rear_fender___quarter_panel.jpg
+Hood / Bonnet,Body,gasoline;diesel;hybrid;electric,Engine bay exposed to elements;poor safety in accident,hood___bonnet.jpg
+Hood Hinge,Body,gasoline;diesel;hybrid;electric,Hood not opening/closing properly;alignment issues,hood_hinge.jpg
+Hood Latch,Body,gasoline;diesel;hybrid;electric,Hood flying open at speed;hood not securing,hood_latch.jpg
+Hood Support Rod / Gas Strut,Body,gasoline;diesel;hybrid;electric,Hood falling when open;unable to work safely in engine bay,hood_support_rod___gas_strut.jpg
+Door (front),Body,gasoline;diesel;hybrid;electric,No entry access;wind/water ingress;safety compromise,door_front.jpg
+Door (rear),Body,gasoline;diesel;hybrid;electric,No rear entry;rattles;water ingress,door_rear.jpg
+Door Hinge,Body,gasoline;diesel;hybrid;electric,Door sagging;squeaking;poor door alignment,door_hinge.jpg
+Door Handle (exterior),Body,gasoline;diesel;hybrid;electric,Cannot open door from outside,door_handle_exterior.jpg
+Door Handle (interior),Body,gasoline;diesel;hybrid;electric,Cannot open door from inside;trapped occupant risk,door_handle_interior.jpg
+Door Lock Mechanism,Body,gasoline;diesel;hybrid;electric,Door not locking/unlocking;security risk,door_lock_mechanism.jpg
+Door Lock Actuator,Body,gasoline;diesel;hybrid;electric,Central locking not working on that door,door_lock_actuator.jpg
+Door Seal / Weatherstrip,Body,gasoline;diesel;hybrid;electric,Wind noise;water leaks;poor insulation,door_seal___weatherstrip.jpg
+Boot / Trunk Lid,Body,gasoline;diesel;hybrid;electric,Boot not securing;weather ingress;rattles,boot___trunk_lid.jpg
+Tailgate,Body,gasoline;diesel;hybrid;electric,Rear access blocked;water ingress;structural weakness,tailgate.jpg
+Tailgate Strut / Gas Spring,Body,gasoline;diesel;hybrid;electric,Tailgate falling when open;unable to hold tailgate up,tailgate_strut___gas_spring.jpg
+Trunk Latch,Body,gasoline;diesel;hybrid;electric,Boot not securing;boot flying open while driving,trunk_latch.jpg
+Sunroof Glass,Body,gasoline;diesel;hybrid;electric,Water leaks;wind noise;cannot open/close sunroof,sunroof_glass.jpg
+Sunroof Frame / Mechanism,Body,gasoline;diesel;hybrid;electric,Sunroof stuck;water leaks;wind noise,sunroof_frame___mechanism.jpg
+Side Mirror Housing,Body,gasoline;diesel;hybrid;electric,Poor aesthetics;mirror not folding properly,side_mirror_housing.jpg
+Side Skirt / Rocker Panel,Body,gasoline;diesel;hybrid;electric,Poor aerodynamics;corrosion exposure;poor aesthetics,side_skirt___rocker_panel.jpg
+Spoiler (front/rear),Body,gasoline;diesel;hybrid;electric,Reduced aerodynamic stability;poor aesthetics,spoiler_front_rear.jpg
+Windshield / Front Screen,Body,gasoline;diesel;hybrid;electric,Impaired visibility;safety risk;structural weakness,windshield___front_screen.jpg
+Rear Window,Body,gasoline;diesel;hybrid;electric,Impaired rear vision;water ingress,rear_window.jpg
+Door Window Glass,Body,gasoline;diesel;hybrid;electric,Water ingress;poor security;wind noise,door_window_glass.jpg
+A-Pillar Trim,Body,gasoline;diesel;hybrid;electric,Poor appearance;noise ingress,a-pillar_trim.jpg
+B-Pillar Trim,Body,gasoline;diesel;hybrid;electric,Poor appearance;seatbelt mounting issues,b-pillar_trim.jpg
+C-Pillar Trim,Body,gasoline;diesel;hybrid;electric,Poor appearance;water ingress,c-pillar_trim.jpg
+Heater Core (cabin),Heating,gasoline;diesel;hybrid,No cabin heat;coolant smell in cabin;fogged windows,heater_core_cabin.jpg
+Blower Motor,Heating,gasoline;diesel;hybrid;electric,No air from vents;weak airflow;blower only on high speed,blower_motor.jpg
+Blower Motor Resistor (heating),Heating,gasoline;diesel;hybrid;electric,Fan only works on specific speeds,blower_motor_resistor_heating.jpg
+HVAC Control Panel / Climate Control Unit,Heating,gasoline;diesel;hybrid;electric,Incorrect temperature;fan speed not adjusting;no response to controls,hvac_control_panel___climate_control_unit.jpg
+Heater Valve / Coolant Control Valve,Heating,gasoline;diesel;hybrid,No heat;coolant leak;stuck at one temperature,heater_valve___coolant_control_valve.jpg
+Heater Hose,Heating,gasoline;diesel;hybrid,Coolant leak;loss of heat;overheating,heater_hose.jpg
+Cabin Temperature Sensor,Heating,gasoline;diesel;hybrid;electric,Incorrect auto climate control;over/under heating,cabin_temperature_sensor.jpg
+Sunlight Sensor,Heating,gasoline;diesel;hybrid;electric,Auto climate control not adjusting for sun load,sunlight_sensor.jpg
+Blend Door Actuator,Heating,gasoline;diesel;hybrid;electric,Stuck at one temperature;clicking noise from dash,blend_door_actuator.jpg
+Fresh Air / Recirculation Actuator,Heating,gasoline;diesel;hybrid;electric,Inability to switch between fresh/recirculated air,fresh_air___recirculation_actuator.jpg
+Duct / Air Distribution Box,Heating,gasoline;diesel;hybrid;electric,Poor airflow to certain vents;noise from HVAC system,duct___air_distribution_box.jpg
+Diesel Fuel-Powered Auxiliary Heater (Webasto/Espar),Heating,diesel,No pre-heating;auxiliary heater not starting;fuel smell,diesel_fuel-powered_auxiliary_heater_webasto_espar.jpg
+PTC (Positive Temperature Coefficient) Heater,Heating,electric;hybrid,No cabin heat;slow cabin warm-up in cold weather,ptc_positive_temperature_coefficient_heater.jpg
+Head Gasket (see Engine also),Gaskets and sealing rings,gasoline;diesel;hybrid,Coolant in oil;white smoke;overheating;compression loss,head_gasket_see_engine_also.jpg
+Valve Cover Gasket (see Engine also),Gaskets and sealing rings,gasoline;diesel;hybrid,Oil leak from top of engine;oil burning smell,valve_cover_gasket_see_engine_also.jpg
+Intake Manifold Gasket (see Engine also),Gaskets and sealing rings,gasoline;diesel;hybrid,Vacuum leak;rough idle;coolant leak,intake_manifold_gasket_see_engine_also.jpg
+Exhaust Manifold Gasket (see Engine also),Gaskets and sealing rings,gasoline;diesel;hybrid,Exhaust leak;ticking noise;burning smell,exhaust_manifold_gasket_see_engine_also.jpg
+Crankshaft Seal (front),Gaskets and sealing rings,gasoline;diesel;hybrid,Oil leak from front of engine;oil on timing belt,crankshaft_seal_front.jpg
+Crankshaft Seal (rear),Gaskets and sealing rings,gasoline;diesel;hybrid,Oil leak at flywheel/clutch;clutch contamination with oil,crankshaft_seal_rear.jpg
+Camshaft Seal,Gaskets and sealing rings,gasoline;diesel;hybrid,Oil leak from cylinder head;oil on timing belt,camshaft_seal.jpg
+Oil Sump Gasket (see Engine also),Gaskets and sealing rings,gasoline;diesel;hybrid,Oil leak from bottom of engine,oil_sump_gasket_see_engine_also.jpg
+Water Pump Gasket / O-Ring,Gaskets and sealing rings,gasoline;diesel;hybrid,Coolant leak at water pump;overheating,water_pump_gasket___o-ring.jpg
+Thermostat Gasket / O-Ring,Gaskets and sealing rings,gasoline;diesel;hybrid,Coolant leak at thermostat housing,thermostat_gasket___o-ring.jpg
+Gearbox Output Shaft Seal,Gaskets and sealing rings,gasoline;diesel;hybrid,Gearbox oil leak;driveshaft contamination,gearbox_output_shaft_seal.jpg
+Gearbox Input Shaft Seal,Gaskets and sealing rings,gasoline;diesel;hybrid,Gearbox oil leak;clutch oil contamination,gearbox_input_shaft_seal.jpg
+Differential Pinion Seal,Gaskets and sealing rings,gasoline;diesel;hybrid,Differential oil leak;whining noise,differential_pinion_seal.jpg
+Differential Side Seal,Gaskets and sealing rings,gasoline;diesel;hybrid,Differential oil leak;axle seal failure,differential_side_seal.jpg
+O-Ring Set (engine/gearbox),Gaskets and sealing rings,gasoline;diesel;hybrid;electric,Oil/fluid leaks from various joints,o-ring_set_engine_gearbox.jpg
+Turbo Gasket Set,Gaskets and sealing rings,gasoline;diesel;hybrid,Exhaust/oil leak at turbo;boost leak;hissing noise,turbo_gasket_set.jpg
+EGR Gasket (see EGR),Gaskets and sealing rings,gasoline;diesel;hybrid,EGR leak;rough idle,egr_gasket_see_egr.jpg
+Power Steering Rack Seal Kit,Gaskets and sealing rings,gasoline;diesel;hybrid,Power steering fluid leak;poor steering,power_steering_rack_seal_kit.jpg
+Shock Absorber Seal Kit,Gaskets and sealing rings,gasoline;diesel;hybrid;electric,Oil leak from shock;poor damping;bouncy ride,shock_absorber_seal_kit.jpg
+Brake Caliper Seal Kit,Gaskets and sealing rings,gasoline;diesel;hybrid;electric,Brake fluid leak;seized caliper;poor braking,brake_caliper_seal_kit.jpg
+Catalytic Converter,Exhaust system,gasoline;hybrid,Check engine light;loss of power;rattling;failed emissions test,catalytic_converter.jpg
+Diesel Particulate Filter (DPF),Exhaust system,diesel;hybrid,Power loss;DPF warning light;frequent regeneration;clogging,diesel_particulate_filter_dpf.jpg
+Diesel Oxidation Catalyst (DOC),Exhaust system,diesel;hybrid,Poor emissions;DPF clogging faster,diesel_oxidation_catalyst_doc.jpg
+SCR Catalyst / AdBlue Injector System,Exhaust system,diesel;hybrid,Failed NOx emissions;AdBlue warning;check engine light,scr_catalyst___adblue_injector_system.jpg
+Muffler / Silencer,Exhaust system,gasoline;diesel;hybrid,Loud exhaust noise;rattling;poor fuel economy,muffler___silencer.jpg
+Resonator,Exhaust system,gasoline;diesel;hybrid,Droning/booming exhaust note;increased noise,resonator.jpg
+Front Pipe / Down Pipe,Exhaust system,gasoline;diesel;hybrid,Exhaust leak;hissing noise;loss of power,front_pipe___down_pipe.jpg
+Mid Pipe / Center Pipe,Exhaust system,gasoline;diesel;hybrid,Exhaust leak;noise;rust and holes,mid_pipe___center_pipe.jpg
+Rear Exhaust Pipe / Tail Pipe,Exhaust system,gasoline;diesel;hybrid,Visible damage;noise;emissions failure,rear_exhaust_pipe___tail_pipe.jpg
+Exhaust Manifold (see Engine),Exhaust system,gasoline;diesel;hybrid,Ticking noise;exhaust smell;performance loss,exhaust_manifold_see_engine.jpg
+Flex Pipe / Flexible Joint,Exhaust system,gasoline;diesel;hybrid,Exhaust rattling;leaks;noise under acceleration,error.jpg
+Exhaust Hanger / Mounting Rubber,Exhaust system,gasoline;diesel;hybrid,Exhaust pipe rattling against underbody;misaligned exhaust,exhaust_hanger___mounting_rubber.jpg
+Lambda Sensor / O2 Sensor (upstream),Exhaust system,gasoline;hybrid,Poor fuel economy;rough idle;check engine light,lambda_sensor___o2_sensor_upstream.jpg
+Lambda Sensor / O2 Sensor (downstream),Exhaust system,gasoline;hybrid,Check engine light;poor catalytic converter monitoring,lambda_sensor___o2_sensor_downstream.jpg
+NOx Sensor,Exhaust system,diesel;hybrid,Check engine light;emissions failures;SCR system faults,nox_sensor.jpg
+Temperature Sensor (exhaust),Exhaust system,gasoline;diesel;hybrid,DPF/exhaust management faults;check engine light,temperature_sensor_exhaust.jpg
+Exhaust Gasket (manifold to head),Exhaust system,gasoline;diesel;hybrid,Exhaust leak;ticking;burning smell,exhaust_gasket_manifold_to_head.jpg
+Exhaust Flange Gasket,Exhaust system,gasoline;diesel;hybrid,Exhaust gas leak;noise between pipe sections,exhaust_flange_gasket.jpg
+EGR Delete Pipe (off-road use),Exhaust system,gasoline;diesel;hybrid,Not applicable - used for EGR removal in off-road applications,egr_delete_pipe_off-road_use.jpg
+Dashboard,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Warping;rattling;cracked surface;airbag deployment issues,dashboard.jpg
+Center Console,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Storage issues;rattling;cupholder damage,center_console.jpg
+Glove Box,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Latch broken;door falling open;hinge failure,glove_box.jpg
+Sun Visor,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Vanity mirror broken;won't stay in position;loose hinge,sun_visor.jpg
+Overhead Console / Roof Lining,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Sagging headliner;rattles;poor aesthetics,overhead_console___roof_lining.jpg
+Seat (front driver),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Adjustment mechanism broken;poor support;safety risk,seat_front_driver.jpg
+Seat (front passenger),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Adjustment broken;poor comfort,seat_front_passenger.jpg
+Seat (rear),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Folding mechanism broken;poor comfort,seat_rear.jpg
+Seat Belt,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Seat belt not retracting;buckle not latching;safety risk,seat_belt.jpg
+Seat Belt Buckle,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Won't release or latch;occupant safety risk,seat_belt_buckle.jpg
+Seat Belt Pretensioner,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Doesn't tighten in accident;reduced crash protection,seat_belt_pretensioner.jpg
+Airbag (driver),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Airbag warning light;won't deploy in crash,airbag_driver.jpg
+Airbag (passenger),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Airbag warning light;won't deploy in crash,airbag_passenger.jpg
+Airbag (side curtain),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Airbag light;no side impact protection,airbag_side_curtain.jpg
+Airbag (knee),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Airbag light;no knee protection in crash,airbag_knee.jpg
+Door Trim Panel (interior),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Rattling;poor aesthetics;window control access issues,door_trim_panel_interior.jpg
+Footrest / Dead Pedal,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Driver comfort issue;slipping foot,footrest___dead_pedal.jpg
+Floor Mat,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Slipping mat interfering with pedals;floor wear,floor_mat.jpg
+Carpet Lining,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Poor insulation;dampness;unpleasant odors,carpet_lining.jpg
+Trunk Liner / Boot Mat,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Dirty boot floor;poor protection,trunk_liner___boot_mat.jpg
+Parcel Shelf / Rear Window Shelf,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Poor aesthetics;rattling,parcel_shelf___rear_window_shelf.jpg
+Horn Button,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Horn not activating from steering wheel,horn_button.jpg
+Steering Wheel,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Worn grip;airbag mounting issues;no controls response,steering_wheel.jpg
+Gear Shift Knob,Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid,Worn grip;gear selection difficulty,gear_shift_knob.jpg
+Pedal (accelerator),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Sticking pedal;poor throttle response;safety risk,pedal_accelerator.jpg
+Pedal (brake),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid;electric,Worn rubber pad;slipping foot;poor braking feel,pedal_brake.jpg
+Pedal (clutch),Passenger compartment and secondary comfort devices,gasoline;diesel;hybrid,Worn rubber pad;slipping;clutch engagement issues,pedal_clutch.jpg
+Fuel Injector,Fuel system,gasoline;diesel;hybrid,Rough idle;misfires;poor fuel economy;black smoke;starting issues,fuel_injector.jpg
+Fuel Pump (in-tank),Fuel system,gasoline;diesel;hybrid,Hard starting;stalling;loss of power;engine cutting out,fuel_pump_in-tank.jpg
+Fuel Pressure Regulator,Fuel system,gasoline;diesel;hybrid,Rough idle;poor performance;black smoke;fuel leaks,fuel_pressure_regulator.jpg
+Fuel Rail,Fuel system,gasoline;diesel;hybrid,Fuel leak;pressure loss;poor injector distribution,fuel_rail.jpg
+Fuel Tank,Fuel system,gasoline;diesel;hybrid,Fuel leak;fuel smell;structural failure,fuel_tank.jpg
+Fuel Filler Cap,Fuel system,gasoline;diesel;hybrid,Fuel smell;check engine light (EVAP);poor fuel economy,fuel_filler_cap.jpg
+Fuel Filler Neck,Fuel system,gasoline;diesel;hybrid,Fuel leak when filling;fuel smell;difficult to fill,fuel_filler_neck.jpg
+Fuel Level Sender / Float,Fuel system,gasoline;diesel;hybrid,Incorrect fuel level reading;stuck gauge,fuel_level_sender___float.jpg
+Fuel Filter (in-line),Fuel system,gasoline;diesel;hybrid,Poor performance;stalling;hard starting,fuel_filter_in-line.jpg
+Fuel Pressure Sensor,Fuel system,gasoline;diesel;hybrid,Check engine light;poor fuel delivery;misfires,fuel_pressure_sensor.jpg
+Charcoal Canister / EVAP Canister,Fuel system,gasoline;hybrid,Fuel smell;check engine light (EVAP code);poor fuel economy,charcoal_canister___evap_canister.jpg
+EVAP Purge Valve / Canister Purge Solenoid,Fuel system,gasoline;hybrid,Rough idle;fuel smell;check engine light,evap_purge_valve___canister_purge_solenoid.jpg
+EVAP Vent Valve,Fuel system,gasoline;hybrid,Fuel smell;check engine light;evap system faults,evap_vent_valve.jpg
+Fuel Return Line,Fuel system,gasoline;diesel;hybrid,Fuel leak;poor pressure regulation;engine running issues,fuel_return_line.jpg
+Fuel Supply Line,Fuel system,gasoline;diesel;hybrid,Fuel leak;fuel starvation;fire risk,fuel_supply_line.jpg
+Fuel Tank Vent Hose,Fuel system,gasoline;diesel;hybrid,Difficult refueling;fuel smell;EVAP faults,fuel_tank_vent_hose.jpg
+High Pressure Fuel Pump (HPFP - diesel/GDI),Fuel system,gasoline;diesel;hybrid,Hard starting;stalling;poor fuel delivery;check engine light,high_pressure_fuel_pump_hpfp_-_diesel_gdi.jpg
+Common Rail Pressure Regulator,Fuel system,diesel;hybrid,Poor performance;check engine light;stalling,common_rail_pressure_regulator.jpg
+Engine Control Unit (ECU),Management,gasoline;diesel;hybrid;electric,Check engine light;poor performance;no start;multiple system faults,engine_control_unit_ecu.jpg
+Transmission Control Unit (TCU),Management,gasoline;diesel;hybrid,Erratic shifting;transmission warning;wrong gear,transmission_control_unit_tcu.jpg
+ABS / ESP Module,Management,gasoline;diesel;hybrid;electric,ABS/ESP warning light;disabled safety systems,abs___esp_module.jpg
+Body Control Module (BCM),Management,gasoline;diesel;hybrid;electric,Lighting failures;central locking issues;multiple electrical faults,body_control_module_bcm.jpg
+Airbag Control Unit (SRS),Management,gasoline;diesel;hybrid;electric,Airbag warning light;airbags not deploying,airbag_control_unit_srs.jpg
+Cruise Control Module,Management,gasoline;diesel;hybrid;electric,Cruise control not setting;disengaging randomly,cruise_control_module.jpg
+Adaptive Cruise Control Module,Management,gasoline;diesel;hybrid;electric,ACC not working;warning light;braking at wrong times,adaptive_cruise_control_module.jpg
+Lane Departure Warning Module,Management,gasoline;diesel;hybrid;electric,Lane warning not activating;camera errors,lane_departure_warning_module.jpg
+Blind Spot Monitoring Module,Management,gasoline;diesel;hybrid;electric,Blind spot warnings not functioning;sensor faults,blind_spot_monitoring_module.jpg
+Parking Assistance Module,Management,gasoline;diesel;hybrid;electric,Parking sensors/camera not working;beeping errors,parking_assistance_module.jpg
+Traction Control Module,Management,gasoline;diesel;hybrid;electric,Traction control warning;system disabled,error.jpg
+Stability Control (ESC) Module,Management,gasoline;diesel;hybrid;electric,ESC warning light;poor stability control,stability_control_esc_module.jpg
+Tire Pressure Monitoring System (TPMS) Module,Management,gasoline;diesel;hybrid;electric,TPMS warning light;incorrect readings,tire_pressure_monitoring_system_tpms_module.jpg
+Immobilizer / Anti-Theft Module,Management,gasoline;diesel;hybrid;electric,Vehicle won't start;immobilizer light on,immobilizer___anti-theft_module.jpg
+Keyless Entry / Start Module,Management,gasoline;diesel;hybrid;electric,Key fob not recognized;car won't start,keyless_entry___start_module.jpg
+Gateway Module,Management,gasoline;diesel;hybrid;electric,Communication errors between modules;multiple warning lights,gateway_module.jpg
+Infotainment / Head Unit,Management,gasoline;diesel;hybrid;electric,No audio/navigation;screen not working;Bluetooth failure,infotainment___head_unit.jpg
+Telematics Control Unit,Management,gasoline;diesel;hybrid;electric,Connected services not working;GPS failures,telematics_control_unit.jpg
+Night Vision Module,Management,gasoline;diesel;hybrid;electric,Night vision camera not functioning;display errors,night_vision_module.jpg
+Clutch Disc / Friction Plate,Clutch / parts,gasoline;diesel;hybrid,Slipping clutch;burning smell;poor power transfer;difficulty engaging gears,clutch_disc___friction_plate.jpg
+Clutch Pressure Plate,Clutch / parts,gasoline;diesel;hybrid,Clutch slipping;judder;poor engagement;vibration,clutch_pressure_plate.jpg
+Clutch Release Bearing / Throw-Out Bearing,Clutch / parts,gasoline;diesel;hybrid,Squealing/grinding when clutch pressed;difficulty changing gears,clutch_release_bearing___throw-out_bearing.jpg
+Clutch Fork / Release Fork,Clutch / parts,gasoline;diesel;hybrid,Clutch not disengaging;grinding noise;difficulty selecting gears,clutch_fork___release_fork.jpg
+Clutch Cable,Clutch / parts,gasoline;diesel;hybrid,Stiff clutch pedal;clutch not disengaging;cable snapping,clutch_cable.jpg
+Clutch Master Cylinder,Clutch / parts,gasoline;diesel;hybrid,Spongy clutch pedal;clutch not disengaging;fluid leak,clutch_master_cylinder.jpg
+Clutch Slave Cylinder (external),Clutch / parts,gasoline;diesel;hybrid,Clutch not working;fluid leak;spongy pedal,clutch_slave_cylinder_external.jpg
+Clutch Slave Cylinder (concentric/internal CSC),Clutch / parts,gasoline;diesel;hybrid,Clutch failure;fluid leak inside bellhousing;spongy pedal,clutch_slave_cylinder_concentric_internal_csc.jpg
+Dual Mass Flywheel (DMF),Clutch / parts,gasoline;diesel;hybrid,Vibration;clutch judder;rattling at idle;shudder on take-off,dual_mass_flywheel_dmf.jpg
+Solid Flywheel (single mass conversion),Clutch / parts,gasoline;diesel;hybrid,Vibration if paired incorrectly;noise at idle,solid_flywheel_single_mass_conversion.jpg
+Clutch Kit (disc + pressure plate + bearing),Clutch / parts,gasoline;diesel;hybrid,Slipping;judder;difficulty changing gears;burning smell,clutch_kit_disc__pressure_plate__bearing.jpg
+Clutch Pedal,Clutch / parts,gasoline;diesel;hybrid,Clutch not operating;stiff/spongy feel,clutch_pedal.jpg
+Clutch Hydraulic Line / Pipe,Clutch / parts,gasoline;diesel;hybrid,Fluid leak;spongy pedal;clutch not disengaging,clutch_hydraulic_line___pipe.jpg
+CV Joint (inner),Planetary Joint / Planetary,gasoline;diesel;hybrid;electric,Vibration under load;clunking;clicking noise on acceleration,cv_joint_inner.jpg
+CV Joint (outer),Planetary Joint / Planetary,gasoline;diesel;hybrid;electric,Clicking noise on turns;vibration;clunking under load,cv_joint_outer.jpg
+CV Axle Shaft / Driveshaft (front),Planetary Joint / Planetary,gasoline;diesel;hybrid;electric,Vibration;clicking;shudder on acceleration,cv_axle_shaft___driveshaft_front.jpg
+CV Boot (inner),Planetary Joint / Planetary,gasoline;diesel;hybrid;electric,Grease leak;clicking noise (early CV joint wear),cv_boot_inner.jpg
+CV Boot (outer),Planetary Joint / Planetary,gasoline;diesel;hybrid;electric,Grease spray on wheel;clicking;CV joint wear,cv_boot_outer.jpg
+CV Boot Kit,Planetary Joint / Planetary,gasoline;diesel;hybrid;electric,Grease leak;contaminated CV joint;premature wear,cv_boot_kit.jpg
+Tripod Joint / Spider Joint,Planetary Joint / Planetary,gasoline;diesel;hybrid;electric,Vibration;clunking;shudder at low speed,tripod_joint___spider_joint.jpg
+Rzeppa Joint,Planetary Joint / Planetary,gasoline;diesel;hybrid;electric,Clicking on tight turns;vibration,rzeppa_joint.jpg
+Driveshaft Circlip / Snap Ring,Planetary Joint / Planetary,gasoline;diesel;hybrid;electric,Driveshaft pulling out;vibration;clunking,driveshaft_circlip___snap_ring.jpg
+Air Spring / Air Bag (front),Air suspension,gasoline;diesel;hybrid;electric,Vehicle sagging;harsh ride;air suspension warning light,air_spring___air_bag_front.jpg
+Air Spring / Air Bag (rear),Air suspension,gasoline;diesel;hybrid;electric,Rear sagging;poor ride quality;warning light,air_spring___air_bag_rear.jpg
+Air Compressor,Air suspension,gasoline;diesel;hybrid;electric,Slow leveling;compressor running constantly;suspension warning,air_compressor.jpg
+Air Supply Line / Hose,Air suspension,gasoline;diesel;hybrid;electric,Air leak;suspension not maintaining height;sagging,air_supply_line___hose.jpg
+Air Suspension Control Module,Air suspension,gasoline;diesel;hybrid;electric,Warning light;incorrect ride height;compressor not activating,air_suspension_control_module.jpg
+Height Sensor,Air suspension,gasoline;diesel;hybrid;electric,Incorrect leveling;warning light;one corner too high or low,height_sensor.jpg
+Air Reservoir / Tank,Air suspension,gasoline;diesel;hybrid;electric,Slow air supply;compressor overworking;sagging after sitting,air_reservoir___tank.jpg
+Valve Block / Solenoid Block,Air suspension,gasoline;diesel;hybrid;electric,Air leaks;one corner sagging;warning light,valve_block___solenoid_block.jpg
+Air Dryer,Air suspension,gasoline;diesel;hybrid;electric,Moisture in system;compressor damage;poor system reliability,air_dryer.jpg
+Tow Bar / Towbar,Towing system / parts,gasoline;diesel;hybrid;electric,Cannot tow trailer;structural failure risk,tow_bar___towbar.jpg
+Towbar Wiring Harness (7-pin / 13-pin),Towing system / parts,gasoline;diesel;hybrid;electric,Trailer lights not working;no brake light signal to trailer,towbar_wiring_harness_7-pin___13-pin.jpg
+Tow Ball,Towing system / parts,gasoline;diesel;hybrid;electric,Trailer not coupling securely;safety risk,tow_ball.jpg
+Tow Ball Cover / Cap,Towing system / parts,gasoline;diesel;hybrid;electric,Tow ball exposed to corrosion and dirt,tow_ball_cover___cap.jpg
+Tow Hitch Receiver,Towing system / parts,gasoline;diesel;hybrid;electric,Cannot attach tow accessories;structural weakness,tow_hitch_receiver.jpg
+Trailer Socket (7-pin/13-pin),Towing system / parts,gasoline;diesel;hybrid;electric,Trailer lights not functioning;no power to trailer,trailer_socket_7-pin_13-pin.jpg
+Safety Chain / Safety Cable,Towing system / parts,gasoline;diesel;hybrid;electric,No secondary trailer retention in case of coupling failure,safety_chain___safety_cable.jpg
+Gearbox (manual),Gearbox,gasoline;diesel;hybrid,Difficulty shifting;grinding gears;jumping out of gear;oil leak,gearbox_manual.jpg
+Gearbox (automatic),Gearbox,gasoline;diesel;hybrid,Rough/erratic shifts;slipping;delayed engagement;overheating,gearbox_automatic.jpg
+Gearbox (DCT - Dual Clutch),Gearbox,gasoline;diesel;hybrid,Jerky low-speed movement;shudder;poor shift response,gearbox_dct_-_dual_clutch.jpg
+Gearbox (CVT - Continuously Variable),Gearbox,gasoline;diesel;hybrid,Belt slipping;whining noise;loss of drive;poor fuel economy,gearbox_cvt_-_continuously_variable.jpg
+Gearbox Mount,Gearbox,gasoline;diesel;hybrid,Vibration;clunking;excessive drivetrain movement,gearbox_mount.jpg
+Gear Selector / Shift Linkage,Gearbox,gasoline;diesel;hybrid,Difficulty selecting gears;wrong gear engaged;selector loose,gear_selector___shift_linkage.jpg
+Shift Fork,Gearbox,gasoline;diesel;hybrid,Gears jumping out;grinding;difficulty selecting gears,shift_fork.jpg
+Synchromesh Ring,Gearbox,gasoline;diesel;hybrid,Grinding when changing gears;difficulty engaging gear,synchromesh_ring.jpg
+Input Shaft,Gearbox,gasoline;diesel;hybrid,Vibration;noise;difficulty engaging first gear,input_shaft.jpg
+Output Shaft,Gearbox,gasoline;diesel;hybrid,Vibration;noise;gearbox leak,output_shaft.jpg
+Gearbox Bearing,Gearbox,gasoline;diesel;hybrid,Whining or grinding noise;vibration;gearbox damage,gearbox_bearing.jpg
+Gearbox Gasket Set,Gearbox,gasoline;diesel;hybrid,Oil leaks from gearbox casing,gearbox_gasket_set.jpg
+Gearbox Oil Seal,Gearbox,gasoline;diesel;hybrid,Oil leak from gearbox;fluid loss,gearbox_oil_seal.jpg
+Automatic Gearbox Valve Body,Gearbox,gasoline;diesel;hybrid,Erratic shifting;slipping;delayed engagement;no movement,automatic_gearbox_valve_body.jpg
+Torque Converter,Gearbox,gasoline;diesel;hybrid,Shudder at low speed;no drive;overheating transmission,torque_converter.jpg
+Torque Converter Lock-Up Clutch,Gearbox,gasoline;diesel;hybrid,Shudder at highway speeds;poor fuel economy,torque_converter_lock-up_clutch.jpg
+Reverse Gear Assembly,Gearbox,gasoline;diesel;hybrid,No reverse engagement;grinding in reverse,reverse_gear_assembly.jpg
+AC Compressor,Air conditioning system,gasoline;diesel;hybrid;electric,No cold air;compressor not engaging;belt squealing;rattling noise,ac_compressor.jpg
+AC Condenser,Air conditioning system,gasoline;diesel;hybrid;electric,Poor cooling;refrigerant leak;AC not cold enough,ac_condenser.jpg
+AC Evaporator,Air conditioning system,gasoline;diesel;hybrid;electric,No cold air;musty smell;water on passenger floor;AC not cooling,ac_evaporator.jpg
+AC Receiver Drier / Accumulator,Air conditioning system,gasoline;diesel;hybrid;electric,Poor AC performance;moisture in system;compressor damage,ac_receiver_drier___accumulator.jpg
+AC Expansion Valve / Orifice Tube,Air conditioning system,gasoline;diesel;hybrid;electric,AC not cooling;icing up;weak airflow,ac_expansion_valve___orifice_tube.jpg
+AC Compressor Clutch,Air conditioning system,gasoline;diesel;hybrid;electric,Compressor not engaging;no cold air;clicking noise,ac_compressor_clutch.jpg
+AC Pressure Switch / Sensor,Air conditioning system,gasoline;diesel;hybrid;electric,AC cutting out;compressor not engaging;fault codes,ac_pressure_switch___sensor.jpg
+AC High Pressure Line / Hose,Air conditioning system,gasoline;diesel;hybrid;electric,Refrigerant leak;no cold air;hissing noise,ac_high_pressure_line___hose.jpg
+AC Low Pressure Line / Hose,Air conditioning system,gasoline;diesel;hybrid;electric,Refrigerant leak;no cold air,ac_low_pressure_line___hose.jpg
+AC Blower Motor (see Electrical/Heating),Air conditioning system,gasoline;diesel;hybrid;electric,No airflow from vents;weak airflow,ac_blower_motor_see_electrical_heating.jpg
+AC Blend Door Actuator (see Heating),Air conditioning system,gasoline;diesel;hybrid;electric,Stuck at one temperature;clicking from dash,ac_blend_door_actuator_see_heating.jpg
+AC Condenser Fan,Air conditioning system,gasoline;diesel;hybrid;electric,Poor AC performance;condenser overheating,ac_condenser_fan.jpg
+Wheel Bearing (front),Bearings,gasoline;diesel;hybrid;electric,Humming/grinding noise that changes with speed;wheel wobble;ABS issues,wheel_bearing_front.jpg
+Wheel Bearing (rear),Bearings,gasoline;diesel;hybrid;electric,Humming/grinding noise from rear;wheel wobble,wheel_bearing_rear.jpg
+Hub Bearing / Wheel Hub Assembly,Bearings,gasoline;diesel;hybrid;electric,Humming noise;play in wheel;ABS sensor faults,hub_bearing___wheel_hub_assembly.jpg
+Crankshaft Main Bearing,Bearings,gasoline;diesel;hybrid,Knocking noise;low oil pressure;engine failure,crankshaft_main_bearing.jpg
+Crankshaft Thrust Bearing,Bearings,gasoline;diesel;hybrid,Fore-aft crankshaft movement;knocking;engine damage,crankshaft_thrust_bearing.jpg
+Connecting Rod Bearing,Bearings,gasoline;diesel;hybrid,Knocking noise (rod knock);engine oil pressure drop;seizure,connecting_rod_bearing.jpg
+Camshaft Bearing,Bearings,gasoline;diesel;hybrid,Ticking noise;oil pressure loss;valve timing issues,camshaft_bearing.jpg
+Gearbox Bearing (input/output shaft),Bearings,gasoline;diesel;hybrid,Whining or grinding from gearbox;vibration,gearbox_bearing_input_output_shaft.jpg
+Differential Bearing,Bearings,gasoline;diesel;hybrid,Whining noise from axle;vibration;differential overheating,differential_bearing.jpg
+Alternator Bearing,Bearings,gasoline;diesel;hybrid,Whining noise from alternator;bearing seizure;charging failure,alternator_bearing.jpg
+Water Pump Bearing,Bearings,gasoline;diesel;hybrid,Coolant leak;grinding noise;water pump seizure,water_pump_bearing.jpg
+Idler Pulley Bearing,Bearings,gasoline;diesel;hybrid,Squealing;rattling;belt wear;pulley seizure,idler_pulley_bearing.jpg
+Tensioner Bearing,Bearings,gasoline;diesel;hybrid,Squealing;belt wear;timing/drive belt failure,tensioner_bearing.jpg
+Pilot Bearing / Clutch Pilot Bushing,Bearings,gasoline;diesel;hybrid,Noise when clutch depressed;difficulty engaging gears,pilot_bearing___clutch_pilot_bushing.jpg
+Cardan Shaft / Propshaft (front),Cardan shafts and differentials,gasoline;diesel;hybrid,Vibration;clunking;driveline shudder,cardan_shaft___propshaft_front.jpg
+Cardan Shaft / Propshaft (rear),Cardan shafts and differentials,gasoline;diesel;hybrid;electric,Vibration;clunking;shudder under load,cardan_shaft___propshaft_rear.jpg
+Universal Joint (UJ) for Cardan shaft,Cardan shafts and differentials,gasoline;diesel;hybrid,Clunking;vibration at certain speeds;driveline shudder,universal_joint_uj_for_cardan_shaft.jpg
+Center Bearing / Support Bearing (propshaft),Cardan shafts and differentials,gasoline;diesel;hybrid,Vibration;humming;clunking,center_bearing___support_bearing_propshaft.jpg
+Front Differential,Cardan shafts and differentials,gasoline;diesel;hybrid,Whining;poor 4WD traction;clunking,front_differential.jpg
+Rear Differential,Cardan shafts and differentials,gasoline;diesel;hybrid;electric,Whining noise;vibration;axle binding;poor traction,rear_differential.jpg
+Differential Carrier,Cardan shafts and differentials,gasoline;diesel;hybrid,Whining;vibration;oil leak,differential_carrier.jpg
+Ring and Pinion Gear Set,Cardan shafts and differentials,gasoline;diesel;hybrid,Whining noise from axle;vibration;poor fuel economy,ring_and_pinion_gear_set.jpg
+Limited Slip Differential (LSD),Cardan shafts and differentials,gasoline;diesel;hybrid,Loss of traction;chattering on turns;vibration,limited_slip_differential_lsd.jpg
+Locking Differential,Cardan shafts and differentials,gasoline;diesel;hybrid,Inability to lock diff;vibration;poor off-road traction,locking_differential.jpg
+Transfer Case,Cardan shafts and differentials,gasoline;diesel;hybrid,Difficulty switching 4WD modes;grinding;vibration;4WD not engaging,transfer_case.jpg
+Transfer Case Actuator,Cardan shafts and differentials,gasoline;diesel;hybrid,4WD not engaging;warning light;motor noise,transfer_case_actuator.jpg
+Axle Shaft (rear),Cardan shafts and differentials,gasoline;diesel;hybrid,Clunking;vibration;wheel wobble;axle failure,axle_shaft_rear.jpg
+Axle Shaft Seal,Cardan shafts and differentials,gasoline;diesel;hybrid,Differential oil leak at wheel;contamination of brakes,axle_shaft_seal.jpg
+Half Shaft (front),Cardan shafts and differentials,gasoline;diesel;hybrid;electric,Clicking on turns;vibration;clunking under load,half_shaft_front.jpg
+Oxygen Sensor / Lambda Sensor (upstream),Sensors relays control units,gasoline;hybrid,Poor fuel economy;rough idle;check engine light;failed emissions,oxygen_sensor___lambda_sensor_upstream.jpg
+Oxygen Sensor / Lambda Sensor (downstream),Sensors relays control units,gasoline;hybrid,Check engine light;catalytic converter monitoring failure,oxygen_sensor___lambda_sensor_downstream.jpg
+Mass Air Flow (MAF) Sensor,Sensors relays control units,gasoline;diesel;hybrid,Rough idle;poor fuel economy;black smoke;check engine light,mass_air_flow_maf_sensor.jpg
+Manifold Absolute Pressure (MAP) Sensor,Sensors relays control units,gasoline;diesel;hybrid,Rough idle;poor performance;check engine light,manifold_absolute_pressure_map_sensor.jpg
+Throttle Position Sensor (TPS),Sensors relays control units,gasoline;diesel;hybrid,Poor acceleration;erratic idle;hesitation;check engine light,throttle_position_sensor_tps.jpg
+Crankshaft Position Sensor (CKP),Sensors relays control units,gasoline;diesel;hybrid,Engine won't start;stalling;misfires;check engine light,crankshaft_position_sensor_ckp.jpg
+Camshaft Position Sensor (CMP),Sensors relays control units,gasoline;diesel;hybrid,Rough idle;hard starting;misfires;check engine light,camshaft_position_sensor_cmp.jpg
+Coolant Temperature Sensor (ECT),Sensors relays control units,gasoline;diesel;hybrid,Incorrect temp gauge;poor cold start;check engine light,error.jpg
+Intake Air Temperature Sensor (IAT),Sensors relays control units,gasoline;diesel;hybrid,Check engine light;poor fuel economy;rough idle,intake_air_temperature_sensor_iat.jpg
+Knock Sensor,Sensors relays control units,gasoline;diesel;hybrid,Engine knock;reduced power;check engine light,knock_sensor.jpg
+Oil Pressure Sensor / Switch,Sensors relays control units,gasoline;diesel;hybrid,Oil warning light on when not needed;no warning when pressure drops,oil_pressure_sensor___switch.jpg
+Fuel Pressure Sensor,Sensors relays control units,gasoline;diesel;hybrid,Check engine light;poor fuel delivery;misfires,fuel_pressure_sensor.jpg
+Exhaust Gas Temperature Sensor,Sensors relays control units,gasoline;diesel;hybrid,Check engine light;DPF management issues;overheating of exhaust,exhaust_gas_temperature_sensor.jpg
+NOx Sensor,Sensors relays control units,diesel;hybrid,Check engine light;emissions system fault;SCR malfunction,nox_sensor.jpg
+Particulate Matter Sensor,Sensors relays control units,diesel;hybrid,DPF fault codes;check engine light;emissions failure,particulate_matter_sensor.jpg
+Boost Pressure Sensor,Sensors relays control units,gasoline;diesel;hybrid,Boost fault codes;poor performance;overboost/underboost,boost_pressure_sensor.jpg
+ABS Wheel Speed Sensor,Sensors relays control units,gasoline;diesel;hybrid;electric,ABS/ESP warning light;ABS not activating;traction control issues,abs_wheel_speed_sensor.jpg
+Steering Angle Sensor,Sensors relays control units,gasoline;diesel;hybrid;electric,ESC/ABS warning;stability control issues;incorrect steering data,steering_angle_sensor.jpg
+Yaw Rate Sensor,Sensors relays control units,gasoline;diesel;hybrid;electric,ESC not working correctly;stability control warning,yaw_rate_sensor.jpg
+Accelerometer / G-Sensor,Sensors relays control units,gasoline;diesel;hybrid;electric,Stability control faults;incorrect airbag deployment,accelerometer___g-sensor.jpg
+Rain Sensor,Sensors relays control units,gasoline;diesel;hybrid;electric,Auto wipers not activating;incorrect wiper speed,rain_sensor.jpg
+Light Sensor (ambient),Sensors relays control units,gasoline;diesel;hybrid;electric,Auto headlights not activating;incorrect DRL behavior,light_sensor_ambient.jpg
+Park Distance Control Sensor (PDC/Ultrasonic),Sensors relays control units,gasoline;diesel;hybrid;electric,Parking sensors not beeping;false alarms;parking aid disabled,park_distance_control_sensor_pdc_ultrasonic.jpg
+Reverse Camera,Sensors relays control units,gasoline;diesel;hybrid;electric,No reverse camera image;distorted image,reverse_camera.jpg
+Fuel Level Sensor,Sensors relays control units,gasoline;diesel;hybrid,Incorrect fuel gauge reading;false low fuel warning,fuel_level_sensor.jpg
+Main Relay,Sensors relays control units,gasoline;diesel;hybrid,Car won't start;electrical system not powering up,main_relay.jpg
+Fuel Pump Relay,Sensors relays control units,gasoline;diesel;hybrid,No fuel delivery;engine won't start;stalling,fuel_pump_relay.jpg
+Horn Relay,Sensors relays control units,gasoline;diesel;hybrid;electric,No horn function;horn stuck on,horn_relay.jpg
+AC Compressor Relay,Sensors relays control units,gasoline;diesel;hybrid;electric,AC not working;compressor not engaging,ac_compressor_relay.jpg
+Glow Plug Relay / Timer,Sensors relays control units,diesel;hybrid,Hard cold starting;glow plugs not heating;rough cold idle,glow_plug_relay___timer.jpg
+Cooling Fan Relay,Sensors relays control units,gasoline;diesel;hybrid;electric,Fan not running;engine overheating at idle,cooling_fan_relay.jpg
+Seat Belt Reminder Relay,Sensors relays control units,gasoline;diesel;hybrid;electric,No seat belt warning chime,seat_belt_reminder_relay.jpg
+Roof Rack / Cross Bars,Car accessories online,gasoline;diesel;hybrid;electric,No roof cargo capability;poor load security if faulty,roof_rack___cross_bars.jpg
+Cargo Net,Car accessories online,gasoline;diesel;hybrid;electric,Unsecured cargo movement in boot,cargo_net.jpg
+Trunk Organizer,Car accessories online,gasoline;diesel;hybrid;electric,Disorganized boot; items rolling around,trunk_organizer.jpg
+Dash Camera (dashcam),Car accessories online,gasoline;diesel;hybrid;electric,No video evidence in accidents,dash_camera_dashcam.jpg
+Reversing Camera (aftermarket),Car accessories online,gasoline;diesel;hybrid;electric,No rear visibility aid,reversing_camera_aftermarket.jpg
+GPS / Navigation System (portable),Car accessories online,gasoline;diesel;hybrid;electric,No navigation guidance,gps___navigation_system_portable.jpg
+Phone Holder / Mount,Car accessories online,gasoline;diesel;hybrid;electric,Unsafe phone use while driving,phone_holder___mount.jpg
+Car Seat Cover,Car accessories online,gasoline;diesel;hybrid;electric,Seat wear;uncomfortable seating,car_seat_cover.jpg
+Steering Wheel Cover,Car accessories online,gasoline;diesel;hybrid;electric,Poor grip;worn wheel aesthetics,steering_wheel_cover.jpg
+Floor Mats (rubber / all-weather),Car accessories online,gasoline;diesel;hybrid;electric,Poor floor protection;potential pedal interference if loose,floor_mats_rubber___all-weather.jpg
+Sun Shade / Windscreen Protector,Car accessories online,gasoline;diesel;hybrid;electric,Overheated interior;UV dashboard damage,sun_shade___windscreen_protector.jpg
+Child Seat / Booster Seat,Car accessories online,gasoline;diesel;hybrid;electric,Child safety risk without correct restraint,child_seat___booster_seat.jpg
+Dog Guard / Pet Barrier,Car accessories online,gasoline;diesel;hybrid;electric,Unsecured pets becoming dangerous projectiles,dog_guard___pet_barrier.jpg
+Tow Strap / Recovery Strap,Car accessories online,gasoline;diesel;hybrid;electric,No recovery option if vehicle gets stuck,tow_strap___recovery_strap.jpg
+Jump Leads / Jump Starter,Car accessories online,gasoline;diesel;hybrid,No way to jump-start dead battery,jump_leads___jump_starter.jpg
+Tyre Pressure Gauge,Car accessories online,gasoline;diesel;hybrid;electric,Incorrect tire pressure monitoring,tyre_pressure_gauge.jpg
+First Aid Kit,Car accessories online,gasoline;diesel;hybrid;electric,No medical supplies in emergency,first_aid_kit.jpg
+Warning Triangle / Road Flares,Car accessories online,gasoline;diesel;hybrid;electric,No roadside warning for oncoming traffic,warning_triangle___road_flares.jpg
+Fire Extinguisher,Car accessories online,gasoline;diesel;hybrid;electric,No fire suppression ability in emergency,fire_extinguisher.jpg
+Engine Oil (repair kit use),Repair kit,gasoline;diesel;hybrid,Engine damage from incorrect refill,engine_oil_repair_kit_use.jpg
+Brake Fluid (repair kit use),Repair kit,gasoline;diesel;hybrid;electric,Brake failure from contaminated or wrong fluid,brake_fluid_repair_kit_use.jpg
+Coolant (premixed repair kit),Repair kit,gasoline;diesel;hybrid;electric,Overheating;improper freeze protection,coolant_premixed_repair_kit.jpg
+Sealant / Gasket Maker,Repair kit,gasoline;diesel;hybrid;electric,Improper sealing;fluid leaks;contamination,sealant___gasket_maker.jpg
+Thread Repair Kit (Helicoil),Repair kit,gasoline;diesel;hybrid;electric,Stripped threads in aluminum;fastener pull-out,thread_repair_kit_helicoil.jpg
+Brake Caliper Repair Kit (seals + dust boots),Repair kit,gasoline;diesel;hybrid;electric,Leaking caliper;seized brakes;uneven wear,brake_caliper_repair_kit_seals__dust_boots.jpg
+Wheel Cylinder Repair Kit,Repair kit,gasoline;diesel;hybrid,Brake fluid leak;loss of drum braking,wheel_cylinder_repair_kit.jpg
+Master Cylinder Repair Kit,Repair kit,gasoline;diesel;hybrid;electric,Spongy pedal;brake fluid leak,master_cylinder_repair_kit.jpg
+Clutch Cylinder Repair Kit,Repair kit,gasoline;diesel;hybrid,Spongy clutch;fluid leak,clutch_cylinder_repair_kit.jpg
+Differential Seal and Gasket Kit,Repair kit,gasoline;diesel;hybrid,Oil leak from differential;oil loss,differential_seal_and_gasket_kit.jpg
+Gearbox Seal and Gasket Kit,Repair kit,gasoline;diesel;hybrid,Oil leak from gearbox;fluid loss,gearbox_seal_and_gasket_kit.jpg
+Engine Seal and Gasket Kit,Repair kit,gasoline;diesel;hybrid,Oil/coolant leaks from engine,engine_seal_and_gasket_kit.jpg
+CV Boot Repair Kit,Repair kit,gasoline;diesel;hybrid;electric,Grease leak;premature CV joint wear,cv_boot_repair_kit.jpg
+Shock Absorber Seal Kit,Repair kit,gasoline;diesel;hybrid;electric,Oil leak from shock;poor damping,shock_absorber_seal_kit.jpg
+Electrical Repair Kit (connectors/terminals),Repair kit,gasoline;diesel;hybrid;electric,Electrical faults from corroded/broken connectors,electrical_repair_kit_connectors_terminals.jpg
+Wiring Repair Tape / Heat Shrink,Repair kit,gasoline;diesel;hybrid;electric,Short circuits;wiring insulation failure,wiring_repair_tape___heat_shrink.jpg
+Oxygen Sensor Thread Repair Kit,Repair kit,gasoline;diesel;hybrid,O2 sensor not seating correctly;exhaust leak,oxygen_sensor_thread_repair_kit.jpg
+Radiator Stop Leak / Repair Additive,Repair kit,gasoline;diesel;hybrid;electric,Temporary coolant leak fix only;not a permanent repair,radiator_stop_leak___repair_additive.jpg
+Diagnostic Scanner / OBD-II Reader,Professional tools,gasoline;diesel;hybrid;electric,Cannot read fault codes;blind troubleshooting,diagnostic_scanner___obd-ii_reader.jpg
+Timing Light,Professional tools,gasoline,Cannot verify ignition timing;incorrect timing,timing_light.jpg
+Compression Tester,Professional tools,gasoline;diesel;hybrid,Cannot test engine compression;missed internal wear diagnosis,compression_tester.jpg
+Leak-Down Tester,Professional tools,gasoline;diesel;hybrid,Cannot diagnose valve/ring/gasket leaks,leak-down_tester.jpg
+Torque Wrench,Professional tools,gasoline;diesel;hybrid;electric,Incorrect fastener torque;component damage or failure,torque_wrench.jpg
+Impact Wrench,Professional tools,gasoline;diesel;hybrid;electric,Difficulty removing seized fasteners;slow work,impact_wrench.jpg
+Spark Plug Socket,Professional tools,gasoline;hybrid,Cannot change spark plugs without risk of damage,spark_plug_socket.jpg
+Oil Filter Wrench,Professional tools,gasoline;diesel;hybrid,Cannot remove tight oil filters;damage to filter,oil_filter_wrench.jpg
+Brake Caliper Wind-Back Tool,Professional tools,gasoline;diesel;hybrid;electric,Cannot compress electric parking brake calipers;piston damage,brake_caliper_wind-back_tool.jpg
+Brake Bleeder Kit,Professional tools,gasoline;diesel;hybrid;electric,Cannot bleed brakes properly;air in brake lines,brake_bleeder_kit.jpg
+Coolant Pressure Tester,Professional tools,gasoline;diesel;hybrid;electric,Cannot diagnose coolant leaks;missed head gasket failure,coolant_pressure_tester.jpg
+AC Manifold Gauge Set,Professional tools,gasoline;diesel;hybrid;electric,Cannot diagnose AC pressures;incorrect refrigerant charge,ac_manifold_gauge_set.jpg
+Vacuum Pump,Professional tools,gasoline;diesel;hybrid;electric,Cannot test vacuum actuators;cannot evacuate AC system,vacuum_pump.jpg
+Injector Tester / Cleaner,Professional tools,gasoline;diesel;hybrid,Cannot test injector spray pattern;missed injector faults,injector_tester___cleaner.jpg
+Engine Hoist / Crane,Professional tools,gasoline;diesel;hybrid;electric,Cannot remove engine safely,engine_hoist___crane.jpg
+Transmission Jack,Professional tools,gasoline;diesel;hybrid;electric,Cannot safely support/remove transmission,transmission_jack.jpg
+Spring Compressor,Professional tools,gasoline;diesel;hybrid;electric,Cannot safely remove coil springs;injury risk,spring_compressor.jpg
+Ball Joint Press,Professional tools,gasoline;diesel;hybrid;electric,Cannot remove/install ball joints without damage,ball_joint_press.jpg
+Bearing Puller Set,Professional tools,gasoline;diesel;hybrid;electric,Cannot remove bearings without damaging housings,bearing_puller_set.jpg
+Pulley Puller / Installer,Professional tools,gasoline;diesel;hybrid,Cannot remove crankshaft or alternator pulleys,pulley_puller___installer.jpg
+Harmonic Balancer Puller,Professional tools,gasoline;diesel;hybrid,Cannot remove harmonic balancer safely,harmonic_balancer_puller.jpg
+Radiator Hose (upper),Connections and hoses,gasoline;diesel;hybrid;electric,Coolant leak;overheating;hose collapse,radiator_hose_upper.jpg
+Radiator Hose (lower),Connections and hoses,gasoline;diesel;hybrid;electric,Coolant leak;overheating;hose collapse,radiator_hose_lower.jpg
+Heater Hose (inlet/outlet),Connections and hoses,gasoline;diesel;hybrid,Coolant leak;no cabin heat,heater_hose_inlet_outlet.jpg
+Turbo Intercooler Hose,Connections and hoses,gasoline;diesel;hybrid,Boost leak;loss of power;hissing noise,turbo_intercooler_hose.jpg
+Intercooler Coupler,Connections and hoses,gasoline;diesel;hybrid,Boost leak;split coupler;loss of power,intercooler_coupler.jpg
+Vacuum Hose,Connections and hoses,gasoline;diesel;hybrid,Vacuum leak;rough idle;brake servo not working;poor performance,vacuum_hose.jpg
+Brake Hose (flexible),Connections and hoses,gasoline;diesel;hybrid;electric,Restricted braking;spongy pedal;fluid leak;vehicle pulling,brake_hose_flexible.jpg
+Fuel Hose / Fuel Line (low pressure),Connections and hoses,gasoline;diesel;hybrid,Fuel leak;fire risk;fuel smell,fuel_hose___fuel_line_low_pressure.jpg
+Fuel Hose / Fuel Line (high pressure),Connections and hoses,gasoline;diesel;hybrid,Fuel leak;high-pressure spray;fire risk,fuel_hose___fuel_line_high_pressure.jpg
+Power Steering Hose (high pressure),Connections and hoses,gasoline;diesel;hybrid,Power steering fluid leak;loss of assist;whining pump,power_steering_hose_high_pressure.jpg
+Power Steering Hose (return/low pressure),Connections and hoses,gasoline;diesel;hybrid,Power steering fluid leak;whining noise,power_steering_hose_return_low_pressure.jpg
+Transmission Cooler Line,Connections and hoses,gasoline;diesel;hybrid,Transmission fluid leak;overheating gearbox,transmission_cooler_line.jpg
+Oil Cooler Hose,Connections and hoses,gasoline;diesel;hybrid,Oil leak;oil/coolant mixing,oil_cooler_hose.jpg
+Crankcase Breather Hose (PCV),Connections and hoses,gasoline;diesel;hybrid,Rough idle;excessive oil consumption;oil leaks,crankcase_breather_hose_pcv.jpg
+Air Intake Hose / Snorkel,Connections and hoses,gasoline;diesel;hybrid,Air leak;rough idle;MAF sensor faults,air_intake_hose___snorkel.jpg
+EGR Hose / Pipe,Connections and hoses,gasoline;diesel;hybrid,EGR system faults;rough idle;check engine light,egr_hose___pipe.jpg
+AC High Pressure Hose,Connections and hoses,gasoline;diesel;hybrid;electric,Refrigerant leak;no cold air,ac_high_pressure_hose.jpg
+AC Low Pressure Hose,Connections and hoses,gasoline;diesel;hybrid;electric,Refrigerant leak;poor AC performance,ac_low_pressure_hose.jpg
+Coolant Bypass Hose,Connections and hoses,gasoline;diesel;hybrid,Coolant leak;poor coolant flow;overheating,coolant_bypass_hose.jpg
+Drain Plug Washer / Sump Washer,Connections and hoses,gasoline;diesel;hybrid,Oil leak at drain plug;improper seal,drain_plug_washer___sump_washer.jpg
+Hose Clamp,Connections and hoses,gasoline;diesel;hybrid;electric,Hose slipping off;coolant/boost/fuel leak,hose_clamp.jpg
+Quick Connector / Push-Fit Fitting,Connections and hoses,gasoline;diesel;hybrid;electric,Fluid leak;disconnected hose under pressure,quick_connector___push-fit_fitting.jpg
+Car Wax / Polish,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Faded paint;unprotected clear coat;UV damage,car_wax___polish.jpg
+Car Shampoo / Wash Soap,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Improper cleaning;paint scratches from incorrect products,car_shampoo___wash_soap.jpg
+Clay Bar,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Contaminated paint surface before polishing,clay_bar.jpg
+Paint Decontamination Spray (iron remover),Car care and cosmetic products,gasoline;diesel;hybrid;electric,Iron fallout and rail dust contamination on paint,paint_decontamination_spray_iron_remover.jpg
+Tar and Adhesive Remover,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Tar spots damaging paint if not removed,tar_and_adhesive_remover.jpg
+Bug and Bitumen Remover,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Bug residue etching into paint;poor aesthetics,bug_and_bitumen_remover.jpg
+Glass Cleaner,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Smeared windshield;poor visibility;unsafe driving,glass_cleaner.jpg
+Microfiber Towels,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Scratched paint from incorrect cloths;poor drying,microfiber_towels.jpg
+Tire Shine / Tire Dressing,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Dry cracked tires;poor appearance,tire_shine___tire_dressing.jpg
+Interior Cleaner,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Dirty interior surfaces;degraded plastics and fabrics,interior_cleaner.jpg
+Leather Cleaner and Conditioner,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Cracked or faded leather seats;poor appearance,leather_cleaner_and_conditioner.jpg
+Dashboard Protectant,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Faded UV-damaged dashboard;cracked plastics,dashboard_protectant.jpg
+Engine Degreaser,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Grease buildup masking leaks;difficult engine service,engine_degreaser.jpg
+Wheel Cleaner,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Brake dust buildup on rims;corroded wheels,wheel_cleaner.jpg
+Windshield Water Repellent (Rain-X type),Car care and cosmetic products,gasoline;diesel;hybrid;electric,Poor visibility in rain without treatment,windshield_water_repellent_rain-x_type.jpg
+Paintwork Touch-Up Pen / Kit,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Rust forming at chip sites;spreading paint damage,paintwork_touch-up_pen___kit.jpg
+Ceramic Coating,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Unprotected paint from UV and contaminants,ceramic_coating.jpg
+Paint Protection Film (PPF),Car care and cosmetic products,gasoline;diesel;hybrid;electric,Paint chips and scratches without film,paint_protection_film_ppf.jpg
+Odor Eliminator / Air Freshener,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Unpleasant odors in cabin;poor driving experience,odor_eliminator___air_freshener.jpg
+Upholstery Cleaner,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Stained seats;fabric degradation,upholstery_cleaner.jpg
+Headlight Restoration Kit,Car care and cosmetic products,gasoline;diesel;hybrid;electric,Yellowed cloudy headlights;reduced light output;unsafe driving,headlight_restoration_kit.jpg
+Headlight (halogen),Lighting,gasoline;diesel;hybrid;electric,No or reduced forward lighting;failed inspection;unsafe night driving,headlight_halogen.jpg
+Headlight (LED),Lighting,gasoline;diesel;hybrid;electric,No or reduced lighting;MOT failure;unsafe driving,headlight_led.jpg
+Headlight (HID/Xenon),Lighting,gasoline;diesel;hybrid;electric,No or reduced lighting;MOT failure;poor visibility,headlight_hid_xenon.jpg
+Headlight (Adaptive / Matrix LED),Lighting,gasoline;diesel;hybrid;electric,No adaptive lighting;static beam only;warning light,headlight_adaptive___matrix_led.jpg
+Daytime Running Light (DRL),Lighting,gasoline;diesel;hybrid;electric,DRL not illuminated;poor daytime visibility,daytime_running_light_drl.jpg
+Tail Light / Rear Light Assembly,Lighting,gasoline;diesel;hybrid;electric,No rear lights;failed inspection;increased accident risk,tail_light___rear_light_assembly.jpg
+Brake Light Bulb (rear),Lighting,gasoline;diesel;hybrid;electric,No brake light signal;rear collision risk,brake_light_bulb_rear.jpg
+Third / High-Level Brake Light,Lighting,gasoline;diesel;hybrid;electric,Missing rear brake signal;collision risk,third___high-level_brake_light.jpg
+Reverse Light / Backup Light,Lighting,gasoline;diesel;hybrid;electric,No reverse warning light;poor reverse visibility,reverse_light___backup_light.jpg
+Turn Signal / Indicator (front),Lighting,gasoline;diesel;hybrid;electric,No direction indication;safety hazard;failed inspection,turn_signal___indicator_front.jpg
+Turn Signal / Indicator (rear),Lighting,gasoline;diesel;hybrid;electric,No direction indication;safety hazard,turn_signal___indicator_rear.jpg
+Side Marker Light,Lighting,gasoline;diesel;hybrid;electric,Poor vehicle visibility to other road users,side_marker_light.jpg
+Fog Light (front),Lighting,gasoline;diesel;hybrid;electric,Poor visibility in fog;failed inspection if missing,fog_light_front.jpg
+Fog Light (rear),Lighting,gasoline;diesel;hybrid;electric,Poor visibility in fog for following vehicles;failed inspection,fog_light_rear.jpg
+License Plate Light,Lighting,gasoline;diesel;hybrid;electric,Plate not illuminated at night;failed inspection,license_plate_light.jpg
+Interior Dome Light,Lighting,gasoline;diesel;hybrid;electric,Dark interior when door opens;poor cabin visibility,interior_dome_light.jpg
+Map Reading Light,Lighting,gasoline;diesel;hybrid;electric,No reading light for passengers,map_reading_light.jpg
+Footwell Light,Lighting,gasoline;diesel;hybrid;electric,Poor footwell visibility;aesthetic issue,footwell_light.jpg
+Ambient Lighting (interior),Lighting,gasoline;diesel;hybrid;electric,No ambient interior lighting;cosmetic issue,ambient_lighting_interior.jpg
+Headlight Control Module (AFS/AHL),Lighting,gasoline;diesel;hybrid;electric,Headlights not adjusting angle;poor lighting coverage,headlight_control_module_afs_ahl.jpg
+Light Switch / Combination Switch,Lighting,gasoline;diesel;hybrid;electric,Lights not responding to controls;no headlight activation,light_switch___combination_switch.jpg
+Headlight Ballast (HID),Lighting,gasoline;diesel;hybrid;electric,HID headlight not igniting;flickering headlight,headlight_ballast_hid.jpg
+HID Igniter,Lighting,gasoline;diesel;hybrid;electric,HID light not starting;flickering,hid_igniter.jpg
+LED Driver Module,Lighting,gasoline;diesel;hybrid;electric,LED lights not working;flickering LED cluster,led_driver_module.jpg
+Performance Air Intake,Tuning,gasoline;diesel;hybrid,Reduced performance if intake fails;reduced airflow,performance_air_intake.jpg
+Cold Air Intake,Tuning,gasoline;diesel;hybrid,Loss of performance boost;increased intake temps if damaged,cold_air_intake.jpg
+Short Ram Intake,Tuning,gasoline;hybrid,Loss of performance gain;increased intake temps,short_ram_intake.jpg
+Performance Exhaust System,Tuning,gasoline;diesel;hybrid,Increased noise beyond regulations;reduced performance if leaking,performance_exhaust_system.jpg
+Cat-Back Exhaust,Tuning,gasoline;diesel;hybrid,Reduced performance increase;increased noise if leaking,cat-back_exhaust.jpg
+Downpipe (performance),Tuning,gasoline;diesel;hybrid,Loss of turbo spool gains;exhaust leaks,downpipe_performance.jpg
+High-Flow Catalytic Converter,Tuning,gasoline;hybrid,Loss of flow improvement;exhaust restriction,high-flow_catalytic_converter.jpg
+Uprated Brake Pads,Tuning,gasoline;diesel;hybrid;electric,Reduced braking performance;fade under hard use,uprated_brake_pads.jpg
+Uprated Brake Discs (drilled/slotted),Tuning,gasoline;diesel;hybrid;electric,Brake fade;vibration;reduced stopping power,uprated_brake_discs_drilled_slotted.jpg
+Uprated Coilover Kit,Tuning,gasoline;diesel;hybrid;electric,Poor handling;ride height changes;spring failure,uprated_coilover_kit.jpg
+Lowering Springs,Tuning,gasoline;diesel;hybrid;electric,Vehicle dropping further;harsh ride;coil failure,lowering_springs.jpg
+Performance Camshaft,Tuning,gasoline;diesel;hybrid,Loss of power gains;rough idle;valve timing issues,performance_camshaft.jpg
+Performance Engine Mounts (polyurethane),Tuning,gasoline;diesel;hybrid,Increased vibration in cabin; normal without mount,performance_engine_mounts_polyurethane.jpg
+Performance Sway Bar / Uprated Anti-Roll Bar,Tuning,gasoline;diesel;hybrid;electric,Body roll not reduced;handling unchanged,performance_sway_bar___uprated_anti-roll_bar.jpg
+Strut Brace / Chassis Brace,Tuning,gasoline;diesel;hybrid;electric,Loss of chassis stiffening benefit;rattling,strut_brace___chassis_brace.jpg
+Uprated Clutch Kit,Tuning,gasoline;diesel;hybrid,Slipping under increased power;judder,uprated_clutch_kit.jpg
+Performance Flywheel,Tuning,gasoline;diesel;hybrid,Increased inertia instead of reduced;vibration,performance_flywheel.jpg
+Short Shifter,Tuning,gasoline;diesel;hybrid,Imprecise gear changes;difficulty selecting gears,short_shifter.jpg
+Blow-Off Valve (aftermarket),Tuning,gasoline;hybrid,Compressor surge without valve;noise issues,blow-off_valve_aftermarket.jpg
+Boost Controller,Tuning,gasoline;diesel;hybrid,Overboost/underboost;check engine light;turbo damage,boost_controller.jpg
+ECU Remap / Tune (chip),Tuning,gasoline;diesel;hybrid,Reverted to stock tune;lost power gains;check engine light,ecu_remap___tune_chip.jpg
+Performance Intercooler,Tuning,gasoline;diesel;hybrid,Intake charge not adequately cooled;power reduction,performance_intercooler.jpg
+Oil Catch Can,Tuning,gasoline;diesel;hybrid,Oil vapors entering intake;dirty intake valves,oil_catch_can.jpg
+Performance Radiator,Tuning,gasoline;diesel;hybrid;electric,Overheating under hard use if damaged,performance_radiator.jpg
+Roll Cage,Tuning,gasoline;diesel;hybrid;electric,No protection in rollover;structural weakness,roll_cage.jpg
+Limited Slip Differential (LSD) (tuning),Tuning,gasoline;diesel;hybrid,Wheelspin under power;poor traction out of corners,limited_slip_differential_lsd_tuning.jpg
+Bolt (metric/imperial - various),Fasteners,gasoline;diesel;hybrid;electric,Component not secured;fastener failure;safety risk,bolt_metric_imperial_-_various.jpg
+Nut (hex / flange / lock),Fasteners,gasoline;diesel;hybrid;electric,Fastener loosening;component detachment,nut_hex___flange___lock.jpg
+Washer (flat / spring / lock),Fasteners,gasoline;diesel;hybrid;electric,Fastener loosening;component vibration,washer_flat___spring___lock.jpg
+Screw (self-tapping / machine),Fasteners,gasoline;diesel;hybrid;electric,Trim or panel not secured;rattling,screw_self-tapping___machine.jpg
+Stud (wheel / engine),Fasteners,gasoline;diesel;hybrid;electric,Wheel or component insecure;stud failure,stud_wheel___engine.jpg
+Rivet (blind rivet / pop rivet),Fasteners,gasoline;diesel;hybrid;electric,Panel not secured;body panel rattling,rivet_blind_rivet___pop_rivet.jpg
+Clip / Trim Clip / Push-Pin,Fasteners,gasoline;diesel;hybrid;electric,Trim panels loose or falling off;rattling,clip___trim_clip___push-pin.jpg
+Circlip / Snap Ring (internal/external),Fasteners,gasoline;diesel;hybrid;electric,Component not retained;axle or bearing failure,circlip___snap_ring_internal_external.jpg
+Cotter Pin / Split Pin,Fasteners,gasoline;diesel;hybrid;electric,Castellated nut loosening;component failure,cotter_pin___split_pin.jpg
+Exhaust Stud,Fasteners,gasoline;diesel;hybrid,Exhaust leak;stud failure causes manifold separation,exhaust_stud.jpg
+Wheel Stud,Fasteners,gasoline;diesel;hybrid;electric,Wheel insecure;wheel separation risk,wheel_stud.jpg
+Subframe Bolt,Fasteners,gasoline;diesel;hybrid;electric,Subframe movement;poor handling;structural risk,subframe_bolt.jpg
+Engine Bay Nut and Bolt Set,Fasteners,gasoline;diesel;hybrid;electric,Loose components;vibration;component detachment,engine_bay_nut_and_bolt_set.jpg
+Thread Insert (Helicoil / TimeSert),Fasteners,gasoline;diesel;hybrid;electric,Stripped thread cannot hold fastener;component failure,thread_insert_helicoil___timesert.jpg
+Cable Tie / Zip Tie,Fasteners,gasoline;diesel;hybrid;electric,Loose wiring/pipes;chafing damage,cable_tie___zip_tie.jpg
+Hose Clamp (worm drive / spring),Fasteners,gasoline;diesel;hybrid;electric,Hose slipping off;fluid leak;air leak,hose_clamp_worm_drive___spring.jpg
+High Voltage Battery Pack,Electrical,electric,drastic range loss;car won't turn on;turtle mode;cannot charge;high voltage system error,high_voltage_battery_pack.jpg
+Electric Traction Motor,Engine,electric,whining noise on acceleration;loss of propulsion;car won't move;motor overheating error,electric_traction_motor.jpg
+Power Inverter,Electrical,electric,car stops driving;ev system fault;whining noise from electric motor;loss of propulsion,power_inverter.jpg
+On-Board Charger (OBC),Electrical,electric,won't charge on AC;charging stops unexpectedly;charging error message on dash;slow charging,on-board_charger_obc.jpg
+DC-DC Converter,Electrical,electric,12V battery keeps dying;accessories not working;electrical system warning;car goes dead while driving,dc-dc_converter.jpg
+Charging Port,Electrical,electric,charging cable won't lock;cannot initiate charge;burnt smell near charge port;charging error,charging_port.jpg
+Battery Management System (BMS),Management,electric,incorrect range estimation;sudden drop in battery percentage;won't charge to 100%;high voltage error,battery_management_system_bms.jpg
+High Voltage Cable Assembly,Connections and hoses,electric,high voltage isolation fault;car won't start;yellow turtle icon;burning smell,high_voltage_cable_assembly.jpg
+PTC Cabin Heater,Heating,electric,no heat in cabin;defroster blowing cold air;high energy consumption;heater fault code,ptc_cabin_heater.jpg
+Thermal Management Water Pump,Engine cooling system,electric,battery overheating;reduced charging speed;whining noise while charging;cooling system fault,thermal_management_water_pump.jpg
+Electric AC Compressor,Air conditioning system,electric,no cold air;loud buzzing noise when AC is on;battery overheating;climate control error,electric_ac_compressor.jpg
+Reduction Gearbox,Gearbox,electric,clunking noise when accelerating;grinding noise from drivetrain;fluid leak;jerking when lifting off accelerator,reduction_gearbox.jpg
+Regenerative Braking Sensor,Sensors relays control units,electric,regen braking not working;brake pedal feels abnormal;increased brake wear;abs/regen warning light,regenerative_braking_sensor.jpg
+Acoustic Vehicle Alerting System (AVAS),Electrical,electric,no sound when driving at low speeds;speaker crackling;pedestrian warning system error,acoustic_vehicle_alerting_system_avas.jpg
+Battery Coolant Chiller,Engine cooling system,electric,battery temperature too high;slow fast-charging speeds;AC not cooling cabin;coolant leak under car,battery_coolant_chiller.jpg
+Resolver Sensor,Sensors relays control units,electric,motor shuddering;car won't move;harsh engagement;drivetrain malfunction error,resolver_sensor.jpg
+High Voltage Main Contactor,Sensors relays control units,electric,clunking sound missing when starting;car refuses to turn on;high voltage isolation error;contactors welded,error.jpg
+EV Specific Tires (Low Rolling Resistance),Tires rims and accessories,electric,decreased driving range;excessive road noise;uneven tread wear;loss of traction on wet roads,ev_specific_tires_low_rolling_resistance.jpg
+Glow Plugs,Ignition system and glow plugs,diesel,hard starting in cold;white smoke on startup;engine misfire when cold;rough idle on startup,glow_plugs.jpg
+Glow Plug Control Module,Sensors relays control units,diesel,hard starting in cold weather;multiple glow plug codes;white smoke on start;glow plug light flashing,glow_plug_control_module.jpg
+Diesel Particulate Filter (DPF),Exhaust system,diesel,loss of power;black smoke;limp mode;frequent regeneration;exhaust smells bad;poor acceleration,diesel_particulate_filter_dpf.jpg
+High-Pressure Fuel Pump (HPFP),Fuel system,diesel,crank but no start;engine stalling;loss of power under load;metal shavings in fuel filter;whining noise from engine,high-pressure_fuel_pump_hpfp.jpg
+Common Rail Fuel Injectors,Fuel system,diesel,black smoke;knocking noise from engine;rough idle;poor fuel economy;misfire;fuel smell,common_rail_fuel_injectors.jpg
+Turbocharger (VGT),Forced induction components,diesel,whistling noise;loss of power;blue smoke from exhaust;limp mode;check engine light;oil consumption,turbocharger_vgt.jpg
+EGR Valve (Exhaust Gas Recirculation),Exhaust gas recirculation,diesel,rough idle;stalling;black smoke;knocking sound;poor acceleration;engine hesitation,egr_valve_exhaust_gas_recirculation.jpg
+EGR Cooler,Exhaust gas recirculation,diesel,coolant loss without visible leak;white smoke from exhaust;overheating;sweet smell from exhaust,egr_cooler.jpg
+Diesel Oxidation Catalyst (DOC),Exhaust system,diesel,rotten egg smell;loss of power;excessive smoke;DPF clogging quickly,diesel_oxidation_catalyst_doc.jpg
+Fuel Water Separator / Diesel Filter,Filters,diesel,water in fuel warning;poor acceleration;engine hesitation;hard starting;fuel system contamination,fuel_water_separator___diesel_filter.jpg
+AdBlue/DEF Injector,Exhaust system,diesel,countdown to no start;exhaust fluid warning;white smoke;emissions error;crystallized fluid on exhaust,adblue_def_injector.jpg
+AdBlue/DEF Pump,Exhaust system,diesel,adblue system fault;limp mode;car refuses to start;def warning light;check engine light,adblue_def_pump.jpg
+NOx Sensor,Sensors relays control units,diesel,check engine light;poor fuel economy;rough idle;emissions test failure;adblue warning,nox_sensor.jpg
+Diesel Fuel Rail Pressure Sensor,Sensors relays control units,diesel,hard starting;engine stalling;hesitation;limp mode;sudden loss of power,diesel_fuel_rail_pressure_sensor.jpg
+Dual Mass Flywheel (DMF),Clutch / parts,diesel,rattling noise at idle;vibration in clutch pedal;clunking when turning off engine;harsh shifting,dual_mass_flywheel_dmf.jpg
+Spark Plugs,Ignition system and glow plugs,gasoline,rough idle;engine misfire;poor fuel economy;car jerks;hard to start;loss of power,spark_plugs.jpg
+Ignition Coil,Ignition system and glow plugs,gasoline,engine stalling;misfire;sputtering;car won't start;loss of power,ignition_coil.jpg
+Spark Plug Wires (Ignition Cables),Ignition system and glow plugs,gasoline,engine misfire;rough idle;radio interference;visible electrical arcing;loss of power,spark_plug_wires_ignition_cables.jpg
+Distributor Cap and Rotor,Ignition system and glow plugs,gasoline,car won't start;engine misfire;unexplained shaking;squealing noise;cranks but no start,distributor_cap_and_rotor.jpg
+Throttle Body,Engine,gasoline,rough idle;engine stalling;poor acceleration;check engine light;high idle RPM,throttle_body.jpg
+Idle Air Control (IAC) Valve,Sensors relays control units,gasoline,engine stalls when idling;fluctuating idle speed;rough idle;car stalling when stopping at red light,idle_air_control_iac_valve.jpg
+Gasoline Fuel Injectors,Fuel system,gasoline,engine misfire;rough idle;poor fuel economy;fuel smell;hesitation on acceleration,gasoline_fuel_injectors.jpg
+Fuel Pump (In-Tank),Fuel system,gasoline,car cranks but won't start;whining noise from fuel tank;loss of power at high speeds;engine sputtering,fuel_pump_in-tank.jpg
+Fuel Pressure Regulator,Fuel system,gasoline,black smoke from exhaust;engine misfire;fuel in vacuum hose;engine stalling;spark plugs covered in black soot,fuel_pressure_regulator.jpg
+EVAP Purge Valve,Fuel system,gasoline,check engine light;rough idle;difficulty starting after fueling;fuel smell around car,evap_purge_valve.jpg
+EVAP Charcoal Canister,Fuel system,gasoline,smell of raw gas;cannot fill gas tank fully;check engine light;poor fuel economy,evap_charcoal_canister.jpg
+Knock Sensor,Sensors relays control units,gasoline,pinging noise from engine;knocking sound when accelerating;loss of power;poor acceleration,knock_sensor.jpg
+Oxygen Sensor (O2 Sensor),Sensors relays control units,gasoline,check engine light;poor fuel economy;rough idle;black smoke from exhaust;emissions test failure,oxygen_sensor_o2_sensor.jpg
+Catalytic Converter (3-Way),Exhaust system,gasoline,exhaust smells like sulfur;rotten egg smell;loss of power;excessive heat from floor;rattling noise underneath,catalytic_converter_3-way.jpg
+PCV Valve (Positive Crankcase Ventilation),Engine,gasoline,oil leaks;high oil consumption;rough idle;sludge in engine;misfire,pcv_valve_positive_crankcase_ventilation.jpg
+Camshaft Position Sensor,Sensors relays control units,gasoline,engine stalling;car won't start;jerking;poor engine performance;check engine light,camshaft_position_sensor.jpg
+Crankshaft Position Sensor,Sensors relays control units,gasoline,engine cranks but won't start;intermittent stalling;engine vibrations;misfire on all cylinders,crankshaft_position_sensor.jpg
+High Voltage Hybrid Battery,Electrical,hybrid,reduced fuel economy;engine runs constantly;red triangle of death;battery charge drops rapidly;hybrid system warning,high_voltage_hybrid_battery.jpg
+Motor Generator Unit (MGU),Engine,hybrid,whining noise when accelerating;car refuses to move in EV mode;hybrid system failure;jerking when transitioning to gas,motor_generator_unit_mgu.jpg
+Power Split Device (e-CVT),Gearbox,hybrid,clunking noise when engine starts;transmission slipping;harsh engagement;grinding noise from transaxle,power_split_device_e-cvt.jpg
+Integrated Starter Generator (ISG),Electrical,hybrid,auto start-stop not working;engine hesitates to restart;48V system error;battery not charging,integrated_starter_generator_isg.jpg
+Hybrid Vehicle Control Unit (HPCM),Management,hybrid,check hybrid system warning;car won't go into ready mode;loss of propulsion;multiple dashboard warning lights,hybrid_vehicle_control_unit_hpcm.jpg
+Hybrid Battery Cooling Fan,Engine cooling system,hybrid,hybrid battery overheating;loud fan noise from rear seat;reduced hybrid performance;battery temperature warning,hybrid_battery_cooling_fan.jpg
+High Voltage Inverter,Electrical,hybrid,car dies suddenly;burnt smell from hood;hybrid system fault;car won't start;whining noise from engine bay,high_voltage_inverter.jpg
+Regenerative Braking Actuator,Braking system,hybrid,spongy brake pedal;abs light on;warning buzzer sounds;regen braking disabled;grabby brakes,regenerative_braking_actuator.jpg
+DC-DC Converter,Electrical,hybrid,12V battery dies repeatedly;loss of interior electronics;car goes dead while driving;converter overtemp warning,dc-dc_converter.jpg
+Hybrid System Water Pump,Engine cooling system,hybrid,inverter overheating;check hybrid system light;high coolant temperature;pump making loud humming noise,hybrid_system_water_pump.jpg
+Service Disconnect Plug,Electrical,hybrid,hybrid system won't power on after service;high voltage isolation fault;car completely dead,service_disconnect_plug.jpg
+Pedestrian Warning Speaker (AVAS),Electrical,hybrid,no artificial sound in EV mode;speaker crackling;pedestrian warning system error,pedestrian_warning_speaker_avas.jpg

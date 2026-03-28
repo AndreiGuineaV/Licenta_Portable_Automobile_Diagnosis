@@ -128,10 +128,8 @@ public class WarningLightAdapter extends RecyclerView.Adapter<WarningLightAdapte
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            // Curățăm lista actuală și punem doar rezultatele găsite
             lightList.clear();
             lightList.addAll((List) results.values);
-            // Spunem RecyclerView-ului să se redeseneze (esențial!)
             notifyDataSetChanged();
         }
     };

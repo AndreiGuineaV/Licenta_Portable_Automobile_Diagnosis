@@ -74,14 +74,13 @@ public class CarPartsActivity extends AppCompatActivity {
 
                 String resourceName = categoryImg.replace(".jpg", "");
 
-                // 2. Cerem sistemului ID-ul (int) pentru resursa cu acest nume din folderul "drawable"
+                // 2. Get the resource ID of the image drawable
                 int imageResId = getResources().getIdentifier(resourceName, "drawable", getPackageName());
 
-                // 3. Dacă a găsit imaginea (ID-ul e diferit de 0), o adăugăm în listă
                 if (imageResId != 0) {
                     carCategoryList.add(new CarCategory(categoryName, imageResId));
                 } else {
-                    // Dacă cumva ai uitat să pui poza în folder, o punem pe cea de eroare implicită
+                    // If not found, add a default image
                     carCategoryList.add(new CarCategory(categoryName, android.R.drawable.ic_menu_report_image));
                 }            }
         } catch (IOException e) {

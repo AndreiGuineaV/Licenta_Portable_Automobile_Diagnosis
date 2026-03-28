@@ -93,8 +93,8 @@ public class WarningLightsActivity extends AppCompatActivity {
                         Log.d("FIREBASE_READ", warningLightList.size() + " warning lights items have been fetched");
                     }
                     else{
-                        Log.e("FIREBASE_READ", "Eroare la citirea datelor", task.getException());
-                        Toast.makeText(this, "Eroare la încărcarea datelor", Toast.LENGTH_SHORT).show();
+                        Log.e("FIREBASE_READ", "Error reading the data", task.getException());
+                        Toast.makeText(this, "There was an error during the upload of the data", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
