@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.licenta_test.Classes.CarPart;
 import com.example.licenta_test.Classes.WarningLight;
 import com.example.licenta_test.R;
 import com.google.firebase.firestore.FirebaseFirestore;

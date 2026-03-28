@@ -9,21 +9,18 @@ public class CarPart {
     @DocumentId //The object id will be given by the id of the Firestore document
     private String id;
     private String name;
-    private String functionalities;
+    private String category;
+    private List<String> compatibleFuels;
     private List<String> malfunctionSymptoms; //a defective part can have multiple symptoms
-    private String otherDetails;
     private String urlImage; //url for the part image
-    private List<String> carsCompatibileIds; //the ids of the cars that are compatible with the part
-
     public CarPart() {} //Firestore needs a no parameters constructor
 
-    public CarPart(String name, String functionalities, List<String> malfunctionSymptoms, String otherDetails, String urlImage, List<String> carsCompatibileIds) {
+    public CarPart(String name, String category, List<String> compatibleFuels, List<String> malfunctionSymptoms, String urlImage) {
         this.name = name;
-        this.functionalities = functionalities;
+        this.category = category;
+        this.compatibleFuels = compatibleFuels;
         this.malfunctionSymptoms = malfunctionSymptoms;
-        this.otherDetails = otherDetails;
         this.urlImage = urlImage;
-        this.carsCompatibileIds = carsCompatibileIds;
     }
 
     public String getId() {
@@ -42,14 +39,6 @@ public class CarPart {
         this.name = name;
     }
 
-    public String getFunctionalities() {
-        return functionalities;
-    }
-
-    public void setFunctionalities(String functionalities) {
-        this.functionalities = functionalities;
-    }
-
     public List<String> getMalfunctionSymptoms() {
         return malfunctionSymptoms;
     }
@@ -57,15 +46,6 @@ public class CarPart {
     public void setMalfunctionSymptoms(List<String> malfunctionSymptoms) {
         this.malfunctionSymptoms = malfunctionSymptoms;
     }
-
-    public String getOtherDetails() {
-        return otherDetails;
-    }
-
-    public void setOtherDetails(String otherDetails) {
-        this.otherDetails = otherDetails;
-    }
-
     public String getUrlImage() {
         return urlImage;
     }
@@ -74,12 +54,20 @@ public class CarPart {
         this.urlImage = urlImage;
     }
 
-    public List<String> getCarsCompatibileIds() {
-        return carsCompatibileIds;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCarsCompatibileIds(List<String> carsCompatibileIds) {
-        this.carsCompatibileIds = carsCompatibileIds;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public List<String> getCompatibleFuels() {
+        return compatibleFuels;
+    }
+
+    public void setCompatibleFuels(List<String> compatibleFuels) {
+        this.compatibleFuels = compatibleFuels;
     }
 }
 

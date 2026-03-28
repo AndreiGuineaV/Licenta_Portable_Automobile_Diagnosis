@@ -68,5 +68,4 @@ public class CarCategoryAdapter extends RecyclerView.Adapter<CarCategoryAdapter.
             categoryName = itemView.findViewById(R.id.categoryName);
         }
     }
-
 }
