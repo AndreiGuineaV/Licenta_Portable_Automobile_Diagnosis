@@ -33,6 +33,8 @@ public class HomePageActivity extends AppCompatActivity {
     LinearLayout warningLightsBtn;
 
     LinearLayout carPartsBtn;
+    LinearLayout myGarageBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,13 @@ public class HomePageActivity extends AppCompatActivity {
             Intent intent = new Intent(this, CarPartsActivity.class);
             startActivity(intent);
         });
+
+        myGarageBtn = findViewById(R.id.garageLay);
+        myGarageBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MyGarageActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     public void uploadWarningLightsToFirebase(Context context){

@@ -5,20 +5,22 @@ import com.google.firebase.firestore.DocumentId;
 public class Car {
     @DocumentId
     private String id;
-    private String Brand;
-    private String model;
+    private String carName;
+    private int km;
     private String fuel;
     private float engine;
-    private int an;
+    private int power; //Horsepower
+    private int year;
 
     public Car(){} //Necessary constructor for Firestore
 
-    public Car(String brand, String model, String fuel, float engine, int an) {
-        Brand = brand;
-        this.model = model;
+    public Car(String carName, int km, String fuel, float engine, int power, int year) {
+        this.carName = carName;
+        this.km = km;
         this.fuel = fuel;
         this.engine = engine;
-        this.an = an;
+        this.power = power;
+        this.year = year;
     }
 
     public String getId() {
@@ -29,20 +31,28 @@ public class Car {
         this.id = id;
     }
 
-    public String getBrand() {
-        return Brand;
+    public String getCarName() {
+        return carName;
     }
 
-    public void setBrand(String brand) {
-        Brand = brand;
+    public void setCarName(String carName) {
+        this.carName = carName;
     }
 
-    public String getModel() {
-        return model;
+    public int getKm() {
+        return km;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setKm(int km) {
+        this.km = km;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public String getFuel() {
@@ -61,11 +71,11 @@ public class Car {
         this.engine = engine;
     }
 
-    public int getAn() {
-        return an;
+    public int getPower() {
+        return power;
     }
 
-    public void setAn(int an) {
-        this.an = an;
+    public void setPower(int power) {
+        this.power = power;
     }
 }
