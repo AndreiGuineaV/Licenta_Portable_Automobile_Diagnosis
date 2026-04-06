@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.google.firebase:firebase-storage")
     implementation("com.github.bumptech.glide:glide:5.0.5")
     implementation("com.opencsv:opencsv:5.12.0")

@@ -1,4 +1,4 @@
-package com.example.licenta_test.Classes;
+package com.example.licenta_test.entities;
 
 public class CarCategory {
     private String name;

@@ -1,4 +1,4 @@
-package com.example.licenta_test.Activities;
+package com.example.licenta_test.activities;
 
 import android.os.Bundle;
 

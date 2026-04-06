@@ -14,22 +14,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Licentatest">
         <activity
-            android:name=".Activities.MyGarageActivity"
+            android:name=".activities.AddCarActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.PartsListActivity"
+            android:name=".activities.MyGarageActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.CarPartsActivity"
+            android:name=".activities.PartsListActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.WarningLightsActivity"
+            android:name=".activities.CarPartsActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.ProfileActivity"
+            android:name=".activities.WarningLightsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.HomePageActivity"
+            android:name=".activities.HomePageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true" />
     </application>
 

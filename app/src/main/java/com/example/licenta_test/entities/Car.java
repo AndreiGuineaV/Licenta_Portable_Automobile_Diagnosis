@@ -1,8 +1,10 @@
-package com.example.licenta_test.Classes;
+package com.example.licenta_test.entities;
 
 import com.google.firebase.firestore.DocumentId;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable {
     @DocumentId
     private String id;
     private String carName;
@@ -11,16 +13,18 @@ public class Car {
     private float engine;
     private int power; //Horsepower
     private int year;
+    private String imgPath;
 
     public Car(){} //Necessary constructor for Firestore
 
-    public Car(String carName, int km, String fuel, float engine, int power, int year) {
+    public Car(String carName, int km, String fuel, float engine, int power, int year, String imgPath) {
         this.carName = carName;
         this.km = km;
         this.fuel = fuel;
         this.engine = engine;
         this.power = power;
         this.year = year;
+        this.imgPath = imgPath;
     }
 
     public String getId() {
@@ -77,5 +81,13 @@ public class Car {
 
     public void setPower(int power) {
         this.power = power;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 }

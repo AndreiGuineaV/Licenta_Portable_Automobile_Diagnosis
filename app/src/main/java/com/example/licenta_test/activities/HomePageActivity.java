@@ -1,4 +1,4 @@
-package com.example.licenta_test.Activities;
+package com.example.licenta_test.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.licenta_test.Classes.CarPart;
-import com.example.licenta_test.Classes.WarningLight;
+import com.example.licenta_test.entities.WarningLight;
 import com.example.licenta_test.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.opencsv.CSVReader;

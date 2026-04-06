@@ -1,6 +1,5 @@
-package com.example.licenta_test.Activities;
+package com.example.licenta_test.activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,58 +12,44 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.licenta_test.Adapters.CarPartAdapter;
-import com.example.licenta_test.Classes.CarPart;
+import com.example.licenta_test.entities.WarningLight;
 import com.example.licenta_test.R;
+import com.example.licenta_test.adapters.WarningLightAdapter;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartsListActivity extends AppCompatActivity {
+public class WarningLightsActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewCarParts;
+    private RecyclerView warningLightsView;
     private EditText etSearch;
-    private String categoryName;
-    private List<CarPart> carPartList;
+    private List<WarningLight> warningLightList;
+    private WarningLightAdapter adapter;
     private FirebaseFirestore db;
-    private CarPartAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_parts_list);
+        setContentView(R.layout.activity_warning_lights);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        recyclerViewCarParts = findViewById(R.id.recyclerViewCarParts);
+        warningLightsView = findViewById(R.id.recyclerViewWarningLights);
+        warningLightsView.setLayoutManager(new LinearLayoutManager(this));
         etSearch = findViewById(R.id.etSearch);
-        carPartList = new ArrayList<>();
+        warningLightList = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
 
-        // Get the category name from the intent
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            categoryName = getIntent().getSerializableExtra("CATEGORY_NAME", String.class);
-        }
-        else{
-            categoryName = getIntent().getStringExtra("CATEGORY_NAME");
-        }
-        Toast.makeText(this, "You clicked on the category: " + categoryName, Toast.LENGTH_SHORT).show();
-
-        categoryName = categoryName.replace(",", "");
-
-        recyclerViewCarParts.setLayoutManager(new GridLayoutManager(this, 3));
-
-        fetchCarPartsFromFirebase();
+        fetchWarningLightsFromFirebase();
 
         setupSearchBar();
     }
@@ -87,26 +72,25 @@ public class PartsListActivity extends AppCompatActivity {
             }
         });
     }
-    private void fetchCarPartsFromFirebase() {
-        db.collection("Car_Parts")
-                .whereEqualTo("category", categoryName)
+
+    private void fetchWarningLightsFromFirebase() {
+        db.collection("Warning_Lights")
                 .get()
                 .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        carPartList.clear();
+                    if(task.isSuccessful())
+                    {
+                        warningLightList.clear();
 
-                        for(QueryDocumentSnapshot document : task.getResult()){
-                            CarPart carPart = document.toObject(CarPart.class);
-                            carPartList.add(carPart);
+                        for(QueryDocumentSnapshot document : task.getResult())
+                        {
+                            WarningLight light = document.toObject(WarningLight.class);
+                            warningLightList.add(light);
                         }
 
-                        adapter = new CarPartAdapter(this, carPartList, carPart -> {
-                            // Handle the click event here
-                            Toast.makeText(this, "You clicked on: " + carPart.getName(), Toast.LENGTH_SHORT).show();
-                        });
-                        recyclerViewCarParts.setAdapter(adapter);
+                        adapter = new WarningLightAdapter(this, warningLightList);
+                        warningLightsView.setAdapter(adapter);
 
-                        Log.d("FIREBASE_READ", carPartList.size() + " car parts items have been fetched");
+                        Log.d("FIREBASE_READ", warningLightList.size() + " warning lights items have been fetched");
                     }
                     else{
                         Log.e("FIREBASE_READ", "Error reading the data", task.getException());

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#F4F7F9"
     android:id="@+id/main"
-    tools:context=".MyGarageActivity">
+    tools:context=".activities.MyGarageActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerLayout"

@@ -1,4 +1,4 @@
-package com.example.licenta_test.Adapters;
+package com.example.licenta_test.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,8 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.licenta_test.Classes.CarPart;
-import com.example.licenta_test.Classes.WarningLight;
+import com.example.licenta_test.entities.CarPart;
 import com.example.licenta_test.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;

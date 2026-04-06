@@ -1,8 +1,7 @@
-package com.example.licenta_test.Activities;
+package com.example.licenta_test.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,8 +11,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.licenta_test.Adapters.CarCategoryAdapter;
-import com.example.licenta_test.Classes.CarCategory;
+import com.example.licenta_test.adapters.CarCategoryAdapter;
+import com.example.licenta_test.entities.CarCategory;
 import com.example.licenta_test.R;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;

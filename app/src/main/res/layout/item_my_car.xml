@@ -11,27 +11,45 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imgCar"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="centerCrop"
-            android:src="@android:drawable/ic_menu_camera"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tvSelectedBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selected_badge"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="6dp"
+            android:text="SELECTED"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" /> <ImageView
+        android:id="@+id/imgCar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvCarName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
             android:textColor="#1A2530"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/radioSelectCar"
+            app:layout_constraintEnd_toStartOf="@+id/tvSelectedBadge"
             app:layout_constraintStart_toEndOf="@+id/imgCar"
             app:layout_constraintTop_toTopOf="@+id/imgCar"
             tools:text="Volkswagen Polo" />
@@ -40,7 +58,7 @@
             android:id="@+id/tvYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:textColor="#555555"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/tvCarName"
@@ -54,16 +72,16 @@
             android:layout_marginStart="16dp"
             android:textColor="#555555"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvYear"
             app:layout_constraintStart_toEndOf="@+id/tvYear"
             app:layout_constraintTop_toTopOf="@+id/tvYear"
-            app:layout_constraintBottom_toBottomOf="@+id/tvYear"
             tools:text="Diesel" />
 
         <TextView
             android:id="@+id/tvEngine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:textColor="#555555"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/tvCarName"
@@ -77,31 +95,23 @@
             android:layout_marginStart="16dp"
             android:textColor="#555555"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvEngine"
             app:layout_constraintStart_toEndOf="@+id/tvEngine"
             app:layout_constraintTop_toTopOf="@+id/tvEngine"
-            app:layout_constraintBottom_toBottomOf="@+id/tvEngine"
             tools:text="105 HP" />
 
         <TextView
             android:id="@+id/tvMileage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginEnd="12dp"
             android:textColor="#555555"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/tvCarName"
-            app:layout_constraintTop_toBottomOf="@+id/tvEngine"
-            tools:text="366,000 km" />
-
-        <RadioButton
-            android:id="@+id/radioSelectCar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Selected"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvEngine"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/tvEngine"
+            tools:text="366,000 km" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

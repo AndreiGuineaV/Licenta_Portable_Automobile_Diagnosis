@@ -1,4 +1,4 @@
-package com.example.licenta_test.Adapters;
+package com.example.licenta_test.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.licenta_test.Classes.CarCategory;
+import com.example.licenta_test.entities.CarCategory;
 import com.example.licenta_test.R;
 
 import java.util.List;
