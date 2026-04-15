@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -33,6 +34,7 @@ public class PartsListActivity extends AppCompatActivity {
     private List<CarPart> carPartList;
     private FirebaseFirestore db;
     private CarPartAdapter adapter;
+    ImageView iconBack;
 
 
     @Override
@@ -45,6 +47,9 @@ public class PartsListActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        iconBack = findViewById(R.id.iconBack);
+        iconBack.setOnClickListener(v -> finish());
 
         recyclerViewCarParts = findViewById(R.id.recyclerViewCarParts);
         etSearch = findViewById(R.id.etSearch);

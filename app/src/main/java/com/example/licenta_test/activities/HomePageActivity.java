@@ -32,7 +32,7 @@ public class HomePageActivity extends AppCompatActivity {
 
     LinearLayout carPartsBtn;
     LinearLayout myGarageBtn;
-
+    LinearLayout aiDiagnosticBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,12 @@ public class HomePageActivity extends AppCompatActivity {
         iconProfile = findViewById(R.id.iconProfile);
         iconProfile.setOnClickListener(v ->{
             Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
+        });
+
+        aiDiagnosticBtn = findViewById(R.id.AiDiagnosticLay);
+        aiDiagnosticBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AIDiagnosticActivity.class);
             startActivity(intent);
         });
 

@@ -17,12 +17,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.licenta_test.adapters.CarAdapter;
-import com.example.licenta_test.additional.GarageStore;
+import com.example.licenta_test.additional.GarageStorage;
 import com.example.licenta_test.entities.Car;
 import com.example.licenta_test.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyGarageActivity extends AppCompatActivity {
@@ -52,7 +51,7 @@ public class MyGarageActivity extends AppCompatActivity {
         recyclerViewCars = findViewById(R.id.recyclerCars);
         recyclerViewCars.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
         if (carList == null) {
-            carList = GarageStore.loadCarList(this);
+            carList = GarageStorage.loadCarList(this);
         }
         adapter = new CarAdapter(carList, this, this::showDeleteDialog);
         recyclerViewCars.setAdapter(adapter);
@@ -78,7 +77,7 @@ public class MyGarageActivity extends AppCompatActivity {
                     if (car != null) {
                         carList.add(car);
                         adapter.notifyItemInserted(carList.size() - 1);
-                        GarageStore.saveCarList(this, carList);
+                        GarageStorage.saveCarList(this, carList);
                     }
                 }
             }
@@ -89,10 +88,16 @@ public class MyGarageActivity extends AppCompatActivity {
         builder.setMessage("Are you sure you want to delete " + carList.get(position).getCarName() + "?");
 
         builder.setPositiveButton("Delete", (dialog, which) -> {
+            Car carToDelete = carList.get(position);
+            Car activeCar = GarageStorage.getSelectedCar(this);
+
+            if (activeCar != null && carToDelete.getCarName().equals(activeCar.getCarName()) && carToDelete.getYear() == activeCar.getYear()) {
+                GarageStorage.saveSelectedCar(this, null); // Delete from storage
+            }
             carList.remove(position);
             adapter.notifyItemRemoved(position);
             adapter.notifyItemRangeChanged(position, carList.size());
-            GarageStore.saveCarList(this, carList);
+            GarageStorage.saveCarList(this, carList);
 
             Toast.makeText(this, "Vehicle deleted", Toast.LENGTH_SHORT).show();
         });

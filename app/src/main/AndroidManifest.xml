@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Licentatest">
         <activity
+            android:name=".activities.AIDiagnosticActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AddCarActivity"
             android:exported="false" />
         <activity

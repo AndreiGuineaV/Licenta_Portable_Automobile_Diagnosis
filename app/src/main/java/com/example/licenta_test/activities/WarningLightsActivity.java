@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -31,6 +32,9 @@ public class WarningLightsActivity extends AppCompatActivity {
     private List<WarningLight> warningLightList;
     private WarningLightAdapter adapter;
     private FirebaseFirestore db;
+    ImageView iconBack;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,9 @@ public class WarningLightsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        iconBack = findViewById(R.id.iconBack);
+        iconBack.setOnClickListener(v -> finish());
 
         warningLightsView = findViewById(R.id.recyclerViewWarningLights);
         warningLightsView.setLayoutManager(new LinearLayoutManager(this));

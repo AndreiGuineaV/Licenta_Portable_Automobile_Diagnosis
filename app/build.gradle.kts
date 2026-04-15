@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
@@ -17,6 +20,22 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        //reads from local.properties and then creates BuildConfig.java and writes the api key in it
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localProperties.load(FileInputStream(localPropertiesFile))
+        }
+
+        val apiKey = localProperties.getProperty("GEMINI_API_KEY") ?: ""
+
+        // Generates the variable for the api key
+        buildConfigField("String", "GEMINI_API_KEY", "\"$apiKey\"")
+    }
+
+    buildFeatures{
+        buildConfig = true //to activate the buildConfig feature
     }
 
     buildTypes {
@@ -35,6 +54,9 @@ android {
 }
 
 dependencies {
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0") //for the ai model
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2") //for the ai model
+    implementation("com.google.guava:guava:33.1.0-android") //for the Future library
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.google.firebase:firebase-storage")
     implementation("com.github.bumptech.glide:glide:5.0.5")
@@ -45,6 +67,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

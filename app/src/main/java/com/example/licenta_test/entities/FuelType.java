@@ -1,10 +1,10 @@
 package com.example.licenta_test.entities;
 
 public enum FuelType {
-    DIESEL("Diesel"),
-    PETROL("Petrol"),
-    HYBRID("Hybrid"),
-    ELECTRIC("Electric");
+    DIESEL("diesel"),
+    PETROL("petrol"),
+    HYBRID("hybrid"),
+    ELECTRIC("electric");
 
     private final String fuelType;
 

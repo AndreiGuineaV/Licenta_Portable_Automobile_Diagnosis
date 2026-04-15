@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.licenta_test.R;
+import com.example.licenta_test.additional.GarageStorage;
 import com.example.licenta_test.entities.Car;
 
 import java.util.List;
@@ -31,6 +31,17 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         this.carList = carList;
         this.context = context;
         this.longClickListener = longClickListener;
+
+        Car savedCar = GarageStorage.getSelectedCar(context);
+        if (savedCar != null) {
+            for (int i = 0; i < carList.size(); i++) {
+                Car c = carList.get(i);
+                if (c.getCarName().equals(savedCar.getCarName()) && c.getYear() == savedCar.getYear()) {
+                    this.selectedPosition = i;
+                    break;
+                }
+            }
+        }
     }
 
     @NonNull
@@ -66,6 +77,9 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         holder.itemView.setOnClickListener(v ->{
             int previousPosition = selectedPosition;
             selectedPosition = holder.getBindingAdapterPosition();
+
+            GarageStorage.saveSelectedCar(context, currentCar);
+
             notifyItemChanged(previousPosition);
             notifyItemChanged(selectedPosition);
         });

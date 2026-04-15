@@ -2,6 +2,7 @@ package com.example.licenta_test.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class CarPartsActivity extends AppCompatActivity {
     private RecyclerView recyclerViewCategories;
     private CarCategoryAdapter adapter;
     private List<CarCategory> carCategoryList;
+    ImageView iconBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,9 @@ public class CarPartsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        iconBack = findViewById(R.id.iconBack);
+        iconBack.setOnClickListener(v -> finish());
 
         recyclerViewCategories = findViewById(R.id.recyclerCarCategories);
         recyclerViewCategories.setLayoutManager(new GridLayoutManager(this, 2));
