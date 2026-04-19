@@ -1,5 +1,6 @@
 package com.example.licenta_test.activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -106,8 +108,7 @@ public class PartsListActivity extends AppCompatActivity {
                         }
 
                         adapter = new CarPartAdapter(this, carPartList, carPart -> {
-                            // Handle the click event here
-                            Toast.makeText(this, "You clicked on: " + carPart.getName(), Toast.LENGTH_SHORT).show();
+                            showCarPartDetailsDialog(carPart);
                         });
                         recyclerViewCarParts.setAdapter(adapter);
 
@@ -118,5 +119,47 @@ public class PartsListActivity extends AppCompatActivity {
                         Toast.makeText(this, "There was an error during the upload of the data", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void showCarPartDetailsDialog(CarPart carPart) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(carPart.getName());
+
+        StringBuilder message = new StringBuilder();
+        message.append("Category: ").append(carPart.getCategory() != null ? carPart.getCategory() : "N/A").append("\n\n");
+
+        message.append("Compatible Fuels:\n");
+        if (carPart.getCompatibleFuels() != null && !carPart.getCompatibleFuels().isEmpty()) {
+            String fuels = android.text.TextUtils.join(", ", carPart.getCompatibleFuels());
+            message.append(fuels).append("\n\n");
+        } else {
+            message.append("Not specified\n\n");
+        }
+
+        message.append("Malfunction Symptoms:\n");
+        if (carPart.getMalfunctionSymptoms() != null && !carPart.getMalfunctionSymptoms().isEmpty()) {
+            for (String symptom : carPart.getMalfunctionSymptoms()) {
+                message.append("• ").append(symptom).append("\n");
+            }
+        } else {
+            message.append("Not specified\n");
+        }
+
+        builder.setMessage(message.toString());
+
+        builder.setPositiveButton("Close", (dialog, which) -> dialog.dismiss());
+
+        builder.setNeutralButton("Learn More", (dialog, which) -> {
+            String searchQuery = carPart.getName() + " car part symptoms";
+
+            String url = "https://www.google.com/search?q=" + android.net.Uri.encode(searchQuery);
+
+            // Create an intent to open the URL
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url));
+            startActivity(browserIntent);
+        });
+
+        builder.create().show();
     }
 }

@@ -65,7 +65,7 @@ public class WarningLightAdapter extends RecyclerView.Adapter<WarningLightAdapte
 
             if(holder.imgWarninglight.getTag() != null && holder.imgWarninglight.getTag().equals(imageName)) {
                 Glide.with(context)
-                        .load(uri) // Folosim 'uri', NU 'storageReference'
+                        .load(uri)
                         .placeholder(android.R.drawable.ic_menu_report_image)
                         .error(android.R.drawable.stat_notify_error)
                         .into(holder.imgWarninglight);

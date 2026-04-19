@@ -28,6 +28,7 @@ import com.example.licenta_test.entities.FuelType;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Calendar;
 
 public class AddCarActivity extends AppCompatActivity {
 
@@ -92,30 +93,65 @@ public class AddCarActivity extends AppCompatActivity {
         imgCarPreview.setOnClickListener(v-> showImagePickerDialog());
 
         btnSaveCar.setOnClickListener(v -> {
+            String carName = etCarName.getText().toString().trim();
+            String mileageStr = etMileage.getText().toString().trim();
+            String engineStr = etEngine.getText().toString().trim();
+            String powerStr = etPower.getText().toString().trim();
+            String yearStr = etYear.getText().toString().trim();
+
+            if (carName.isEmpty() || mileageStr.isEmpty() || engineStr.isEmpty() || powerStr.isEmpty() || yearStr.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             try {
-                String carName = etCarName.getText().toString();
-                int km = Integer.parseInt(etMileage.getText().toString());
+                int km = Integer.parseInt(mileageStr);
+                float engine = Float.parseFloat(engineStr);
+                int power = Integer.parseInt(powerStr);
+                int year = Integer.parseInt(yearStr);
                 String fuel = spinnerFuelType.getSelectedItem().toString();
-                float engine = Float.parseFloat(etEngine.getText().toString());
-                int power = Integer.parseInt(etPower.getText().toString());
-                int year = Integer.parseInt(etYear.getText().toString());
+
+                int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                if (year < 1900 || year > currentYear) {
+                    etYear.setError("The year must be between 1900 and " + currentYear);
+                    etYear.requestFocus();
+                    return;
+                }
+
+                if (km < 0 || km > 3000000) {
+                    etMileage.setError("Mileage must be between 0 and 3000000 km");
+                    etMileage.requestFocus();
+                    return;
+                }
+
+                if (engine < 0.049f || engine > 8.0f) {
+                    etEngine.setError("Engine capacity must be between 0.049L and 8.0L");
+                    etEngine.requestFocus();
+                    return;
+                }
+
+                if (power <= 0 || power > 2200) {
+                    etPower.setError("Horsespower must be between 1 and 2200 HP");
+                    etPower.requestFocus();
+                    return;
+                }
 
                 Car car = new Car(carName, km, fuel, engine, power, year, imagePath);
                 Intent intent = new Intent();
                 intent.putExtra("car", car);
                 setResult(RESULT_OK, intent);
                 finish();
+
             } catch (NumberFormatException e) {
-                Log.e("NumberFormatException", "Invalid input format");
-                throw new RuntimeException(e);
+                Toast.makeText(this, "Error: Invalid input for mileage, engine, or power.", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void showImagePickerDialog() {
-        String[] options = {"Fă o poză", "Alege din Galerie", "Anulează"};
+        String[] options = {"Take Picture", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Adaugă o imagine");
+        builder.setTitle("Add an image");
         builder.setItems(options, (dialog, which) -> {
             if (which == 0) {
                 takePictureLauncher.launch(null); // Opens up camera

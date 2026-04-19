@@ -1,6 +1,8 @@
 package com.example.licenta_test.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import com.example.licenta_test.adapters.ChatAdapter;
 import com.example.licenta_test.additional.GarageStorage;
 import com.example.licenta_test.entities.Car;
 import com.example.licenta_test.entities.ChatMessage;
+import com.example.licenta_test.entities.DiagnosticReport;
 import com.google.ai.client.generativeai.GenerativeModel;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
 import com.google.ai.client.generativeai.type.Content;
@@ -30,6 +33,8 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -42,6 +47,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AIDiagnosticActivity extends AppCompatActivity {
 
+    Car activeCar = null;
     EditText etAiSearchPrompt;
     ImageView sendPromptBtn;
     TextView tvActiveCarBanner;
@@ -49,6 +55,7 @@ public class AIDiagnosticActivity extends AppCompatActivity {
     List<ChatMessage> chatList;
     ChatAdapter adapter;
     ImageView iconBack;
+    ImageView iconHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,11 @@ public class AIDiagnosticActivity extends AppCompatActivity {
         iconBack = findViewById(R.id.iconBack);
         iconBack.setOnClickListener(v -> finish());
 
+        iconHistory = findViewById(R.id.iconHistory);
+        iconHistory.setOnClickListener(v -> {
+            startActivity(new Intent(this, DiagnosticHistoryActivity.class));
+        });
+
         etAiSearchPrompt = findViewById(R.id.etAiSearchPrompt);
         sendPromptBtn = findViewById(R.id.btnSendPrompt);
         tvActiveCarBanner = findViewById(R.id.tvActiveCarBanner);
@@ -76,18 +88,28 @@ public class AIDiagnosticActivity extends AppCompatActivity {
         recyclerAiChat.setLayoutManager(layoutManager);
         recyclerAiChat.setAdapter(adapter);
 
-        Car activeCar = GarageStorage.getSelectedCar(this);
-        if(activeCar != null)
-        {
-            etAiSearchPrompt.setText(""); //resetting the input
-            tvActiveCarBanner.setText("Active Vehicle: " + activeCar.getCarName());
+        fetchActiveCar(new ActiveCarCallback() {
 
-            addMessageToChat("Hi! I'm your car assistant. What's the problem with your " + activeCar.getCarName() + "?", false);
-        }
-        else
-        {
-            Toast.makeText(this, "Please select a car from your garage!", Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            public void onCarLoaded(Car car) {
+                if(car != null) {
+                    activeCar = car;
+                    etAiSearchPrompt.setText(""); //resetting the input
+                    tvActiveCarBanner.setText("Active Vehicle: " + activeCar.getCarName());
+                    addMessageToChat("Hi! I'm your car assistant. What's the problem with your " + activeCar.getCarName() + "?", false);
+                }
+                else
+                {
+                    Toast.makeText(AIDiagnosticActivity.this, "Please select a car from your garage!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Toast.makeText(AIDiagnosticActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                tvActiveCarBanner.setText("Connection Error");
+            }
+        });
 
         sendPromptBtn.setOnClickListener(v -> {
             String userSymptom = etAiSearchPrompt.getText().toString().trim();
@@ -107,11 +129,52 @@ public class AIDiagnosticActivity extends AppCompatActivity {
             else{
                 Toast.makeText(this, "Please describe the problem with your car!", Toast.LENGTH_SHORT).show();
             }
-
-
         });
     }
 
+    public interface ActiveCarCallback {
+        void onCarLoaded(Car activeCar);
+        void onError(String errorMessage);
+    }
+    public void fetchActiveCar(ActiveCarCallback callback) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            callback.onError("User not logged in");
+            return;
+        }
+
+        String uid = user.getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Users").document(uid).get().addOnSuccessListener(userDoc -> {
+            if (userDoc.exists() && userDoc.contains("activeCarId")) {
+                String activeCarId = userDoc.getString("activeCarId");
+
+                if (activeCarId != null && !activeCarId.isEmpty()) {
+                    // Descărcăm mașina efectivă
+                    db.collection("Users").document(uid).collection("Cars").document(activeCarId)
+                            .get()
+                            .addOnSuccessListener(carDoc -> {
+                                if (carDoc.exists()) {
+                                    Car activeCar = carDoc.toObject(Car.class);
+                                    // BINGO! Returnăm mașina către cine a cerut-o
+                                    callback.onCarLoaded(activeCar);
+                                } else {
+                                    // Documentul mașinii nu mai există (poate a fost ștearsă)
+                                    callback.onCarLoaded(null);
+                                }
+                            })
+                            .addOnFailureListener(e -> callback.onError("Eroare la descărcarea mașinii: " + e.getMessage()));
+                } else {
+                    // ID-ul există dar este null (utilizatorul a deselectat mașina)
+                    callback.onCarLoaded(null);
+                }
+            } else {
+                // Nu a selectat niciodată o mașină
+                callback.onCarLoaded(null);
+            }
+        }).addOnFailureListener(e -> callback.onError("Eroare la citirea profilului: " + e.getMessage()));
+    }
     private void searchDatabaseAndDiagnose(Car activeCar, String userSymptom, int loadingPosition) {
 
         String carFuelLower = activeCar.getFuel().toLowerCase();
@@ -196,6 +259,7 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 String aiAnswer = result.getText();
                 runOnUiThread(() -> {
                     updateChatMessage(loadingPosition, aiAnswer);
+                    saveDiagnosticReport(userCar, userSymptom, aiAnswer);
                 });
             }
 
@@ -207,6 +271,21 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 });
             }
         }, executor);
+    }
+
+    private void saveDiagnosticReport(Car userCar, String userSymptom, String aiAnswer) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DiagnosticReport report = new DiagnosticReport(userCar.getCarName() + "(" + userCar.getYear() + ")", userSymptom, aiAnswer, System.currentTimeMillis());
+
+        db.collection("Users").document(user.getUid()).collection("DiagnosticHistory")
+                .add(report)
+                .addOnSuccessListener(documentReference -> {
+                    Log.d("DIAGNOSTIC", "Diagnostic report saved with ID: " + documentReference.getId());
+                });
     }
 
     private void addMessageToChat(String message, boolean isUser) {

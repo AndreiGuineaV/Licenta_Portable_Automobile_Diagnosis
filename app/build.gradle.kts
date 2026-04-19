@@ -54,6 +54,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-auth:24.0.1")
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0") //for the ai model
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2") //for the ai model
     implementation("com.google.guava:guava:33.1.0-android") //for the Future library

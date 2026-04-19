@@ -1,289 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/profile_bg_gray"
+    android:background="#F4F7F9"
     android:fillViewport="true"
-    android:id="@+id/main">
+    android:id="@+id/main"
+    tools:context="activities.ProfileActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <View
-            android:id="@+id/headerBackground"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/profile_dark_blue"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="28dp"
-            android:src="@drawable/ic_arrow_back"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            app:tint="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/tvHeaderTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="My Profile"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/btnBack"
-            app:layout_constraintStart_toEndOf="@+id/btnBack"
-            app:layout_constraintTop_toTopOf="@+id/btnBack" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="40dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/userInfoSection"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#1A2530">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="16dp"
+                android:src="@android:drawable/ic_menu_revert"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Profile"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingBottom="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/headerBackground">
-
-            <FrameLayout
-                android:id="@+id/avatarContainer"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/bg_circle_light_blue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_user"
-                    app:tint="#2962FF" />
-            </FrameLayout>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="32dp"
+            android:paddingBottom="24dp">
 
             <TextView
                 android:id="@+id/tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:text="Alex Driver"
-                android:textColor="@color/profile_text_dark"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/avatarContainer"
-                app:layout_constraintTop_toTopOf="@+id/avatarContainer"
-                app:layout_constraintBottom_toTopOf="@+id/tvUserEmail"
-                app:layout_constraintVertical_chainStyle="packed"/>
+                android:textColor="#1A2530"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvUserEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="alex.driver@example.com"
-                android:textColor="@color/profile_text_gray"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/tvUserName"
-                app:layout_constraintTop_toBottomOf="@+id/tvUserName"
-                app:layout_constraintBottom_toBottomOf="@+id/avatarContainer"/>
+                android:textColor="#555555"
+                android:textSize="16sp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/tabsContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            android:weightSum="2"
-            app:layout_constraintTop_toBottomOf="@+id/userInfoSection">
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvCreatedAt"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="My Garage"
-                    android:textColor="@color/profile_accent_blue"
-                    android:textStyle="bold"
-                    android:padding="12dp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="@color/profile_accent_blue"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Diagnostic History"
-                    android:textColor="#9E9E9E"
-                    android:textStyle="bold"
-                    android:padding="12dp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:background="@android:color/transparent"/>
-            </LinearLayout>
+                android:layout_marginTop="8dp"
+                android:background="@drawable/selected_badge"
+                android:backgroundTint="#E2E8F0"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="Member since: N/A"
+                android:textColor="#888888"
+                android:textSize="12sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/carCard"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/tabsContainer">
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="App Preferences"
+            android:textColor="#888888"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_selected_eticheta"
-                    android:paddingStart="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="4dp"
-                    android:text="SELECTED"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvCarModel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
-                    android:text="2018 Honda Civic"
-                    android:textColor="@color/profile_text_dark"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvCarDetails"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="EX-L Sedan • 45,000 miles"
-                    android:textColor="@color/profile_text_gray"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/tvCarModel"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCarModel" />
-
-                <ImageView
-                    android:id="@+id/imgCarIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:src="@drawable/ic_car"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#E0E0E0"
-                    tools:ignore="NotSibling" />
-
-                <LinearLayout
-                    android:id="@+id/linearLayout"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCarDetails"
-                    tools:layout_editor_absoluteX="16dp">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnMaintenance"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:paddingHorizontal="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="Maintenance"
-                        android:textAllCaps="false"
-                        android:textColor="@color/profile_text_dark"
-                        app:icon="@drawable/ic_wrench"
-                        app:iconTint="@color/profile_text_gray"
-                        app:strokeColor="#E0E0E0" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnEdit"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="0dp"
+                        android:layout_centerVertical="true"
+                        android:text="Dark Mode"
+                        android:textColor="#1A2530"
+                        android:textSize="16sp" />
+                    <Switch
+                        android:id="@+id/swDarkMode"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:text="Edit Details"
-                        android:textAllCaps="false"
-                        android:textColor="@color/profile_text_dark"
-                        app:icon="@drawable/ic_settings"
-                        app:iconTint="@color/profile_text_gray"
-                        app:strokeColor="#E0E0E0" />
-                </LinearLayout>
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F4F7F9" android:layout_marginHorizontal="16dp"/>
+
+                <RelativeLayout
+                    android:id="@+id/rowLanguage"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:paddingHorizontal="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Language"
+                        android:textColor="#1A2530"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tvCurrentLanguage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="English "
+                        android:textColor="#888888"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/btnAddVehicle"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="16dp"
-            android:background="@drawable/bg_dashed_border"
-            android:gravity="center"
-            android:text="+ Add New Vehicle"
-            android:textColor="#546E7A"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            app:layout_constraintTop_toBottomOf="@+id/carCard" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="Account Settings"
+            android:textColor="#888888"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/btnChangeUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="Change Username"
+                    android:textColor="#1A2530"
+                    android:textSize="16sp" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F4F7F9" android:layout_marginHorizontal="16dp"/>
+
+                <TextView
+                    android:id="@+id/btnChangePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="Change Password"
+                    android:textColor="#1A2530"
+                    android:textSize="16sp" />
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F4F7F9" android:layout_marginHorizontal="16dp"/>
+
+                <TextView
+                    android:id="@+id/btnDeleteAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="Delete Account"
+                    android:textColor="#E53935"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="About"
+            android:textColor="#888888"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="32dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Disclaimer: AI Diagnostic is a guiding tool designed to help you understand potential car issues based on symptoms. It does NOT replace a certified mechanic. Always consult a professional for actual vehicle repairs."
+                android:textColor="#555555"
+                android:textSize="13sp"
+                android:lineSpacingExtra="4dp"
+                android:textStyle="italic" />
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="16dp"
+            android:backgroundTint="#1A2530"
+            android:text="Log Out"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="16dp" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

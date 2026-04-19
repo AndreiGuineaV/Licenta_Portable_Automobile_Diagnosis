@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.licenta_test.entities.WarningLight;
 import com.example.licenta_test.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;

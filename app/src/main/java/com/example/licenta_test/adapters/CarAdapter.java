@@ -6,42 +6,43 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.licenta_test.R;
-import com.example.licenta_test.additional.GarageStorage;
 import com.example.licenta_test.entities.Car;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     private List<Car> carList;
     private Context context;
-
-    private int selectedPosition = -1;
+    private String activeCarId = null;
 
     private OnCarLongClickListener longClickListener;
+
     public interface OnCarLongClickListener{
         void onCarLongClick(int position);
     }
+
     public CarAdapter(List<Car> carList, Context context, OnCarLongClickListener longClickListener) {
         this.carList = carList;
         this.context = context;
         this.longClickListener = longClickListener;
+    }
 
-        Car savedCar = GarageStorage.getSelectedCar(context);
-        if (savedCar != null) {
-            for (int i = 0; i < carList.size(); i++) {
-                Car c = carList.get(i);
-                if (c.getCarName().equals(savedCar.getCarName()) && c.getYear() == savedCar.getYear()) {
-                    this.selectedPosition = i;
-                    break;
-                }
-            }
-        }
+    public void setActiveCarId(String activeCarId) {
+        this.activeCarId = activeCarId;
+        notifyDataSetChanged();
+    }
+
+    public String getActiveCarId() {
+        return activeCarId;
     }
 
     @NonNull
@@ -61,27 +62,50 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         holder.tvPower.setText(String.valueOf(currentCar.getPower()));
         holder.tvMileage.setText(String.valueOf(currentCar.getKm()));
 
-        if(currentCar.getImgPath() != null && !currentCar.getImgPath().isEmpty())
-                Glide.with(context)
-                        .load(new java.io.File(currentCar.getImgPath()))
-                        .placeholder(android.R.drawable.ic_menu_camera)
-                        .error(android.R.drawable.ic_menu_camera)
-                        .centerCrop()
-                        .into(holder.imgCar);
-        else holder.imgCar.setImageResource(android.R.drawable.ic_menu_camera);
+        if(currentCar.getImgPath() != null && !currentCar.getImgPath().isEmpty()) {
+            Glide.with(context)
+                    .load(new java.io.File(currentCar.getImgPath()))
+                    .placeholder(android.R.drawable.ic_menu_camera)
+                    .error(android.R.drawable.ic_menu_camera)
+                    .centerCrop()
+                    .into(holder.imgCar);
+        } else {
+            holder.imgCar.setImageResource(android.R.drawable.ic_menu_camera);
+        }
 
-        if(position == selectedPosition)
+        boolean isSelected = currentCar.getId() != null && currentCar.getId().equals(activeCarId);
+        if(isSelected) {
             holder.selectedBadge.setVisibility(View.VISIBLE);
-        else holder.selectedBadge.setVisibility(View.GONE);
+        } else {
+            holder.selectedBadge.setVisibility(View.GONE);
+        }
 
         holder.itemView.setOnClickListener(v ->{
-            int previousPosition = selectedPosition;
-            selectedPosition = holder.getBindingAdapterPosition();
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            String carId = currentCar.getId();
 
-            GarageStorage.saveSelectedCar(context, currentCar);
+            if (carId == null) return; //safety
 
-            notifyItemChanged(previousPosition);
-            notifyItemChanged(selectedPosition);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            if (carId.equals(activeCarId)) {
+                //deselect
+                db.collection("Users").document(uid).update("activeCarId", null)
+                        .addOnSuccessListener(aVoid -> {
+                            this.activeCarId = null;
+                            notifyDataSetChanged();
+                            Toast.makeText(context, "Car set as inactive!", Toast.LENGTH_SHORT).show();
+                        });
+            }
+            else{
+                //select the car for diagnostic
+                db.collection("Users").document(uid).update("activeCarId", carId)
+                        .addOnSuccessListener(aVoid -> {
+                            this.activeCarId = carId;
+                            notifyDataSetChanged();
+                            Toast.makeText(context, "Car set as active!", Toast.LENGTH_SHORT).show();
+                        });
+            }
         });
 
         holder.itemView.setOnLongClickListener(v -> {
@@ -97,8 +121,11 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     }
 
     public Car getSelectedCar(){
-        if(selectedPosition != -1)
-            return carList.get(selectedPosition);
+        for (Car car : carList) {
+            if (car.getId() != null && car.getId().equals(activeCarId)) {
+                return car;
+            }
+        }
         return null;
     }
 
