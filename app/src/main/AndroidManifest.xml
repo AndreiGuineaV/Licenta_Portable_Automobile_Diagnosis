@@ -30,7 +30,8 @@
         </activity>
         <activity
             android:name=".activities.AIDiagnosticActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.AddCarActivity"
             android:exported="false" />

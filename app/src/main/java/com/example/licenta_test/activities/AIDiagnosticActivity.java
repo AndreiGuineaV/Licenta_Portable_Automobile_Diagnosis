@@ -112,8 +112,10 @@ public class AIDiagnosticActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_aidiagnostic);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            Insets insetsToApply = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            v.setPadding(insetsToApply.left, insetsToApply.top, insetsToApply.right, insetsToApply.bottom);
             return insets;
         });
 
@@ -291,27 +293,41 @@ public class AIDiagnosticActivity extends AppCompatActivity {
     }
 
     private void generateDiagnostic(Car userCar, String userSymptom, String databaseContext, int loadingPosition) {
-        String prompt = "You are an AI automotive diagnostic assistant. You must clearly act as an AI and never claim to be a human or a certified mechanic. Analyze the following vehicle issue, including any attached images.\n\n" +
+        String prompt = "You are an AI automotive diagnostic assistant. You must clearly act as an AI and never claim to be a human or a certified mechanic. Analyze the user's input, including any attached images.\n\n" +
 
-                "1. VEHICLE DATA (Crucial to know what components it has):\n" +
+                "1. VEHICLE DATA:\n" +
                 "Make & Model: " + userCar.getCarName() + "\n" +
                 "Year: " + userCar.getYear() + "\n" +
                 "Engine: " + userCar.getEngine() + "L " + userCar.getFuel() + "\n" +
                 "Mileage: " + userCar.getKm() + " km\n\n" +
 
-                "2. SYMPTOMS & VISUALS PROVIDED BY THE CLIENT:\n\"" + userSymptom + "\"\n" +
+                "2. USER'S INPUT / SYMPTOMS:\n\"" + userSymptom + "\"\n" +
                 "(Note: The user may have attached an image. If so, thoroughly examine it for dashboard warning lights, physical damage, leaks, or broken parts, and combine this visual data with the text symptoms.)\n\n" +
 
                 "3. MY LOCAL DATABASE (Primary source of truth):\n" + databaseContext + "\n\n" +
 
-                "STRICT INSTRUCTIONS FOR YOUR RESPONSE:\n" +
-                "- First, carefully analyze the 'Client's Symptoms' and any provided images. Look for a semantic or visual correlation in 'My Local Database'.\n" +
-                "- If you find the culprit part or warning light in My Local Database, use it as your definitive primary diagnostic.\n" +
-                "- If the symptoms or visuals DO NOT match anything in My Local Database, completely IGNORE the database and use your general automotive knowledge to provide 3 possible causes and a solid recommendation.\n" +
-                "- PRICES & PARTS: Provide an approximate estimated price range for the repair (specifying parts vs. labor if possible). Suggest reputable online or local retailers where the user can purchase the necessary replacement parts. Do NOT suggest mechanic shops, garages, or repair services, as the user already has a dedicated app feature to find nearby mechanics.\n" +
-                "- DISCLAIMER: End your response with a brief, friendly disclaimer reminding the user that this is an AI-generated diagnosis and they should have a professional verify the issue before purchasing parts.\n" +
-                "- Output your response directly, professionally, and in a friendly tone. Do not mention the prompt instructions.\n" +
-                "- Do not answer to any other request other than car-related diagnostics and respectfully explain that you are exclusively an automotive diagnostic assistant.";
+                "*** CRITICAL BEHAVIOR RULES ***\n" +
+                "RULE 1 - OFF-TOPIC QUERIES: If the 'USER'S INPUT' is completely unrelated to cars, vehicles, driving, or automotive parts (e.g., medical questions, programming, cooking, general chat), YOU MUST ABORT THE DIAGNOSTIC PROCESS. Do NOT use the diagnostic template below. Instead, output exactly one short paragraph in a friendly tone stating: 'Hello. I am an AI automotive diagnostic assistant. I am programmed strictly to diagnose vehicle issues and cannot assist with [insert topic, e.g., medical advice]. Please consult the appropriate professional for this matter.' Then stop entirely.\n\n" +
+
+                "RULE 2 - AUTOMOTIVE QUERIES: If the input IS related to a vehicle, you must use the EXACT RESPONSE TEMPLATE below. Do NOT use markdown symbols like asterisks (**), hashes (###), or underscores (_). Use plain text, ALL CAPS for main section titles, and standard dashes (-) for bullet points.\n\n" +
+                "RULE 3 - FORMATTING: To make the text readable and spacious, you MUST leave an empty blank line between every single paragraph and between every bullet point.\n\n" +
+
+                "*** EXACT RESPONSE TEMPLATE (FOR VEHICLE ISSUES ONLY) ***\n\n" +
+
+                "DIAGNOSIS:\n\n" +
+                "[Start with a friendly greeting. Directly explain the most likely causes based on the symptoms/visuals. Leave empty lines between paragraphs.]\n\n\n" +
+
+                "RECOMMENDED ACTIONS:\n\n" +
+                "[Provide clear actions. Leave an empty blank line between each bullet point item.]\n\n\n" +
+
+                "ESTIMATED COSTS & PARTS:\n\n" +
+                "[List approximate price ranges for parts. Suggest reputable retailers. Leave an empty blank line between items. Do NOT suggest mechanic shops.]\n\n\n" +
+
+                "DATA SOURCE SUMMARY:\n\n" +
+                "[Briefly state what was extracted from the 'Local Database' vs general AI knowledge.]\n\n\n" +
+
+                "DISCLAIMER:\n\n" +
+                "[Brief reminder that this is an AI-generated diagnosis.]";
 
         //initializing the ai model (Gemini)
         GenerativeModel gm = new GenerativeModel("gemini-3-flash-preview", BuildConfig.GEMINI_API_KEY);
