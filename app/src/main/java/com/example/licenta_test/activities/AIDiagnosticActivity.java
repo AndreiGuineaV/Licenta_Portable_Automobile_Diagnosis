@@ -1,14 +1,19 @@
 package com.example.licenta_test.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -39,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -47,15 +53,58 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AIDiagnosticActivity extends AppCompatActivity {
 
-    Car activeCar = null;
-    EditText etAiSearchPrompt;
-    ImageView sendPromptBtn;
-    TextView tvActiveCarBanner;
-    RecyclerView recyclerAiChat;
-    List<ChatMessage> chatList;
-    ChatAdapter adapter;
-    ImageView iconBack;
-    ImageView iconHistory;
+    private Car activeCar = null;
+    private EditText etAiSearchPrompt;
+    private ImageView sendPromptBtn;
+    private TextView tvActiveCarBanner;
+    private RecyclerView recyclerAiChat;
+    private List<ChatMessage> chatList;
+    private ChatAdapter adapter;
+    private ImageView iconBack;
+    private ImageView iconHistory;
+    private Button btnFindService;
+    private ImageView btnAttachPhoto;
+    private ImageView imgAttachmentPreview;
+    private Bitmap attachedBitmap = null; //temporarily storing the photo
+
+    private final ActivityResultLauncher<String> pickImageLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    try {
+                        // Transform uri to bitmap
+                        InputStream inputStream = getContentResolver().openInputStream(uri);
+                        attachedBitmap = android.graphics.BitmapFactory.decodeStream(inputStream);
+
+                        // Scaling the image for gemini api to be able to get it
+                        attachedBitmap = scaleBitmapDown(attachedBitmap, 1024);
+
+                        // show it in the UI
+                        imgAttachmentPreview.setImageBitmap(attachedBitmap);
+                        imgAttachmentPreview.setVisibility(View.VISIBLE);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
+
+    private Bitmap scaleBitmapDown(Bitmap bitmap, int maxDimension) {
+        int originalWidth = bitmap.getWidth();
+        int originalHeight = bitmap.getHeight();
+        int resizedWidth = maxDimension;
+        int resizedHeight = maxDimension;
+
+        if (originalHeight > originalWidth) {
+            resizedHeight = maxDimension;
+            resizedWidth = (int) (resizedHeight * ((float) originalWidth / (float) originalHeight));
+        } else if (originalWidth > originalHeight) {
+            resizedWidth = maxDimension;
+            resizedHeight = (int) (resizedWidth * ((float) originalHeight / (float) originalWidth));
+        }
+        return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +128,13 @@ public class AIDiagnosticActivity extends AppCompatActivity {
         etAiSearchPrompt = findViewById(R.id.etAiSearchPrompt);
         sendPromptBtn = findViewById(R.id.btnSendPrompt);
         tvActiveCarBanner = findViewById(R.id.tvActiveCarBanner);
-
+        btnFindService = findViewById(R.id.btnFindService);
         recyclerAiChat = findViewById(R.id.recyclerAiChat);
+        btnAttachPhoto = findViewById(R.id.btnAttachPhoto);
+        imgAttachmentPreview = findViewById(R.id.imgAttachmentPreview);
+
+        btnAttachPhoto.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
+
         chatList = new ArrayList<>();
         adapter = new ChatAdapter(chatList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -112,6 +166,7 @@ public class AIDiagnosticActivity extends AppCompatActivity {
         });
 
         sendPromptBtn.setOnClickListener(v -> {
+            btnFindService.setVisibility(View.GONE);
             String userSymptom = etAiSearchPrompt.getText().toString().trim();
 
             if (!userSymptom.isEmpty() && activeCar != null) {
@@ -128,6 +183,18 @@ public class AIDiagnosticActivity extends AppCompatActivity {
             }
             else{
                 Toast.makeText(this, "Please describe the problem with your car!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnFindService.setOnClickListener(v -> {
+            android.net.Uri gmmIntentUri = android.net.Uri.parse("geo:0,0?q=auto+service+near+me");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            try {
+                startActivity(mapIntent);
+            } catch (android.content.ActivityNotFoundException e) {
+                //if maps is not installed on the user's device it will open the browser
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://www.google.com/maps/search/auto+service+near+me"));
+                startActivity(browserIntent);
             }
         });
     }
@@ -224,7 +291,7 @@ public class AIDiagnosticActivity extends AppCompatActivity {
     }
 
     private void generateDiagnostic(Car userCar, String userSymptom, String databaseContext, int loadingPosition) {
-        String prompt = "You are a top-tier expert auto mechanic. Analyze the following vehicle issue.\n\n" +
+        String prompt = "You are an AI automotive diagnostic assistant. You must clearly act as an AI and never claim to be a human or a certified mechanic. Analyze the following vehicle issue, including any attached images.\n\n" +
 
                 "1. VEHICLE DATA (Crucial to know what components it has):\n" +
                 "Make & Model: " + userCar.getCarName() + "\n" +
@@ -232,23 +299,32 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 "Engine: " + userCar.getEngine() + "L " + userCar.getFuel() + "\n" +
                 "Mileage: " + userCar.getKm() + " km\n\n" +
 
-                "2. SYMPTOMS DESCRIBED BY THE CLIENT:\n\"" + userSymptom + "\"\n\n" +
+                "2. SYMPTOMS & VISUALS PROVIDED BY THE CLIENT:\n\"" + userSymptom + "\"\n" +
+                "(Note: The user may have attached an image. If so, thoroughly examine it for dashboard warning lights, physical damage, leaks, or broken parts, and combine this visual data with the text symptoms.)\n\n" +
 
                 "3. MY LOCAL DATABASE (Primary source of truth):\n" + databaseContext + "\n\n" +
 
                 "STRICT INSTRUCTIONS FOR YOUR RESPONSE:\n" +
-                "- First, carefully analyze the 'Client's Symptoms' and look for a semantic correlation in 'My Local Database'.\n" +
+                "- First, carefully analyze the 'Client's Symptoms' and any provided images. Look for a semantic or visual correlation in 'My Local Database'.\n" +
                 "- If you find the culprit part or warning light in My Local Database, use it as your definitive primary diagnostic.\n" +
-                "- If the symptoms DO NOT match anything in My Local Database, completely IGNORE the database and use your general mechanical knowledge to provide 3 possible causes and a solid recommendation.\n" +
-                "- Output your response directly, professionally, and in a friendly tone. Do not mention the prompt instructions." +
-                "- Do not answer to any other request other than car related diagnostics and explain that you are not meant to respond to that type of request.";
+                "- If the symptoms or visuals DO NOT match anything in My Local Database, completely IGNORE the database and use your general automotive knowledge to provide 3 possible causes and a solid recommendation.\n" +
+                "- PRICES & PARTS: Provide an approximate estimated price range for the repair (specifying parts vs. labor if possible). Suggest reputable online or local retailers where the user can purchase the necessary replacement parts. Do NOT suggest mechanic shops, garages, or repair services, as the user already has a dedicated app feature to find nearby mechanics.\n" +
+                "- DISCLAIMER: End your response with a brief, friendly disclaimer reminding the user that this is an AI-generated diagnosis and they should have a professional verify the issue before purchasing parts.\n" +
+                "- Output your response directly, professionally, and in a friendly tone. Do not mention the prompt instructions.\n" +
+                "- Do not answer to any other request other than car-related diagnostics and respectfully explain that you are exclusively an automotive diagnostic assistant.";
 
         //initializing the ai model (Gemini)
         GenerativeModel gm = new GenerativeModel("gemini-3-flash-preview", BuildConfig.GEMINI_API_KEY);
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
+        Content.Builder contentBuilder = new Content.Builder().addText(prompt);
+
+        if(attachedBitmap != null) {
+            contentBuilder.addImage(attachedBitmap);
+        }
+
         //packaging the prompt
-        Content content = new Content.Builder().addText(prompt).build();
+        Content content = contentBuilder.build();
 
         Executor executor = Executors.newSingleThreadExecutor();
         ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
@@ -260,6 +336,11 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     updateChatMessage(loadingPosition, aiAnswer);
                     saveDiagnosticReport(userCar, userSymptom, aiAnswer);
+
+                    attachedBitmap = null;
+                    imgAttachmentPreview.setVisibility(View.GONE);
+
+                    btnFindService.setVisibility(View.VISIBLE);
                 });
             }
 

@@ -1,5 +1,6 @@
 package com.example.licenta_test.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -24,11 +25,15 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.licenta_test.R;
 import com.example.licenta_test.entities.Car;
 import com.example.licenta_test.entities.FuelType;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class AddCarActivity extends AppCompatActivity {
 
@@ -42,6 +47,8 @@ public class AddCarActivity extends AppCompatActivity {
     private EditText etPower;
     private Button btnSaveCar;
     private String imagePath = "";
+    private EditText etItpDate, etRcaDate, etRovinietaDate, etOilDate;
+    private long itpTimestamp = 0, rcaTimestamp = 0, rovinietaTimestamp = 0, oilTimestamp = 0;
 
     private final ActivityResultLauncher<String> pickImageLauncher = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
@@ -78,6 +85,15 @@ public class AddCarActivity extends AppCompatActivity {
         etCarName = findViewById(R.id.etCarName);
         etYear = findViewById(R.id.etYear);
         etMileage = findViewById(R.id.etMileage);
+        etItpDate = findViewById(R.id.etItpDate);
+        etRcaDate = findViewById(R.id.etRcaDate);
+        etRovinietaDate = findViewById(R.id.etRovinietaDate);
+        etOilDate = findViewById(R.id.etOilDate);
+
+        etItpDate.setOnClickListener(v -> showDatePickerDialog(etItpDate, timestamp -> itpTimestamp = timestamp));
+        etRcaDate.setOnClickListener(v -> showDatePickerDialog(etRcaDate, timestamp -> rcaTimestamp = timestamp));
+        etRovinietaDate.setOnClickListener(v -> showDatePickerDialog(etRovinietaDate, timestamp -> rovinietaTimestamp = timestamp));
+        etOilDate.setOnClickListener(v -> showDatePickerDialog(etOilDate, timestamp -> oilTimestamp = timestamp));
 
         spinnerFuelType = findViewById(R.id.spinnerFuelType);
         ArrayAdapter<FuelType> fuelTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, FuelType.values());
@@ -136,16 +152,52 @@ public class AddCarActivity extends AppCompatActivity {
                     return;
                 }
 
-                Car car = new Car(carName, km, fuel, engine, power, year, imagePath);
-                Intent intent = new Intent();
-                intent.putExtra("car", car);
-                setResult(RESULT_OK, intent);
-                finish();
+                btnSaveCar.setEnabled(false);
+                btnSaveCar.setText("Saving...");
+
+                if (imagePath.isEmpty()) {
+                    sendCarToMyGarage(carName, km, fuel, engine, power, year, "");
+                } else {
+                    //save the image to firebase storage and send car to MyGarageActivity
+                    uploadImageToFirebase(carName, km, fuel, engine, power, year);
+                }
 
             } catch (NumberFormatException e) {
                 Toast.makeText(this, "Error: Invalid input for mileage, engine, or power.", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void uploadImageToFirebase(String carName, int km, String fuel, float engine, int power, int year) {
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("car_images/" + System.currentTimeMillis() + ".jpg");
+        Uri fileUri = Uri.fromFile(new File(imagePath));
+
+        storageRef.putFile(fileUri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String downloadUrl = uri.toString();
+                        sendCarToMyGarage(carName, km, fuel, engine, power, year, downloadUrl);
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    btnSaveCar.setEnabled(true);
+                    btnSaveCar.setText("Save");
+                });
+    }
+
+    private void sendCarToMyGarage(String carName, int km, String fuel, float engine, int power, int year, String imageUrl) {
+        Car car = new Car(carName, km, fuel, engine, power, year, imageUrl);
+
+        car.setItpExpiration(itpTimestamp);
+        car.setRcaExpiration(rcaTimestamp);
+        car.setRovinietaExpiration(rovinietaTimestamp);
+        car.setOilChangeDate(oilTimestamp);
+
+        Intent intent = new Intent();
+        intent.putExtra("car", car);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void showImagePickerDialog() {
@@ -195,5 +247,28 @@ public class AddCarActivity extends AppCompatActivity {
             e.printStackTrace();
             return "";
         }
+    }
+    private void showDatePickerDialog(EditText targetEditText, DateSelectListener listener) {
+        Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            calendar.set(year, month, dayOfMonth);
+            long selectedTimestamp = calendar.getTimeInMillis();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            targetEditText.setText(sdf.format(calendar.getTime()));
+
+            listener.onDateSelected(selectedTimestamp);
+
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
+        datePickerDialog.show();
+    }
+
+    // Necessary interface for transferring the values from the dialog to the global variables
+    private interface DateSelectListener {
+        void onDateSelected(long timestamp);
     }
 }

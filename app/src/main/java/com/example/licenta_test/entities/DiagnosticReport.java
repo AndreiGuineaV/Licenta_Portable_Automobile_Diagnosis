@@ -10,6 +10,7 @@ public class DiagnosticReport {
     private String userSymptoms;
     private String aiDiagnosis;
     private long timestamp;
+    private int feedbackStatus = 0;
 
     public DiagnosticReport() {}
 
@@ -58,5 +59,13 @@ public class DiagnosticReport {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getFeedbackStatus() {
+        return feedbackStatus;
+    }
+
+    public void setFeedbackStatus(int feedbackStatus) {
+        this.feedbackStatus = feedbackStatus;
     }
 }

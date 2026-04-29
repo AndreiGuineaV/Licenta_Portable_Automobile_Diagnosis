@@ -66,7 +66,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Car Make &amp; Model"
+                android:text="Car Make &amp; Model *"
                 android:textColor="#1A2530"
                 android:textStyle="bold" />
             <EditText
@@ -93,7 +93,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Year"
+                        android:text="Year *"
                         android:textColor="#1A2530"
                         android:textStyle="bold" />
                     <EditText
@@ -114,7 +114,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mileage (km)"
+                        android:text="Mileage (km) *"
                         android:textColor="#1A2530"
                         android:textStyle="bold" />
                     <EditText
@@ -130,7 +130,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fuel Type"
+                android:text="Fuel Type *"
                 android:textColor="#1A2530"
                 android:textStyle="bold" />
             <Spinner
@@ -144,7 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="32dp">
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -155,7 +155,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Engine (L)"
+                        android:text="Engine (L) *"
                         android:textColor="#1A2530"
                         android:textStyle="bold" />
                     <EditText
@@ -176,7 +176,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Horsepower (HP)"
+                        android:text="Horsepower (HP) *"
                         android:textColor="#1A2530"
                         android:textStyle="bold" />
                     <EditText
@@ -185,6 +185,123 @@
                         android:layout_height="50dp"
                         android:hint="e.g., 150"
                         android:inputType="number"
+                        android:background="@android:drawable/edit_text" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#D1D5DB"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reminders (Optional)"
+                android:textColor="#1A2530"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ITP Expiration"
+                        android:textColor="#555555"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:id="@+id/etItpDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Tap to set"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:background="@android:drawable/edit_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="RCA Expiration"
+                        android:textColor="#555555"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:id="@+id/etRcaDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Tap to set"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:background="@android:drawable/edit_text" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="32dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rovinieta Expiration"
+                        android:textColor="#555555"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:id="@+id/etRovinietaDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Tap to set"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:background="@android:drawable/edit_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Next Oil Change"
+                        android:textColor="#555555"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:id="@+id/etOilDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:hint="Tap to set"
+                        android:focusable="false"
+                        android:clickable="true"
                         android:background="@android:drawable/edit_text" />
                 </LinearLayout>
             </LinearLayout>

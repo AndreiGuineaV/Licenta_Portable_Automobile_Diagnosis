@@ -14,6 +14,10 @@ public class Car implements Serializable {
     private int power; //Horsepower
     private int year;
     private String imgPath;
+    private long itpExpiration = 0;
+    private long rcaExpiration = 0;
+    private long rovinietaExpiration = 0;
+    private long oilChangeDate = 0;
 
     public Car(){} //Necessary constructor for Firestore
 
@@ -90,4 +94,15 @@ public class Car implements Serializable {
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
     }
+    public long getItpExpiration() { return itpExpiration; }
+    public void setItpExpiration(long itpExpiration) { this.itpExpiration = itpExpiration; }
+
+    public long getRcaExpiration() { return rcaExpiration; }
+    public void setRcaExpiration(long rcaExpiration) { this.rcaExpiration = rcaExpiration; }
+
+    public long getRovinietaExpiration() { return rovinietaExpiration; }
+    public void setRovinietaExpiration(long rovinietaExpiration) { this.rovinietaExpiration = rovinietaExpiration; }
+
+    public long getOilChangeDate() { return oilChangeDate; }
+    public void setOilChangeDate(long oilChangeDate) { this.oilChangeDate = oilChangeDate; }
 }

@@ -29,7 +29,7 @@ public class CarPartsActivity extends AppCompatActivity {
     private RecyclerView recyclerViewCategories;
     private CarCategoryAdapter adapter;
     private List<CarCategory> carCategoryList;
-    ImageView iconBack;
+    private ImageView iconBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

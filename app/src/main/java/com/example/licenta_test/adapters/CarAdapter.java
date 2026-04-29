@@ -1,6 +1,7 @@
 package com.example.licenta_test.adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,7 +19,10 @@ import com.example.licenta_test.entities.Car;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     private List<Car> carList;
@@ -25,15 +30,21 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     private String activeCarId = null;
 
     private OnCarLongClickListener longClickListener;
+    private OnReminderEditListener editListener;
 
     public interface OnCarLongClickListener{
         void onCarLongClick(int position);
     }
 
-    public CarAdapter(List<Car> carList, Context context, OnCarLongClickListener longClickListener) {
+    public interface OnReminderEditListener {
+        void onEditReminders(Car car, int position);
+    }
+
+    public CarAdapter(List<Car> carList, Context context, OnCarLongClickListener longClickListener, OnReminderEditListener editListener) {
         this.carList = carList;
         this.context = context;
         this.longClickListener = longClickListener;
+        this.editListener = editListener;
     }
 
     public void setActiveCarId(String activeCarId) {
@@ -64,10 +75,9 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
         if(currentCar.getImgPath() != null && !currentCar.getImgPath().isEmpty()) {
             Glide.with(context)
-                    .load(new java.io.File(currentCar.getImgPath()))
+                    .load(currentCar.getImgPath())
                     .placeholder(android.R.drawable.ic_menu_camera)
                     .error(android.R.drawable.ic_menu_camera)
-                    .centerCrop()
                     .into(holder.imgCar);
         } else {
             holder.imgCar.setImageResource(android.R.drawable.ic_menu_camera);
@@ -113,6 +123,57 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
                 longClickListener.onCarLongClick(holder.getBindingAdapterPosition());
             return true;
         });
+
+        holder.tvManageReminders.setOnClickListener(v -> {
+            showCarRemindersDialog(currentCar, context);
+        });
+    }
+
+    private void showCarRemindersDialog(Car car, Context context) {
+        long now = System.currentTimeMillis();
+        long thirtyDaysInMs = 30L * 24 * 60 * 60 * 1000;
+
+        StringBuilder details = new StringBuilder();
+
+        details.append(formatReminderStatus("ITP", car.getItpExpiration(), now, thirtyDaysInMs));
+        details.append(formatReminderStatus("RCA", car.getRcaExpiration(), now, thirtyDaysInMs));
+        details.append(formatReminderStatus("Rovinieta", car.getRovinietaExpiration(), now, thirtyDaysInMs));
+        details.append(formatReminderStatus("Oil Change", car.getOilChangeDate(), now, thirtyDaysInMs));
+
+        if (details.length() == 0) {
+            details.append("No reminders set for this vehicle.");
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Reminders: " + car.getCarName());
+        builder.setMessage(Html.fromHtml(details.toString(), Html.FROM_HTML_MODE_COMPACT));
+
+        builder.setPositiveButton("Close", (dialog, which) -> dialog.dismiss());
+
+        builder.setNeutralButton("Edit", (dialog, which) -> {
+            if (editListener != null) {
+                //calls the MyGarageActivity's onEditReminders method and sends the car
+                int position = carList.indexOf(car);
+                editListener.onEditReminders(car, position);
+            }
+        });
+
+        builder.show();
+    }
+
+    private String formatReminderStatus(String name, long expirationDate, long now, long thirtyDaysInMs) {
+        if (expirationDate == 0) return ""; // Nu a fost setat
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+        String dateString = sdf.format(new Date(expirationDate));
+
+        if (expirationDate < now) {
+            return "<b>" + name + "</b>: <font color='#D32F2F'>" + dateString + " (EXPIRED)</font><br><br>";
+        } else if (expirationDate - now <= thirtyDaysInMs) {
+            return "<b>" + name + "</b>: <font color='#F57F17'>" + dateString + " (Expiring Soon)</font><br><br>";
+        } else {
+            return "<b>" + name + "</b>: <font color='#388E3C'>" + dateString + " (Valid)</font><br><br>"; // Verde pentru valid
+        }
     }
 
     @Override
@@ -131,7 +192,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
     public static class CarViewHolder extends RecyclerView.ViewHolder {
         ImageView imgCar;
-        TextView tvCarName, tvYear, tvFuelType, tvEngine, tvPower, tvMileage, selectedBadge;
+        TextView tvCarName, tvYear, tvFuelType, tvEngine, tvPower, tvMileage, selectedBadge, tvManageReminders;
         public CarViewHolder(@NonNull View itemView) {
             super(itemView);
             imgCar = itemView.findViewById(R.id.imgCar);
@@ -142,6 +203,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             tvPower = itemView.findViewById(R.id.tvPower);
             tvMileage = itemView.findViewById(R.id.tvMileage);
             selectedBadge = itemView.findViewById(R.id.tvSelectedBadge);
+            tvManageReminders = itemView.findViewById(R.id.tvManageReminders);
         }
     }
 }

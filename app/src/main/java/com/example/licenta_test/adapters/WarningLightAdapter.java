@@ -28,11 +28,17 @@ public class WarningLightAdapter extends RecyclerView.Adapter<WarningLightAdapte
     private Context context;
     private List<WarningLight> lightList;
     private List<WarningLight> lightListFull;
+    private OnLightClickListener listener;
 
-    public WarningLightAdapter(Context context, List<WarningLight> lightList) {
+    public interface OnLightClickListener {
+        void onLightClick(WarningLight light);
+    }
+
+    public WarningLightAdapter(Context context, List<WarningLight> lightList, OnLightClickListener listener) {
         this.context = context;
         this.lightList = lightList;
         this.lightListFull = new ArrayList<>(lightList);
+        this.listener = listener;
     }
 
     @NonNull
@@ -80,6 +86,11 @@ public class WarningLightAdapter extends RecyclerView.Adapter<WarningLightAdapte
             Log.e("IMAGINE_EROARE", "imageName este null sau gol în baza de date pentru: " + currentLight.getName());
             holder.imgWarninglight.setImageResource(android.R.drawable.ic_menu_report_image);
         }
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onLightClick(currentLight);
+            }
+        });
     }
 
     @Override

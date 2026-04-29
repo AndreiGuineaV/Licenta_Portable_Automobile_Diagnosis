@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -94,7 +95,7 @@ public class WarningLightsActivity extends AppCompatActivity {
                             warningLightList.add(light);
                         }
 
-                        adapter = new WarningLightAdapter(this, warningLightList);
+                        adapter = new WarningLightAdapter(this, warningLightList , light -> showWarningLightDetailsDialog(light));
                         warningLightsView.setAdapter(adapter);
 
                         Log.d("FIREBASE_READ", warningLightList.size() + " warning lights items have been fetched");
@@ -104,5 +105,42 @@ public class WarningLightsActivity extends AppCompatActivity {
                         Toast.makeText(this, "There was an error during the upload of the data", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void showWarningLightDetailsDialog(WarningLight light) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(light.getName());
+        StringBuilder message = new StringBuilder();
+
+        message.append("Symptoms / What you might notice:\n");
+        if (light.getSymptoms() != null && !light.getSymptoms().isEmpty()) {
+            for (String symptom : light.getSymptoms()) {
+                message.append("• ").append(symptom).append("\n");
+            }
+        } else {
+            message.append("Not specified\n");
+        }
+        message.append("\n");
+
+        message.append("Possible Causes:\n");
+        if (light.getCauses() != null && !light.getCauses().isEmpty()) {
+            for (String cause : light.getCauses()) {
+                message.append("• ").append(cause).append("\n");
+            }
+        } else {
+            message.append("Not specified\n");
+        }
+        message.append("\n");
+
+        message.append("Important Details:\n");
+        if (light.getOtherDetails() != null && !light.getOtherDetails().isEmpty()) {
+            message.append(light.getOtherDetails());
+        } else {
+            message.append("No additional details available.");
+        }
+
+        builder.setMessage(message.toString());
+        builder.setPositiveButton("Close", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
     }
 }

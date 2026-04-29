@@ -3,8 +3,11 @@ package com.example.licenta_test.activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -33,11 +36,12 @@ import java.util.List;
 
 public class MyGarageActivity extends AppCompatActivity {
 
-    FloatingActionButton fabAddVehicle;
-    ImageView iconBack;
-    List<Car> carList;
-    CarAdapter adapter;
-    RecyclerView recyclerViewCars;
+    private FloatingActionButton fabAddVehicle;
+    private ImageView iconBack;
+    private List<Car> carList;
+    private CarAdapter adapter;
+    private RecyclerView recyclerViewCars;
+    private long tempItp = 0, tempRca = 0, tempRovinieta = 0, tempOil = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,7 @@ public class MyGarageActivity extends AppCompatActivity {
         recyclerViewCars.setLayoutManager(new LinearLayoutManager(this));
 
         carList = new ArrayList<>();
-        adapter = new CarAdapter(carList, this, this::showDeleteDialog);
+        adapter = new CarAdapter(carList, this, this::showDeleteDialog, this::showEditRemindersDialog);
         recyclerViewCars.setAdapter(adapter);
 
         loadUserCars();
@@ -116,6 +120,8 @@ public class MyGarageActivity extends AppCompatActivity {
                             }
                         }
                         updateUI();
+
+                        checkAndShowRemindersAlert();
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Error loading cars: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -187,5 +193,158 @@ public class MyGarageActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Log.e("FIRESTORE", "Error adding car to user: ", e);
                 });
+    }
+
+    private void checkAndShowRemindersAlert() {
+        long now = System.currentTimeMillis();
+        long thirtyDaysInMs = 30L * 24 * 60 * 60 * 1000; // 30 de zile în milisecunde
+
+        StringBuilder expiredAlerts = new StringBuilder();
+        StringBuilder upcomingAlerts = new StringBuilder();
+
+        boolean hasAlerts = false;
+
+        for (Car car : carList) {
+            String carName = "<b>" + car.getCarName() + "</b>: ";
+
+            if (car.getItpExpiration() > 0) {
+                if (car.getItpExpiration() < now) {
+                    expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("ITP Expired!</font><br>");
+                    hasAlerts = true;
+                } else if (car.getItpExpiration() - now <= thirtyDaysInMs) {
+                    upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in less than 30 days.</font><br>");
+                    hasAlerts = true;
+                }
+            }
+
+            if (car.getRcaExpiration() > 0) {
+                if (car.getRcaExpiration() < now) {
+                    expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("RCA Expired!</font><br>");
+                    hasAlerts = true;
+                } else if (car.getRcaExpiration() - now <= thirtyDaysInMs) {
+                    upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in less than 30 days.</font><br>");
+                    hasAlerts = true;
+                }
+            }
+
+            if (car.getRovinietaExpiration() > 0) {
+                if (car.getRovinietaExpiration() < now) {
+                    expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("Rovinieta Expired!</font><br>");
+                    hasAlerts = true;
+                } else if (car.getRovinietaExpiration() - now <= thirtyDaysInMs) {
+                    upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in less than 30 days.</font><br>");
+                    hasAlerts = true;
+                }
+            }
+
+            if (car.getOilChangeDate() > 0) {
+                if (car.getOilChangeDate() < now) {
+                    expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("Oil Change Overdue!</font><br>");
+                    hasAlerts = true;
+                } else if (car.getOilChangeDate() - now <= thirtyDaysInMs) {
+                    upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed soon.</font><br>");
+                    hasAlerts = true;
+                }
+            }
+        }
+
+        if (hasAlerts) {
+            String finalMessage = expiredAlerts.toString() + "<br>" + upcomingAlerts.toString();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("⚠️ Vehicle Reminders");
+            builder.setMessage(Html.fromHtml(finalMessage, Html.FROM_HTML_MODE_COMPACT));
+            builder.setPositiveButton("Understood", (dialog, which) -> dialog.dismiss());
+            builder.show();
+        }
+    }
+
+    private void showEditRemindersDialog(Car car, int position) {
+        // loading the current data
+        tempItp = car.getItpExpiration();
+        tempRca = car.getRcaExpiration();
+        tempRovinieta = car.getRovinietaExpiration();
+        tempOil = car.getOilChangeDate();
+
+        // building the custom dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_edit_reminders, null);
+        builder.setView(view);
+
+        AlertDialog dialog = builder.create();
+
+        EditText etItp = view.findViewById(R.id.dialogItpDate);
+        EditText etRca = view.findViewById(R.id.dialogRcaDate);
+        EditText etRovinieta = view.findViewById(R.id.dialogRovinietaDate);
+        EditText etOil = view.findViewById(R.id.dialogOilDate);
+        Button btnCancel = view.findViewById(R.id.btnDialogCancel);
+        Button btnSave = view.findViewById(R.id.btnDialogSave);
+
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault());
+        if (tempItp > 0) etItp.setText(sdf.format(new java.util.Date(tempItp)));
+        if (tempRca > 0) etRca.setText(sdf.format(new java.util.Date(tempRca)));
+        if (tempRovinieta > 0) etRovinieta.setText(sdf.format(new java.util.Date(tempRovinieta)));
+        if (tempOil > 0) etOil.setText(sdf.format(new java.util.Date(tempOil)));
+
+        //click to open up calendar
+        etItp.setOnClickListener(v -> showDatePickerDialog(etItp, tempItp, timestamp -> tempItp = timestamp));
+        etRca.setOnClickListener(v -> showDatePickerDialog(etRca, tempRca, timestamp -> tempRca = timestamp));
+        etRovinieta.setOnClickListener(v -> showDatePickerDialog(etRovinieta, tempRovinieta, timestamp -> tempRovinieta = timestamp));
+        etOil.setOnClickListener(v -> showDatePickerDialog(etOil, tempOil, timestamp -> tempOil = timestamp));
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        btnSave.setOnClickListener(v -> {
+            // update the objects
+            car.setItpExpiration(tempItp);
+            car.setRcaExpiration(tempRca);
+            car.setRovinietaExpiration(tempRovinieta);
+            car.setOilChangeDate(tempOil);
+
+            // Save in Firebase
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("Users").document(uid).collection("Cars").document(car.getId())
+                    .set(car) // Suprascrie mașina cu datele noi
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(this, "Reminders Updated!", Toast.LENGTH_SHORT).show();
+                        adapter.notifyItemChanged(position); // Actualizăm UI-ul cardului
+                        checkAndShowRemindersAlert(); // Recalculăm alertele globale (dacă e nevoie)
+                        dialog.dismiss();
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(this, "Error saving dates.", Toast.LENGTH_SHORT).show());
+        });
+
+        dialog.show();
+    }
+
+    //Function to open the calendar
+    private void showDatePickerDialog(EditText targetEditText, long currentTimestamp, DateSelectListener listener) {
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+
+        // if there is a current timestamp, it opens up the calendar at that date
+        if (currentTimestamp > 0) {
+            calendar.setTimeInMillis(currentTimestamp);
+        }
+
+        android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            java.util.Calendar newCalendar = java.util.Calendar.getInstance();
+            newCalendar.set(year, month, dayOfMonth);
+            long selectedTimestamp = newCalendar.getTimeInMillis();
+
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault());
+            targetEditText.setText(sdf.format(newCalendar.getTime()));
+
+            listener.onDateSelected(selectedTimestamp);
+
+        }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH));
+
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        datePickerDialog.show();
+    }
+
+    private interface DateSelectListener {
+        void onDateSelected(long timestamp);
     }
 }

@@ -77,6 +77,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvActiveCarBanner" />
 
+    <Button
+        android:id="@+id/btnFindService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="#2962FF"
+        android:elevation="4dp"
+        android:paddingHorizontal="24dp"
+        android:text="📍 Find Nearby Services"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/searchBarContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/searchBarContainer"
         android:layout_width="match_parent"
@@ -97,14 +115,40 @@
             android:paddingHorizontal="4dp"
             android:paddingVertical="4dp">
 
+            <ImageView
+                android:id="@+id/imgAttachmentPreview"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/etAiSearchPrompt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/btnAttachPhoto"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:padding="2dp"
+                android:src="@android:drawable/ic_menu_camera"
+                app:layout_constraintBottom_toBottomOf="@+id/etAiSearchPrompt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/etAiSearchPrompt"
+                app:tint="#888888" />
+
             <EditText
                 android:id="@+id/etAiSearchPrompt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@android:color/transparent"
-                android:hint="Describe the car symptoms/problems..."
+                android:hint="Describe issue or upload photo..."
                 android:inputType="textMultiLine"
                 android:maxLines="4"
                 android:minHeight="48dp"
@@ -114,8 +158,8 @@
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnSendPrompt"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/btnAttachPhoto"
+                app:layout_constraintTop_toBottomOf="@+id/imgAttachmentPreview" />
 
             <ImageView
                 android:id="@+id/btnSendPrompt"

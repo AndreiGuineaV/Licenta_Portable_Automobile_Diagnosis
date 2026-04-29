@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,15 +23,26 @@ public class DiagnosticReportAdapter extends RecyclerView.Adapter<DiagnosticRepo
     private Context context;
     private List<DiagnosticReport> diagnosticReportList;
     private OnReportClickListener clickListener;
+    private OnReportLongClickListener longClickListener;
+    private OnFeedbackListener feedbackListener;
 
     public interface OnReportClickListener{
         void onReportClick(DiagnosticReport report);
     }
 
-    public DiagnosticReportAdapter(Context context, List<DiagnosticReport> diagnosticReportList, OnReportClickListener clickListener) {
+    public interface OnReportLongClickListener{
+        void onReportLongClick(DiagnosticReport report, int position);
+    }
+
+    public interface OnFeedbackListener{
+        void onFeedbackClick(DiagnosticReport report, int position, boolean isUseful);
+    }
+    public DiagnosticReportAdapter(Context context, List<DiagnosticReport> diagnosticReportList, OnReportClickListener clickListener, OnReportLongClickListener longClickListener, OnFeedbackListener feedbackListener) {
         this.context = context;
         this.diagnosticReportList = diagnosticReportList;
         this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
+        this.feedbackListener = feedbackListener;
     }
 
     @NonNull
@@ -47,7 +59,38 @@ public class DiagnosticReportAdapter extends RecyclerView.Adapter<DiagnosticRepo
         holder.tvDate.setText(formatTimestampToDate(currentReport.getTimestamp()));
         holder.tvSymptoms.setText(currentReport.getUserSymptoms());
 
+        ImageView btnUp = holder.itemView.findViewById(R.id.btnThumbsUp);
+        ImageView btnDown = holder.itemView.findViewById(R.id.btnThumbsDown);
+
+        btnUp.setColorFilter(android.graphics.Color.parseColor("#CCCCCC"));
+        btnDown.setColorFilter(android.graphics.Color.parseColor("#CCCCCC"));
+        btnUp.setEnabled(true);
+        btnDown.setEnabled(true);
+
+        // We color the selected button based on the feedback status and disable them
+        if (currentReport.getFeedbackStatus() == 1) {
+            btnUp.setColorFilter(android.graphics.Color.parseColor("#388E3C")); // Verde
+            btnUp.setEnabled(false);
+            btnDown.setEnabled(false);
+        } else if (currentReport.getFeedbackStatus() == -1) {
+            btnDown.setColorFilter(android.graphics.Color.parseColor("#D32F2F")); // Roșu
+            btnUp.setEnabled(false);
+            btnDown.setEnabled(false);
+        }
+
+        btnUp.setOnClickListener(v -> {
+            if (feedbackListener != null) feedbackListener.onFeedbackClick(currentReport, position, true);
+        });
+
+        btnDown.setOnClickListener(v -> {
+            if (feedbackListener != null) feedbackListener.onFeedbackClick(currentReport, position, false);
+        });
+
         holder.itemView.setOnClickListener(v -> clickListener.onReportClick(currentReport));
+        holder.itemView.setOnLongClickListener(v -> {
+            longClickListener.onReportLongClick(currentReport, position);
+            return true;
+        });
     }
 
     @Override
