@@ -168,12 +168,12 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="4dp"
-                android:background="@drawable/selected_badge"
-                android:backgroundTint="#1A2530"
-                android:padding="8dp"
+                android:background="@drawable/bg_circle_send"
+                android:padding="10dp"
                 android:src="@android:drawable/ic_menu_send"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/etAiSearchPrompt"
                 app:tint="@color/white" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

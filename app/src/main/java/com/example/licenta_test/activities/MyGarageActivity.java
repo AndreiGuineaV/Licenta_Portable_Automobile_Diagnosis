@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.licenta_test.R;
 import com.example.licenta_test.adapters.CarAdapter;
 import com.example.licenta_test.entities.Car;
+import com.example.licenta_test.entities.FuelType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -65,7 +68,7 @@ public class MyGarageActivity extends AppCompatActivity {
         recyclerViewCars.setLayoutManager(new LinearLayoutManager(this));
 
         carList = new ArrayList<>();
-        adapter = new CarAdapter(carList, this, this::showDeleteDialog, this::showEditRemindersDialog);
+        adapter = new CarAdapter(carList, this, this::showDeleteDialog, this::showEditRemindersDialog, this::showEditInfoDialog);
         recyclerViewCars.setAdapter(adapter);
 
         loadUserCars();
@@ -75,6 +78,93 @@ public class MyGarageActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddCarActivity.class);
             launcher.launch(intent);
         });
+    }
+
+    private void showEditInfoDialog(Car car, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_edit_car_info, null);
+        builder.setView(view);
+
+        AlertDialog dialog = builder.create();
+
+        EditText etName = view.findViewById(R.id.dialogEtCarName);
+        EditText etMileage = view.findViewById(R.id.dialogEtMileage);
+        Spinner spinnerFuel = view.findViewById(R.id.dialogSpinnerFuelType);
+        EditText etEngine = view.findViewById(R.id.dialogEtEngine);
+        EditText etPower = view.findViewById(R.id.dialogEtPower);
+        Button btnCancel = view.findViewById(R.id.btnDialogCancelInfo);
+        Button btnSave = view.findViewById(R.id.btnDialogSaveInfo);
+
+        ArrayAdapter<FuelType> fuelAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, FuelType.values());
+        fuelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFuel.setAdapter(fuelAdapter);
+
+        etName.setText(car.getCarName());
+        etMileage.setText(String.valueOf(car.getKm()));
+        etEngine.setText(String.valueOf(car.getEngine()));
+        etPower.setText(String.valueOf(car.getPower()));
+
+        if (car.getFuel() != null) {
+            for (int i = 0; i < fuelAdapter.getCount(); i++) {
+                if (fuelAdapter.getItem(i).name().equalsIgnoreCase(car.getFuel())) {
+                    spinnerFuel.setSelection(i);
+                    break;
+                }
+            }
+        }
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        btnSave.setOnClickListener(v -> {
+            try {
+                String newName = etName.getText().toString().trim();
+                int newKm = Integer.parseInt(etMileage.getText().toString().trim());
+                float newEngine = Float.parseFloat(etEngine.getText().toString().trim());
+                int newPower = Integer.parseInt(etPower.getText().toString().trim());
+                String newFuel = spinnerFuel.getSelectedItem().toString();
+
+                if (newName.isEmpty()) {
+                    etName.setError("Name cannot be empty");
+                    return;
+                }
+                if (newKm < 0) {
+                    etMileage.setError("Mileage cannot be negative");
+                    return;
+                }
+                if (newEngine < 0) {
+                    etEngine.setError("Engine cannot be negative");
+                    return;
+                }
+                if (newPower < 0) {
+                    etPower.setError("Power cannot be negative");
+                    return;
+                }
+
+                car.setCarName(newName);
+                car.setKm(newKm);
+                car.setEngine(newEngine);
+                car.setPower(newPower);
+                car.setFuel(newFuel);
+
+                // Save in Firestore
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                db.collection("Users").document(uid).collection("Cars").document(car.getId())
+                        .set(car) //Overwrites the car with the new data
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(this, "Vehicle Updated!", Toast.LENGTH_SHORT).show();
+                            adapter.notifyItemChanged(position);
+                            dialog.dismiss();
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(this, "Error saving updates.", Toast.LENGTH_SHORT).show());
+
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Please check your numbers (Mileage, Engine, Power).", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
     }
 
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
@@ -197,7 +287,7 @@ public class MyGarageActivity extends AppCompatActivity {
 
     private void checkAndShowRemindersAlert() {
         long now = System.currentTimeMillis();
-        long thirtyDaysInMs = 30L * 24 * 60 * 60 * 1000; // 30 de zile în milisecunde
+        long thirtyDaysInMs = 30L * 24 * 60 * 60 * 1000; // 30 days in milliseconds
 
         StringBuilder expiredAlerts = new StringBuilder();
         StringBuilder upcomingAlerts = new StringBuilder();
@@ -208,42 +298,94 @@ public class MyGarageActivity extends AppCompatActivity {
             String carName = "<b>" + car.getCarName() + "</b>: ";
 
             if (car.getItpExpiration() > 0) {
-                if (car.getItpExpiration() < now) {
+                long diff = car.getItpExpiration() - now;
+                if (diff < 0) {
                     expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("ITP Expired!</font><br>");
                     hasAlerts = true;
-                } else if (car.getItpExpiration() - now <= thirtyDaysInMs) {
-                    upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in less than 30 days.</font><br>");
-                    hasAlerts = true;
+                } else {
+                    long daysLeft = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
+                    if (daysLeft == 0) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in less than 1 day (TODAY).</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 3) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in ").append(daysLeft).append(" days.</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 15) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in less than 15 days.</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 30) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in less than 30 days.</font><br>");
+                        hasAlerts = true;
+                    }
                 }
             }
 
             if (car.getRcaExpiration() > 0) {
-                if (car.getRcaExpiration() < now) {
+                long diff = car.getRcaExpiration() - now;
+                if (diff < 0) {
                     expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("RCA Expired!</font><br>");
                     hasAlerts = true;
-                } else if (car.getRcaExpiration() - now <= thirtyDaysInMs) {
-                    upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in less than 30 days.</font><br>");
-                    hasAlerts = true;
+                } else {
+                    long daysLeft = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
+                    if (daysLeft == 0) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in less than 1 day (TODAY).</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 3) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in ").append(daysLeft).append(" days.</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 15) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in less than 15 days.</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 30) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in less than 30 days.</font><br>");
+                        hasAlerts = true;
+                    }
                 }
             }
 
             if (car.getRovinietaExpiration() > 0) {
-                if (car.getRovinietaExpiration() < now) {
+                long diff = car.getRovinietaExpiration() - now;
+                if (diff < 0) {
                     expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("Rovinieta Expired!</font><br>");
                     hasAlerts = true;
-                } else if (car.getRovinietaExpiration() - now <= thirtyDaysInMs) {
-                    upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in less than 30 days.</font><br>");
-                    hasAlerts = true;
+                } else {
+                    long daysLeft = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
+                    if (daysLeft == 0) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in less than 1 day (TODAY).</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 3) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in ").append(daysLeft).append(" days.</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 15) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in less than 15 days.</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 30) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in less than 30 days.</font><br>");
+                        hasAlerts = true;
+                    }
                 }
             }
 
             if (car.getOilChangeDate() > 0) {
-                if (car.getOilChangeDate() < now) {
+                long diff = car.getOilChangeDate() - now;
+                if (diff < 0) {
                     expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("Oil Change Overdue!</font><br>");
                     hasAlerts = true;
-                } else if (car.getOilChangeDate() - now <= thirtyDaysInMs) {
-                    upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed soon.</font><br>");
-                    hasAlerts = true;
+                } else {
+                    long daysLeft = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
+                    if (daysLeft == 0) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed TODAY.</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 3) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed in ").append(daysLeft).append(" days.</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 15) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed in less than 15 days.</font><br>");
+                        hasAlerts = true;
+                    } else if (daysLeft <= 30) {
+                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed soon.</font><br>");
+                        hasAlerts = true;
+                    }
                 }
             }
         }

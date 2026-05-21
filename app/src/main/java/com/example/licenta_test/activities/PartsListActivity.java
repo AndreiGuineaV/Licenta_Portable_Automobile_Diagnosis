@@ -151,7 +151,7 @@ public class PartsListActivity extends AppCompatActivity {
         builder.setPositiveButton("Close", (dialog, which) -> dialog.dismiss());
 
         builder.setNeutralButton("Learn More", (dialog, which) -> {
-            String searchQuery = carPart.getName() + " car part symptoms";
+            String searchQuery = carPart.getName();
 
             String url = "https://www.google.com/search?q=" + android.net.Uri.encode(searchQuery);
 

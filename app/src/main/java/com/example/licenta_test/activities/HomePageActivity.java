@@ -1,7 +1,10 @@
 package com.example.licenta_test.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -9,10 +12,16 @@ import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
+import com.example.licenta_test.additional.ReminderWorker;
 import com.example.licenta_test.entities.WarningLight;
 import com.example.licenta_test.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HomePageActivity extends AppCompatActivity {
 
@@ -76,6 +86,26 @@ public class HomePageActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MyGarageActivity.class);
             startActivity(intent);
         });
+
+        //For notifications
+        // Configuration to run once a day
+        PeriodicWorkRequest reminderWorkRequest = new PeriodicWorkRequest.Builder(
+                ReminderWorker.class, 24, TimeUnit.HOURS)
+                .build();
+
+        // Using KEEP to avoid duplicate work if the user opens up the app more than once a day
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "ReminderWorker",
+                ExistingPeriodicWorkPolicy.KEEP,
+                reminderWorkRequest
+        );
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
+
 
     }
 

@@ -31,6 +31,8 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
     private OnCarLongClickListener longClickListener;
     private OnReminderEditListener editListener;
+    private OnCarEditInfoListener onCarEditInfoListener;
+
 
     public interface OnCarLongClickListener{
         void onCarLongClick(int position);
@@ -40,11 +42,16 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         void onEditReminders(Car car, int position);
     }
 
-    public CarAdapter(List<Car> carList, Context context, OnCarLongClickListener longClickListener, OnReminderEditListener editListener) {
+    public interface OnCarEditInfoListener {
+        void onEditInfo(Car car, int position);
+    }
+
+    public CarAdapter(List<Car> carList, Context context, OnCarLongClickListener longClickListener, OnReminderEditListener editListener, OnCarEditInfoListener onCarEditInfoListener) {
         this.carList = carList;
         this.context = context;
         this.longClickListener = longClickListener;
         this.editListener = editListener;
+        this.onCarEditInfoListener = onCarEditInfoListener;
     }
 
     public void setActiveCarId(String activeCarId) {
@@ -127,6 +134,11 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         holder.tvManageReminders.setOnClickListener(v -> {
             showCarRemindersDialog(currentCar, context);
         });
+
+        holder.tvEditInfo.setOnClickListener(v -> {
+            if(onCarEditInfoListener != null)
+                onCarEditInfoListener.onEditInfo(currentCar, holder.getBindingAdapterPosition());
+        });
     }
 
     private void showCarRemindersDialog(Car car, Context context) {
@@ -192,7 +204,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
     public static class CarViewHolder extends RecyclerView.ViewHolder {
         ImageView imgCar;
-        TextView tvCarName, tvYear, tvFuelType, tvEngine, tvPower, tvMileage, selectedBadge, tvManageReminders;
+        TextView tvCarName, tvYear, tvFuelType, tvEngine, tvPower, tvMileage, selectedBadge, tvManageReminders, tvEditInfo;
         public CarViewHolder(@NonNull View itemView) {
             super(itemView);
             imgCar = itemView.findViewById(R.id.imgCar);
@@ -204,6 +216,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             tvMileage = itemView.findViewById(R.id.tvMileage);
             selectedBadge = itemView.findViewById(R.id.tvSelectedBadge);
             tvManageReminders = itemView.findViewById(R.id.tvManageReminders);
+            tvEditInfo = itemView.findViewById(R.id.tvEditCar);
         }
     }
 }
