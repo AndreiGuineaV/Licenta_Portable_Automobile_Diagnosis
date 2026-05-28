@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_journal" android:title="📖 View Journal" />
+    <item android:id="@+id/menu_alerts" android:title="📅 Manage Alerts" />
+    <item android:id="@+id/menu_edit" android:title="✏️ Edit Details" />
+    <item android:id="@+id/menu_share" android:title="📤 Share / Transfer" />
+    <item android:id="@+id/menu_delete" android:title="🗑️ Delete Vehicle" />
+</menu>

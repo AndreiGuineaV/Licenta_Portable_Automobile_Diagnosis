@@ -33,6 +33,8 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     private OnReminderEditListener editListener;
     private OnCarEditInfoListener onCarEditInfoListener;
     private OnCarJournalListener onCarJournalListener;
+    private OnCarShareListener shareListener;
+
 
 
     public interface OnCarLongClickListener{
@@ -49,14 +51,19 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     public interface OnCarJournalListener{
         void onOpenJournal(Car car);
     }
+    public interface OnCarShareListener {
+        void onShareCar(Car car, int position);
+    }
 
-    public CarAdapter(List<Car> carList, Context context, OnCarLongClickListener longClickListener, OnReminderEditListener editListener, OnCarEditInfoListener onCarEditInfoListener, OnCarJournalListener onCarJournalListener) {
+
+    public CarAdapter(List<Car> carList, Context context, OnCarLongClickListener longClickListener, OnReminderEditListener editListener, OnCarEditInfoListener onCarEditInfoListener, OnCarJournalListener onCarJournalListener, OnCarShareListener shareListener) {
         this.carList = carList;
         this.context = context;
         this.longClickListener = longClickListener;
         this.editListener = editListener;
         this.onCarEditInfoListener = onCarEditInfoListener;
         this.onCarJournalListener = onCarJournalListener;
+        this.shareListener = shareListener;
     }
 
     public void setActiveCarId(String activeCarId) {
@@ -136,16 +143,36 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             return true;
         });
 
-        holder.tvManageReminders.setOnClickListener(v -> {
-            showCarRemindersDialog(currentCar, context);
-        });
+        // POPUP MENU LOGIC
+        holder.btnMoreOptions.setOnClickListener(v -> {
+            android.widget.PopupMenu popup = new android.widget.PopupMenu(context, holder.btnMoreOptions);
+            popup.inflate(R.menu.menu_car_options);
 
-        holder.tvEditInfo.setOnClickListener(v -> {
-            if(onCarEditInfoListener != null)
-                onCarEditInfoListener.onEditInfo(currentCar, holder.getBindingAdapterPosition());
-        });
-        holder.tvOpenJournal.setOnClickListener(v -> {
-            if (onCarJournalListener != null) onCarJournalListener.onOpenJournal(currentCar);
+            popup.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+
+                if (id == R.id.menu_journal) {
+                    if (onCarJournalListener != null) onCarJournalListener.onOpenJournal(currentCar);
+                    return true;
+                } else if (id == R.id.menu_alerts) {
+                    if (editListener != null) editListener.onEditReminders(currentCar, position);
+                    return true;
+                } else if (id == R.id.menu_edit) {
+                    if (onCarEditInfoListener != null) onCarEditInfoListener.onEditInfo(currentCar, position);
+                    return true;
+                } else if (id == R.id.menu_share) {
+                    if (shareListener != null) shareListener.onShareCar(currentCar, position);
+                    return true;
+                } else if (id == R.id.menu_delete) {
+                    // Refolosim interfața ta veche de LongClick pentru a declanșa ștergerea
+                    if (longClickListener != null) longClickListener.onCarLongClick(position);
+                    return true;
+                }
+
+                return false;
+            });
+
+            popup.show();
         });
     }
 
@@ -211,8 +238,9 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     }
 
     public static class CarViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgCar;
-        TextView tvCarName, tvYear, tvFuelType, tvEngine, tvPower, tvMileage, selectedBadge, tvManageReminders, tvEditInfo, tvOpenJournal;
+        ImageView imgCar, btnMoreOptions;
+        TextView tvCarName, tvYear, tvFuelType, tvEngine, tvPower, tvMileage, selectedBadge;
+
         public CarViewHolder(@NonNull View itemView) {
             super(itemView);
             imgCar = itemView.findViewById(R.id.imgCar);
@@ -223,9 +251,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             tvPower = itemView.findViewById(R.id.tvPower);
             tvMileage = itemView.findViewById(R.id.tvMileage);
             selectedBadge = itemView.findViewById(R.id.tvSelectedBadge);
-            tvManageReminders = itemView.findViewById(R.id.tvManageReminders);
-            tvEditInfo = itemView.findViewById(R.id.tvEditCar);
-            tvOpenJournal = itemView.findViewById(R.id.tvOpenJournal);
+            btnMoreOptions = itemView.findViewById(R.id.btnMoreOptions);
         }
     }
 }

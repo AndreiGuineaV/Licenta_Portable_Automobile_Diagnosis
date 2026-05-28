@@ -135,14 +135,13 @@ public class CarJournalActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("Users").document(user.getUid())
-                .collection("Cars").document(currentCar.getId())
+        // Accessing the global "Vehicles" collection directly
+        db.collection("Vehicles").document(currentCar.getId())
                 .collection("Journal").document(entry.getId())
                 .delete()
                 .addOnSuccessListener(aVoid -> {
                     journalList.remove(position);
                     adapter.notifyItemRemoved(position);
-
                     Toast.makeText(this, "Entry deleted successfully!", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
@@ -261,15 +260,14 @@ public class CarJournalActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // 1. Salvăm intrarea în Jurnal
-        db.collection("Users").document(user.getUid())
-                .collection("Cars").document(currentCar.getId())
+        // Saving the log directly under the global Vehicle
+        db.collection("Vehicles").document(currentCar.getId())
                 .collection("Journal")
                 .add(entry)
                 .addOnSuccessListener(documentReference -> {
                     entry.setId(documentReference.getId());
 
-                    // Adăugăm la începutul listei locale și redesenăm interfața (fără să descărcăm iar totul)
+                    // Add to the top of the local list and update UI
                     journalList.add(0, entry);
                     adapter.notifyItemInserted(0);
                     recyclerJournal.scrollToPosition(0);
@@ -277,30 +275,30 @@ public class CarJournalActivity extends AppCompatActivity {
                     Toast.makeText(this, "Log added successfully!", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
 
-                    // 2. (Opțional) Dacă kilometrajul introdus aici e mai mare decât cel al mașinii, actualizăm și mașina
+                    // Update car mileage globally if the new log has a higher mileage
                     if (newMileage > currentCar.getKm()) {
-                        updateCarMileageInFirebase(newMileage, user.getUid(), db);
+                        updateCarMileageInFirebase(newMileage, db);
                     }
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to save log.", Toast.LENGTH_SHORT).show());
     }
 
-    private void updateCarMileageInFirebase(int newMileage, String uid, FirebaseFirestore db) {
-        currentCar.setKm(newMileage); // Update local
-        db.collection("Users").document(uid)
-                .collection("Cars").document(currentCar.getId())
+    private void updateCarMileageInFirebase(int newMileage, FirebaseFirestore db) {
+        currentCar.setKm(newMileage); // Update locally
+
+        db.collection("Vehicles").document(currentCar.getId())
                 .update("km", newMileage)
-                .addOnSuccessListener(aVoid -> Log.d("JOURNAL", "Car mileage updated globally based on new log."));
+                .addOnSuccessListener(aVoid -> Log.d("JOURNAL", "Car mileage updated globally."));
     }
+
     private void loadJournalFromFirebase() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null || currentCar.getId() == null) return;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Căutăm exact în sub-colecția mașinii, ordonând după dată (cele mai noi primele)
-        db.collection("Users").document(user.getUid())
-                .collection("Cars").document(currentCar.getId())
+        // Fetching logs from the global Vehicle document, ordered by newest first
+        db.collection("Vehicles").document(currentCar.getId())
                 .collection("Journal")
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()

@@ -387,14 +387,11 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 currentTime
         );
 
-        // Users -> UID -> Cars -> CarID -> Journal
-        db.collection("Users").document(user.getUid())
-                .collection("Cars").document(userCar.getId())
+        // Vehicles -> UID -> Journal
+        db.collection("Vehicles").document(userCar.getId())
                 .collection("Journal")
                 .add(entry)
-                .addOnSuccessListener(documentReference -> {
-                    Log.d("JOURNAL", "Diagnostic saved to Car Journal with ID: " + documentReference.getId());
-                });
+                .addOnSuccessListener(docRef -> Log.d("JOURNAL", "Saved to global vehicle journal!"));
 
 
         DiagnosticReport globalReport = new DiagnosticReport(userCar.getCarName() + "(" + userCar.getYear() + ")", userSymptom, aiAnswer, currentTime);
