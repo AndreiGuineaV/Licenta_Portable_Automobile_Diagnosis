@@ -68,7 +68,11 @@ public class MyGarageActivity extends AppCompatActivity {
         recyclerViewCars.setLayoutManager(new LinearLayoutManager(this));
 
         carList = new ArrayList<>();
-        adapter = new CarAdapter(carList, this, this::showDeleteDialog, this::showEditRemindersDialog, this::showEditInfoDialog);
+        adapter = new CarAdapter(carList, this, this::showDeleteDialog, this::showEditRemindersDialog, this::showEditInfoDialog, car ->{
+            Intent intent = new Intent(this, CarJournalActivity.class);
+            intent.putExtra("car", car);
+            startActivity(intent);
+        });
         recyclerViewCars.setAdapter(adapter);
 
         loadUserCars();
@@ -268,9 +272,11 @@ public class MyGarageActivity extends AppCompatActivity {
         if (user == null) return;
 
         String uid = user.getUid();
+        car.setOwnerId(uid);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("Users").document(uid).collection("Cars")
+        db.collection("Cars").document(uid).collection("Cars")
                 .add(car)
                 .addOnSuccessListener(documentReference -> {
                     car.setId(documentReference.getId());

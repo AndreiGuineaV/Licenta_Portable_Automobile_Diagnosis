@@ -29,6 +29,7 @@ import com.example.licenta_test.additional.GarageStorage;
 import com.example.licenta_test.entities.Car;
 import com.example.licenta_test.entities.ChatMessage;
 import com.example.licenta_test.entities.DiagnosticReport;
+import com.example.licenta_test.entities.JournalEntry;
 import com.google.ai.client.generativeai.GenerativeModel;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
 import com.google.ai.client.generativeai.type.Content;
@@ -372,16 +373,37 @@ public class AIDiagnosticActivity extends AppCompatActivity {
 
     private void saveDiagnosticReport(Car userCar, String userSymptom, String aiAnswer) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) return;
+        if (user == null || userCar.getId() == null) return;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        long currentTime = System.currentTimeMillis();
 
-        DiagnosticReport report = new DiagnosticReport(userCar.getCarName() + "(" + userCar.getYear() + ")", userSymptom, aiAnswer, System.currentTimeMillis());
+        JournalEntry entry = new JournalEntry(
+                "DIAGNOSTIC",
+                "AI Diagnosis - " + userSymptom,
+                aiAnswer,
+                userCar.getKm(), // Current mileage
+                0.0, //Diagnosis is free
+                currentTime
+        );
 
-        db.collection("Users").document(user.getUid()).collection("DiagnosticHistory")
-                .add(report)
+        // Users -> UID -> Cars -> CarID -> Journal
+        db.collection("Users").document(user.getUid())
+                .collection("Cars").document(userCar.getId())
+                .collection("Journal")
+                .add(entry)
                 .addOnSuccessListener(documentReference -> {
-                    Log.d("DIAGNOSTIC", "Diagnostic report saved with ID: " + documentReference.getId());
+                    Log.d("JOURNAL", "Diagnostic saved to Car Journal with ID: " + documentReference.getId());
+                });
+
+
+        DiagnosticReport globalReport = new DiagnosticReport(userCar.getCarName() + "(" + userCar.getYear() + ")", userSymptom, aiAnswer, currentTime);
+        // Users -> UID -> DiagnosticHistory
+        db.collection("Users").document(user.getUid())
+                .collection("DiagnosticHistory")
+                .add(globalReport)
+                .addOnSuccessListener(documentReference -> {
+                    Log.d("DIAGNOSTIC", "Saved to BOTH Global History and Car Journal!");
                 });
     }
 

@@ -3,10 +3,14 @@ package com.example.licenta_test.entities;
 import com.google.firebase.firestore.DocumentId;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Car implements Serializable {
     @DocumentId
     private String id;
+    private String ownerId;
+    private List<String> sharedWith; // List of user IDs that the car is shared with
     private String carName;
     private int km;
     private String fuel;
@@ -29,6 +33,7 @@ public class Car implements Serializable {
         this.power = power;
         this.year = year;
         this.imgPath = imgPath;
+        this.sharedWith = new ArrayList<>();
     }
 
     public String getId() {
@@ -105,4 +110,8 @@ public class Car implements Serializable {
 
     public long getOilChangeDate() { return oilChangeDate; }
     public void setOilChangeDate(long oilChangeDate) { this.oilChangeDate = oilChangeDate; }
+    public String getOwnerId() { return ownerId; }
+    public void setOwnerId(String ownerId) { this.ownerId = ownerId; }
+    public List<String> getSharedWith() { return sharedWith; }
+    public void setSharedWith(List<String> sharedWith) { this.sharedWith = sharedWith; }
 }
