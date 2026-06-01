@@ -216,34 +216,37 @@ public class AIDiagnosticActivity extends AppCompatActivity {
         String uid = user.getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        // Step 1: Get the activeCarId from the user's profile
         db.collection("Users").document(uid).get().addOnSuccessListener(userDoc -> {
             if (userDoc.exists() && userDoc.contains("activeCarId")) {
                 String activeCarId = userDoc.getString("activeCarId");
 
                 if (activeCarId != null && !activeCarId.isEmpty()) {
-                    // Descărcăm mașina efectivă
-                    db.collection("Users").document(uid).collection("Cars").document(activeCarId)
+                    // Step 2: Fetch the actual car from the global "Vehicles" collection (MODIFIED HERE)
+                    db.collection("Vehicles").document(activeCarId)
                             .get()
                             .addOnSuccessListener(carDoc -> {
                                 if (carDoc.exists()) {
                                     Car activeCar = carDoc.toObject(Car.class);
-                                    // BINGO! Returnăm mașina către cine a cerut-o
-                                    callback.onCarLoaded(activeCar);
+                                    if (activeCar != null) {
+                                        activeCar.setId(carDoc.getId()); // Always set the ID from Firestore
+                                        callback.onCarLoaded(activeCar); // Return the car to the UI
+                                    }
                                 } else {
-                                    // Documentul mașinii nu mai există (poate a fost ștearsă)
+                                    // The car document no longer exists (e.g., it was deleted)
                                     callback.onCarLoaded(null);
                                 }
                             })
-                            .addOnFailureListener(e -> callback.onError("Eroare la descărcarea mașinii: " + e.getMessage()));
+                            .addOnFailureListener(e -> callback.onError("Error downloading car data: " + e.getMessage()));
                 } else {
-                    // ID-ul există dar este null (utilizatorul a deselectat mașina)
+                    // The ID exists but is null/empty (the user deselected the car)
                     callback.onCarLoaded(null);
                 }
             } else {
-                // Nu a selectat niciodată o mașină
+                // The user never selected a car
                 callback.onCarLoaded(null);
             }
-        }).addOnFailureListener(e -> callback.onError("Eroare la citirea profilului: " + e.getMessage()));
+        }).addOnFailureListener(e -> callback.onError("Error reading user profile: " + e.getMessage()));
     }
     private void searchDatabaseAndDiagnose(Car activeCar, String userSymptom, int loadingPosition) {
 
@@ -331,7 +334,7 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 "[Brief reminder that this is an AI-generated diagnosis.]";
 
         //initializing the ai model (Gemini)
-        GenerativeModel gm = new GenerativeModel("gemini-3-flash-preview", BuildConfig.GEMINI_API_KEY);
+        GenerativeModel gm = new GenerativeModel("gemini-3.5-flash", BuildConfig.GEMINI_API_KEY);
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
         Content.Builder contentBuilder = new Content.Builder().addText(prompt);
@@ -364,8 +367,20 @@ public class AIDiagnosticActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 runOnUiThread(() -> {
-                    String errMsg = "AI Diagnostic Error: " + t.getMessage();
-                    updateChatMessage(loadingPosition, errMsg);
+                    String errorMessage = t.getMessage();
+                    String userFriendlyMessage;
+
+                    // Intercept 503 / MissingFieldException error
+                    if (errorMessage != null && (errorMessage.contains("503") || errorMessage.contains("MissingFieldException"))) {
+                        userFriendlyMessage = "The AI diagnostic servers are currently very busy. Please wait a few moments and try again.";
+                    } else {
+                        // Fallback for other types of errors (no internet, timeouts, etc.)
+                        userFriendlyMessage = "We couldn't connect to the AI service. Please check your connection and try again.";
+                        Log.e("GEMINI_ERROR", "Detailed AI Error: ", t);
+                    }
+
+                    updateChatMessage(loadingPosition, userFriendlyMessage);
+                    btnFindService.setVisibility(View.VISIBLE); // The user can still access the find service button
                 });
             }
         }, executor);
