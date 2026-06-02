@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Licentatest">
         <activity
+            android:name=".activities.DiagnosticReportActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.CarJournalActivity"
             android:exported="false" />
         <activity
@@ -57,10 +60,10 @@
             android:exported="true" />
         <activity
             android:name=".activities.HomePageActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activities.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

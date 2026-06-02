@@ -88,9 +88,19 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         holder.tvCarName.setText(currentCar.getCarName());
         holder.tvYear.setText(String.valueOf(currentCar.getYear()));
         holder.tvFuelType.setText(currentCar.getFuel());
-        holder.tvEngine.setText(String.valueOf(currentCar.getEngine()));
-        holder.tvPower.setText(String.valueOf(currentCar.getPower()));
-        holder.tvMileage.setText(String.valueOf(currentCar.getKm()));
+
+
+        if (currentCar.getFuel() != null && currentCar.getFuel().equalsIgnoreCase("ELECTRIC")) {
+            holder.tvEngine.setVisibility(View.INVISIBLE);
+        } else {
+            holder.tvEngine.setVisibility(View.VISIBLE);
+            String formattedEngine = String.format(Locale.getDefault(), "%.1f L", currentCar.getEngine());
+            holder.tvEngine.setText(String.format(java.util.Locale.getDefault(), "%.1f L", currentCar.getEngine()));
+        }
+        String formattedPower = String.format(Locale.getDefault(), "%d Hp", currentCar.getPower());
+        holder.tvPower.setText(formattedPower);
+        String formattedMileage = String.format(Locale.getDefault(), "%d Km", currentCar.getKm());
+        holder.tvMileage.setText(formattedMileage);
 
         if(currentCar.getImgPath() != null && !currentCar.getImgPath().isEmpty()) {
             Glide.with(context)

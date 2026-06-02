@@ -170,6 +170,20 @@ public class MyGarageActivity extends AppCompatActivity {
         fuelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFuel.setAdapter(fuelAdapter);
 
+        spinnerFuel.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String selectedFuel = parent.getItemAtPosition(position).toString();
+                if (selectedFuel.equalsIgnoreCase("ELECTRIC")) {
+                    etEngine.setVisibility(View.GONE);
+                } else {
+                    etEngine.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        });
+
         etName.setText(car.getCarName());
         etMileage.setText(String.valueOf(car.getKm()));
         etEngine.setText(String.valueOf(car.getEngine()));
@@ -190,9 +204,23 @@ public class MyGarageActivity extends AppCompatActivity {
             try {
                 String newName = etName.getText().toString().trim();
                 int newKm = Integer.parseInt(etMileage.getText().toString().trim());
-                float newEngine = Float.parseFloat(etEngine.getText().toString().trim());
                 int newPower = Integer.parseInt(etPower.getText().toString().trim());
                 String newFuel = spinnerFuel.getSelectedItem().toString();
+
+                boolean isElectric = newFuel.equalsIgnoreCase("ELECTRIC");
+                float newEngine = 0.0f;
+
+                if (!isElectric) {
+                    if (etEngine.getText().toString().trim().isEmpty()) {
+                        etEngine.setError("Engine cannot be empty");
+                        return;
+                    }
+                    newEngine = Float.parseFloat(etEngine.getText().toString().trim());
+                    if (newEngine < 0.049f || newEngine > 8.0f) {
+                        etEngine.setError("Invalid engine capacity");
+                        return;
+                    }
+                }
 
                 if (newName.isEmpty()) {
                     etName.setError("Name cannot be empty");
@@ -202,10 +230,7 @@ public class MyGarageActivity extends AppCompatActivity {
                     etMileage.setError("Mileage cannot be negative");
                     return;
                 }
-                if (newEngine < 0) {
-                    etEngine.setError("Engine cannot be negative");
-                    return;
-                }
+
                 if (newPower < 0) {
                     etPower.setError("Power cannot be negative");
                     return;

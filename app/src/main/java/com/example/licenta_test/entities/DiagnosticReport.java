@@ -10,6 +10,25 @@ public class DiagnosticReport {
     private String userSymptoms;
     private String aiDiagnosis;
     private long timestamp;
+    private String chatHistory;
+    private String rawJson;
+
+    public String getChatHistory() {
+        return chatHistory;
+    }
+
+    public void setChatHistory(String chatHistory) {
+        this.chatHistory = chatHistory;
+    }
+
+    public String getRawJson() {
+        return rawJson;
+    }
+
+    public void setRawJson(String rawJson) {
+        this.rawJson = rawJson;
+    }
+
     private int feedbackStatus = 0;
 
     public DiagnosticReport() {}

@@ -31,9 +31,12 @@ import com.example.licenta_test.entities.ChatMessage;
 import com.example.licenta_test.entities.DiagnosticReport;
 import com.example.licenta_test.entities.JournalEntry;
 import com.google.ai.client.generativeai.GenerativeModel;
+import com.google.ai.client.generativeai.java.ChatFutures;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
 import com.google.ai.client.generativeai.type.Content;
 import com.google.ai.client.generativeai.type.GenerateContentResponse;
+import com.google.ai.client.generativeai.type.GenerationConfig;
+import com.google.ai.client.generativeai.type.RequestOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.common.util.concurrent.FutureCallback;
@@ -67,6 +70,8 @@ public class AIDiagnosticActivity extends AppCompatActivity {
     private ImageView btnAttachPhoto;
     private ImageView imgAttachmentPreview;
     private Bitmap attachedBitmap = null; //temporarily storing the photo
+    private ChatFutures currentChatSession = null;
+    private Button btnGenerateReport;
 
     private final ActivityResultLauncher<String> pickImageLauncher = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
@@ -135,6 +140,7 @@ public class AIDiagnosticActivity extends AppCompatActivity {
         recyclerAiChat = findViewById(R.id.recyclerAiChat);
         btnAttachPhoto = findViewById(R.id.btnAttachPhoto);
         imgAttachmentPreview = findViewById(R.id.imgAttachmentPreview);
+        btnGenerateReport = findViewById(R.id.btnGenerateReport);
 
         btnAttachPhoto.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
 
@@ -179,7 +185,10 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 addMessageToChat("Analyzing the symptoms and creating the diagnostic...", false);
                 int loadingMessagePosition = chatList.size() - 1;
 
-                searchDatabaseAndDiagnose(activeCar, userSymptom, loadingMessagePosition);
+                if(currentChatSession == null)
+                    searchDatabaseAndDiagnose(activeCar, userSymptom, loadingMessagePosition);
+                else
+                    sendMessageToExistingChat(userSymptom, loadingMessagePosition);
 
             } else if (activeCar == null) {
                 Toast.makeText(this, "Please select a car from your garage first!", Toast.LENGTH_SHORT).show();
@@ -200,6 +209,147 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 startActivity(browserIntent);
             }
         });
+
+        btnGenerateReport.setOnClickListener(v -> {
+            // Disable the button so the user doesn't click it twice
+            btnGenerateReport.setEnabled(false);
+            btnGenerateReport.setText("Generating Report...");
+
+            generateFinalReportJson();
+        });
+    }
+
+    private void generateFinalReportJson() {
+        // Conversation history from the UI list
+        StringBuilder chatHistory = new StringBuilder();
+        for (ChatMessage msg : chatList) {
+            String role = msg.getIsUser() ? "User" : "Mechanic";
+            chatHistory.append(role).append(": ").append(msg.getMessage()).append("\n");
+        }
+
+        String jsonPrompt = "Based on the following conversation history between a vehicle owner and an AI automotive mechanic, generate a final, structured diagnostic report.\n\n" +
+                "CONVERSATION HISTORY:\n" + chatHistory.toString() + "\n\n" +
+                "CRITICAL INSTRUCTIONS:\n" +
+                "1. You must output ONLY a valid JSON object. Do NOT include markdown code blocks (like ```json), no preamble, and no concluding remarks. The response must start with '{' and end with '}'.\n" +
+                "2. Ensure all text strings within the JSON are properly escaped (e.g., avoid unescaped quotes).\n" +
+                "3. Use the exact JSON schema provided below.\n\n" +
+                "REQUIRED JSON SCHEMA:\n" +
+                "{\n" +
+                "  \"title\": \"A concise, professional title summarizing the issue (e.g., Worn Brake Pads, Engine Misfire)\",\n" +
+                "  \"severity\": \"Must be exactly one of: LOW, MEDIUM, HIGH, or CRITICAL\",\n" +
+                "  \"diagnosis\": \"A clear, 2-3 sentence technical explanation of the identified problem based on the conversation.\",\n" +
+                "  \"recommended_actions\": [\n" +
+                "    \"Specific, actionable step 1\",\n" +
+                "    \"Specific, actionable step 2\"\n" +
+                "  ],\n" +
+                "  \"estimated_cost\": \"An approximate price range including currency (e.g., 150 - 250 USD or 300 - 500 RON). If unknown, write 'Cost unavailable'.\",\n" +
+                "  \"parts_needed\": [\n" +
+                "    \"Name of Part 1 (if any)\",\n" +
+                "    \"Name of Part 2 (if any)\"\n" +
+                "  ]\n" +
+                "}";
+
+        // Initialize the new model specifically for this JSON task
+        GenerativeModel jsonModel = new GenerativeModel(
+                "gemini-2.5-flash",
+                BuildConfig.GEMINI_API_KEY,
+                null, // GenerationConfig can safely be null
+                null,
+                new RequestOptions(), // RequestOptions MUST NOT be null (this prevents the crash!)
+                null,
+                null,
+                null
+        );
+
+        GenerativeModelFutures modelFutures = GenerativeModelFutures.from(jsonModel);
+        Content content = new Content.Builder().addText(jsonPrompt).build();
+
+        Executor executor = Executors.newSingleThreadExecutor();
+        ListenableFuture<GenerateContentResponse> response = modelFutures.generateContent(content);
+
+        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+            @Override
+            public void onSuccess(GenerateContentResponse result) {
+                String jsonOutput = result.getText();
+
+                runOnUiThread(() -> {
+                    btnGenerateReport.setEnabled(true);
+                    btnGenerateReport.setText("📄 Generate Official Report");
+                    btnGenerateReport.setVisibility(View.GONE); // Hide it after success
+
+                    // Log the JSON so you can verify it in Android Studio Logcat
+                    Log.d("AI_JSON", "Report Generated: \n" + jsonOutput);
+
+                    Intent intent = new Intent(AIDiagnosticActivity.this, DiagnosticReportActivity.class);
+                    intent.putExtra("report_json", jsonOutput);
+                    intent.putExtra("car", activeCar);
+                    intent.putExtra("chat_history", chatHistory.toString());
+                    startActivity(intent);
+                });
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                runOnUiThread(() -> {
+                    btnGenerateReport.setEnabled(true);
+                    btnGenerateReport.setText("Retry Generating Report");
+                    Toast.makeText(AIDiagnosticActivity.this, "Failed to generate report. Try again.", Toast.LENGTH_SHORT).show();
+                    Log.e("GEMINI_JSON_ERROR", "Error generating JSON: ", t);
+                });
+            }
+        }, executor);
+    }
+    private void sendMessageToExistingChat(String userSymptom, int loadingPosition) {
+        Content.Builder contentBuilder = new Content.Builder().addText(userSymptom);
+
+        if(attachedBitmap != null) {
+            contentBuilder.addImage(attachedBitmap);
+        }
+
+        //packaging the prompt
+        Content content = contentBuilder.build();
+
+        Executor executor = Executors.newSingleThreadExecutor();
+        ListenableFuture<GenerateContentResponse> response = currentChatSession.sendMessage(content);
+
+        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+            @Override
+            public void onSuccess(GenerateContentResponse result) {
+                String aiAnswer = result.getText();
+                runOnUiThread(() -> {
+                    updateChatMessage(loadingPosition, aiAnswer);
+//                    saveDiagnosticReport(userCar, userSymptom, aiAnswer); we do not have to save it yet, only at the final report
+
+                    attachedBitmap = null;
+                    imgAttachmentPreview.setVisibility(View.GONE);
+                    btnFindService.setVisibility(View.VISIBLE);
+
+                    if(aiAnswer != null && aiAnswer.contains("Generate Report")){
+                        btnGenerateReport.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                runOnUiThread(() -> {
+                    String errorMessage = t.getMessage();
+                    String userFriendlyMessage;
+
+                    // Intercept 503 / MissingFieldException error
+                    if (errorMessage != null && (errorMessage.contains("503") || errorMessage.contains("MissingFieldException"))) {
+                        userFriendlyMessage = "The AI diagnostic servers are currently very busy. Please wait a few moments and try again.";
+                    } else {
+                        // Fallback for other types of errors (no internet, timeouts, etc.)
+                        userFriendlyMessage = "We couldn't connect to the AI service. Please check your connection and try again.";
+                        Log.e("GEMINI_ERROR", "Detailed AI Error: ", t);
+                    }
+
+                    updateChatMessage(loadingPosition, userFriendlyMessage);
+                    btnFindService.setVisibility(View.VISIBLE); // The user can still access the find service button
+                });
+            }
+        }, executor);
     }
 
     public interface ActiveCarCallback {
@@ -254,26 +404,35 @@ public class AIDiagnosticActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         StringBuilder contextBuilder = new StringBuilder();
+        StringBuilder journalBuilder = new StringBuilder();
 
+        // Fetch Local Database Parts & Lights
         Task<QuerySnapshot> carPartsTask = db.collection("Car_Parts")
                 .whereArrayContains("compatibleFuels", carFuelLower)
                 .get();
         Task<QuerySnapshot> warningLightsTask = db.collection("Warning_Lights")
                 .get();
 
-        Tasks.whenAllSuccess(carPartsTask, warningLightsTask).addOnSuccessListener(results -> {
+        // Fetch the Car's Journal History
+        Task<QuerySnapshot> journalTask = db.collection("Vehicles").document(activeCar.getId())
+                .collection("Journal")
+                .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .get();
+
+        // Run all three tasks in parallel
+        Tasks.whenAllSuccess(carPartsTask, warningLightsTask, journalTask).addOnSuccessListener(results -> {
             QuerySnapshot carPartsSnapshot = (QuerySnapshot) results.get(0);
             QuerySnapshot warningLightsSnapshot = (QuerySnapshot) results.get(1);
+            QuerySnapshot journalSnapshot = (QuerySnapshot) results.get(2); // The new journal data
 
+            // Build Local Database Context
             contextBuilder.append("--- MY LOCAL DATABASE ---\n");
-
             contextBuilder.append("\nWARNING LIGHTS AND THEIR SYMPTOMS:\n");
             for (QueryDocumentSnapshot doc : warningLightsSnapshot) {
                 String name = doc.getString("name");
                 String otherDetails = doc.getString("otherDetails");
                 List<String> causes = (List<String>) doc.get("causes");
                 List<String> symptomsList = (List<String>) doc.get("symptoms");
-
                 contextBuilder.append("- ").append(name)
                         .append(" | Causes: ").append(causes)
                         .append(" | Other Details: ").append(otherDetails)
@@ -284,106 +443,67 @@ public class AIDiagnosticActivity extends AppCompatActivity {
             for (QueryDocumentSnapshot doc : carPartsSnapshot) {
                 String name = doc.getString("name");
                 List<String> symptomsList = (List<String>) doc.get("malfunctionSymptoms");
-
                 contextBuilder.append("- Part: ").append(name)
                         .append(" | Symptoms: ").append(symptomsList).append("\n");
             }
-
             contextBuilder.append("------------------------\n");
 
+            // Build Journal Context String
+            if (journalSnapshot.isEmpty()) {
+                journalBuilder.append("No past service records or repairs found for this vehicle.\n");
+            } else {
+                for (QueryDocumentSnapshot doc : journalSnapshot) {
+                    // Assuming your JournalEntry fields match these names in Firestore
+                    String type = doc.getString("type");
+                    String title = doc.getString("title");
+                    String desc = doc.getString("description");
+                    Long mileage = doc.getLong("mileageAtLog");
+
+                    journalBuilder.append("- [").append(type).append("] ")
+                            .append(title).append(" at ").append(mileage)
+                            .append(" km. Details: ").append(desc).append("\n");
+                }
+            }
+
             String databaseContext = contextBuilder.toString();
-            generateDiagnostic(activeCar, userSymptom, databaseContext, loadingPosition);
+            String journalContext = journalBuilder.toString();
+
+            // Pass the new journalContext to the next method
+            generateDiagnostic(activeCar, userSymptom, databaseContext, journalContext, loadingPosition);
         });
     }
+    private void generateDiagnostic(Car userCar, String userSymptom, String databaseContext, String journalContext, int loadingPosition) {
 
-    private void generateDiagnostic(Car userCar, String userSymptom, String databaseContext, int loadingPosition) {
-        String prompt = "You are an AI automotive diagnostic assistant. You must clearly act as an AI and never claim to be a human or a certified mechanic. Analyze the user's input, including any attached images.\n\n" +
-
+        // This is the SYSTEM INSTRUCTION. It tells the AI who it is and what data it has before the chat even starts.
+        String systemInstructionText = "You are an AI automotive mechanic assistant. Your goal is to troubleshoot car issues by asking the user clarifying questions. You have access to the vehicle's data, journal history, and local database.\n\n" +
                 "1. VEHICLE DATA:\n" +
-                "Make & Model: " + userCar.getCarName() + "\n" +
-                "Year: " + userCar.getYear() + "\n" +
-                "Engine: " + userCar.getEngine() + "L " + userCar.getFuel() + "\n" +
-                "Mileage: " + userCar.getKm() + " km\n\n" +
+                "Make & Model: " + userCar.getCarName() + " (" + userCar.getYear() + "), " + userCar.getEngine() + "L " + userCar.getFuel() + ", Mileage: " + userCar.getKm() + " km\n\n" +
+                "2. VEHICLE SERVICE HISTORY (Journal Records):\n" + journalContext + "\n\n" +
+                "3. LOCAL DATABASE (Primary source of truth):\n" + databaseContext + "\n\n" +
+                "*** CRITICAL RULES ***\n" +
+                "RULE 1: Do NOT generate a final diagnosis immediately. Ask 1 or 2 targeted questions to narrow down the symptom based on the user's input.\n" +
+                "RULE 2: NO OBD-II SCANNERS. Advise visual or sensory checks only.\n" +
+                "RULE 3: Once you are confident in the issue, STOP asking questions and output exactly this phrase at the end of your message: 'I have enough information to diagnose this. Please click Generate Report.'";
 
-                "2. USER'S INPUT / SYMPTOMS:\n\"" + userSymptom + "\"\n" +
-                "(Note: The user may have attached an image. If so, thoroughly examine it for dashboard warning lights, physical damage, leaks, or broken parts, and combine this visual data with the text symptoms.)\n\n" +
+        // Initializing the AI model (Gemini)
+        GenerativeModel gm = new GenerativeModel(
+                "gemini-2.5-flash",
+                BuildConfig.GEMINI_API_KEY,
+                null,
+                null,
+                new RequestOptions(),
+                null,
+                null,
+                new Content.Builder().addText(systemInstructionText).build()
+        );
 
-                "3. MY LOCAL DATABASE (Primary source of truth):\n" + databaseContext + "\n\n" +
-
-                "*** CRITICAL BEHAVIOR RULES ***\n" +
-                "RULE 1 - OFF-TOPIC QUERIES: If the 'USER'S INPUT' is completely unrelated to cars, vehicles, driving, or automotive parts (e.g., medical questions, programming, cooking, general chat), YOU MUST ABORT THE DIAGNOSTIC PROCESS. Do NOT use the diagnostic template below. Instead, output exactly one short paragraph in a friendly tone stating: 'Hello. I am an AI automotive diagnostic assistant. I am programmed strictly to diagnose vehicle issues and cannot assist with [insert topic, e.g., medical advice]. Please consult the appropriate professional for this matter.' Then stop entirely.\n\n" +
-
-                "RULE 2 - AUTOMOTIVE QUERIES: If the input IS related to a vehicle, you must use the EXACT RESPONSE TEMPLATE below. Do NOT use markdown symbols like asterisks (**), hashes (###), or underscores (_). Use plain text, ALL CAPS for main section titles, and standard dashes (-) for bullet points.\n\n" +
-                "RULE 3 - FORMATTING: To make the text readable and spacious, you MUST leave an empty blank line between every single paragraph and between every bullet point.\n\n" +
-
-                "*** EXACT RESPONSE TEMPLATE (FOR VEHICLE ISSUES ONLY) ***\n\n" +
-
-                "DIAGNOSIS:\n\n" +
-                "[Start with a friendly greeting. Directly explain the most likely causes based on the symptoms/visuals. Leave empty lines between paragraphs.]\n\n\n" +
-
-                "RECOMMENDED ACTIONS:\n\n" +
-                "[Provide clear actions. Leave an empty blank line between each bullet point item.]\n\n\n" +
-
-                "ESTIMATED COSTS & PARTS:\n\n" +
-                "[List approximate price ranges for parts. Suggest reputable retailers. Leave an empty blank line between items. Do NOT suggest mechanic shops.]\n\n\n" +
-
-                "DATA SOURCE SUMMARY:\n\n" +
-                "[Briefly state what was extracted from the 'Local Database' vs general AI knowledge.]\n\n\n" +
-
-                "DISCLAIMER:\n\n" +
-                "[Brief reminder that this is an AI-generated diagnosis.]";
-
-        //initializing the ai model (Gemini)
-        GenerativeModel gm = new GenerativeModel("gemini-3.5-flash", BuildConfig.GEMINI_API_KEY);
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
-        Content.Builder contentBuilder = new Content.Builder().addText(prompt);
+        // Starts the chat session
+        currentChatSession = model.startChat();
 
-        if(attachedBitmap != null) {
-            contentBuilder.addImage(attachedBitmap);
-        }
-
-        //packaging the prompt
-        Content content = contentBuilder.build();
-
-        Executor executor = Executors.newSingleThreadExecutor();
-        ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
-
-        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
-            @Override
-            public void onSuccess(GenerateContentResponse result) {
-                String aiAnswer = result.getText();
-                runOnUiThread(() -> {
-                    updateChatMessage(loadingPosition, aiAnswer);
-                    saveDiagnosticReport(userCar, userSymptom, aiAnswer);
-
-                    attachedBitmap = null;
-                    imgAttachmentPreview.setVisibility(View.GONE);
-
-                    btnFindService.setVisibility(View.VISIBLE);
-                });
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                runOnUiThread(() -> {
-                    String errorMessage = t.getMessage();
-                    String userFriendlyMessage;
-
-                    // Intercept 503 / MissingFieldException error
-                    if (errorMessage != null && (errorMessage.contains("503") || errorMessage.contains("MissingFieldException"))) {
-                        userFriendlyMessage = "The AI diagnostic servers are currently very busy. Please wait a few moments and try again.";
-                    } else {
-                        // Fallback for other types of errors (no internet, timeouts, etc.)
-                        userFriendlyMessage = "We couldn't connect to the AI service. Please check your connection and try again.";
-                        Log.e("GEMINI_ERROR", "Detailed AI Error: ", t);
-                    }
-
-                    updateChatMessage(loadingPosition, userFriendlyMessage);
-                    btnFindService.setVisibility(View.VISIBLE); // The user can still access the find service button
-                });
-            }
-        }, executor);
+        // Sends the first user's message to the chat
+        sendMessageToExistingChat(userSymptom, loadingPosition);
     }
 
     private void saveDiagnosticReport(Car userCar, String userSymptom, String aiAnswer) {

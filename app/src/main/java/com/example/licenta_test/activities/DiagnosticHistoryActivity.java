@@ -1,5 +1,6 @@
 package com.example.licenta_test.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.licenta_test.R;
 import com.example.licenta_test.adapters.DiagnosticReportAdapter;
+import com.example.licenta_test.entities.Car;
 import com.example.licenta_test.entities.DiagnosticReport;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -172,12 +174,37 @@ public class DiagnosticHistoryActivity extends AppCompatActivity {
 
     private void showFullReportDialog(DiagnosticReport report) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Diagnostic Report");
-        String dialogMessage = "SYMPTOMS REPORTED:\n" + report.getUserSymptoms() +
-                "\n\n------------------------\n\n" +
-                "AI DIAGNOSIS:\n" + report.getAiDiagnosis();
+        builder.setTitle("Diagnostic Conversation");
+
+        // Afișăm toată conversația salvată
+        // (Asigură-te că ai adăugat getChatHistory() în clasa DiagnosticReport)
+        String dialogMessage = report.getChatHistory();
+
         builder.setMessage(dialogMessage);
-        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
+
+        // Butonul Pozitiv te duce către ecranul frumos de Raport
+        builder.setPositiveButton("View Official Report", (dialog, which) -> {
+            Intent intent = new Intent(DiagnosticHistoryActivity.this, DiagnosticReportActivity.class);
+
+            // Trimitem JSON-ul brut către Activitatea de Raport pentru a-l desena
+            // (Asigură-te că ai adăugat getRawJson() în clasa DiagnosticReport)
+            intent.putExtra("report_json", report.getRawJson());
+
+            // Setăm un flag special pentru a ști că venim din istoric!
+            intent.putExtra("is_history_view", true);
+
+            // Creăm un obiect Car "fals" sau trimitem doar numele mașinii,
+            // deoarece raportul grafic are nevoie de numele vehiculului sus.
+            Car fakeCar = new Car();
+            fakeCar.setCarName(report.getCarName());
+            intent.putExtra("car", fakeCar);
+
+            startActivity(intent);
+        });
+
+        // Butonul Negativ doar închide dialogul
+        builder.setNegativeButton("Close", (dialog, which) -> dialog.dismiss());
+
         builder.show();
     }
 }

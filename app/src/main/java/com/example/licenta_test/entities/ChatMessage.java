@@ -17,7 +17,7 @@ public class ChatMessage {
         this.message = message;
     }
 
-    public boolean getUser() {
+    public boolean getIsUser() {
         return isUser;
     }
 }

@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvHistoryCarName"
                 android:layout_marginTop="2dp"
-                android:text="AI Diagnostic Report"
+                android:text="AI Chat &amp; Diagnostic"
                 android:textColor="#2962FF"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -67,7 +67,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reported Symptoms:"
+                android:text="Conversation Snippet:"
                 android:textColor="#888888"
                 android:textSize="12sp" />
 
@@ -78,7 +78,7 @@
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="The engine makes a knocking noise when starting cold and the check engine light is blinking."
+                android:text="User: The engine makes a knocking noise..."
                 android:textColor="#1A2530"
                 android:textSize="14sp"
                 android:textStyle="italic" />
@@ -104,8 +104,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="135sp"
-                android:text="Was this report useful?"
+                android:text="Was this useful?"
                 android:textColor="#888888"
                 android:textSize="12sp"
                 android:textStyle="italic" />
@@ -140,7 +139,7 @@
             android:gravity="end"
             android:paddingHorizontal="16dp"
             android:paddingVertical="10dp"
-            android:text="View full report >"
+            android:text="View full conversation >"
             android:textColor="#2962FF"
             android:textSize="12sp"
             android:textStyle="bold" />

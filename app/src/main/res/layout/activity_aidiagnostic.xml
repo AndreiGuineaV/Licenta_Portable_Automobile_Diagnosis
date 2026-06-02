@@ -66,6 +66,8 @@
         android:text="Active Vehicle: None"
         app:layout_constraintTop_toBottomOf="@+id/headerLayout" />
 
+    <!-- Chat RecyclerView -->
+    <!-- Are paddingBottom ca să poți vedea ultimele mesaje pe sub butoanele plutitoare -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerAiChat"
         android:layout_width="0dp"
@@ -73,17 +75,18 @@
         android:clipToPadding="false"
         android:paddingHorizontal="12dp"
         android:paddingTop="12dp"
-        android:paddingBottom="70dp"
+        android:paddingBottom="120dp"
         app:layout_constraintBottom_toTopOf="@+id/searchBarContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvActiveCarBanner" />
 
+    <!-- BUTON 2: Find Service (Acum e ancorat de butonul de Report) -->
     <Button
         android:id="@+id/btnFindService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="#2962FF"
         android:elevation="4dp"
         android:paddingHorizontal="24dp"
@@ -92,6 +95,27 @@
         android:textStyle="bold"
         android:visibility="gone"
         app:cornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGenerateReport"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginBottom="12dp"
+        tools:visibility="visible" />
+
+    <!-- BUTON 1: Generate Report (Principal, deasupra barei de search) -->
+    <Button
+        android:id="@+id/btnGenerateReport"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="48dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="#00C853"
+        android:elevation="4dp"
+        android:paddingVertical="12dp"
+        android:text="📄 Generate Official Report"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:cornerRadius="24dp"
         app:layout_constraintBottom_toTopOf="@+id/searchBarContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

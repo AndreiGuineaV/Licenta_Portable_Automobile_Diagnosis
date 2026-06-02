@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,6 +101,25 @@ public class AddCarActivity extends AppCompatActivity {
         fuelTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFuelType.setAdapter(fuelTypeAdapter);
 
+        spinnerFuelType.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String selectedFuel = parent.getItemAtPosition(position).toString();
+                if (selectedFuel.equalsIgnoreCase("ELECTRIC")) {
+                    etEngine.setVisibility(View.GONE);
+                    etEngine.setText("0"); // Set to 0 to not get parse error
+                } else {
+                    etEngine.setVisibility(View.VISIBLE);
+                    if(etEngine.getText().toString().equals("0")) {
+                        etEngine.setText(""); // Clear the text if the user changed the selection
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        });
+
         etEngine = findViewById(R.id.etEngine);
         etPower = findViewById(R.id.etPower);
         btnSaveCar = findViewById(R.id.btnSaveCar);
@@ -114,18 +134,23 @@ public class AddCarActivity extends AppCompatActivity {
             String engineStr = etEngine.getText().toString().trim();
             String powerStr = etPower.getText().toString().trim();
             String yearStr = etYear.getText().toString().trim();
+            String fuel = spinnerFuelType.getSelectedItem().toString();
 
-            if (carName.isEmpty() || mileageStr.isEmpty() || engineStr.isEmpty() || powerStr.isEmpty() || yearStr.isEmpty()) {
+            boolean isElectric = fuel.equalsIgnoreCase("ELECTRIC");
+
+            // Ignores engineStr if electric
+            if (carName.isEmpty() || mileageStr.isEmpty() || powerStr.isEmpty() || yearStr.isEmpty() || (!isElectric && engineStr.isEmpty())) {
                 Toast.makeText(this, "Please fill in all fields!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             try {
                 int km = Integer.parseInt(mileageStr);
-                float engine = Float.parseFloat(engineStr);
                 int power = Integer.parseInt(powerStr);
                 int year = Integer.parseInt(yearStr);
-                String fuel = spinnerFuelType.getSelectedItem().toString();
+
+                // If is electric then engine is 0
+                float engine = isElectric ? 0.0f : Float.parseFloat(engineStr);
 
                 int currentYear = Calendar.getInstance().get(Calendar.YEAR);
                 if (year < 1900 || year > currentYear) {
@@ -140,7 +165,7 @@ public class AddCarActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (engine < 0.049f || engine > 8.0f) {
+                if (!isElectric && (engine < 0.049f || engine > 8.0f)) {
                     etEngine.setError("Engine capacity must be between 0.049L and 8.0L");
                     etEngine.requestFocus();
                     return;

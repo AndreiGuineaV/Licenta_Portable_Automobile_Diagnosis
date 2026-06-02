@@ -71,16 +71,19 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.JournalV
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(entry);
+            int currentPos = holder.getBindingAdapterPosition();
+            // Check if the item still exists (wasn't already animating out)
+            if (currentPos != RecyclerView.NO_POSITION && listener != null) {
+                listener.onItemClick(journalList.get(currentPos));
             }
         });
 
         holder.itemView.setOnLongClickListener(v -> {
-            if (listener != null) {
-                listener.onItemLongClick(entry, position);
+            int currentPos = holder.getBindingAdapterPosition();
+            if (currentPos != RecyclerView.NO_POSITION && listener != null) {
+                listener.onItemLongClick(journalList.get(currentPos), currentPos);
             }
-            return true; // Indicates that the long click event is consumed and not to start a normal click event
+            return true;
         });
     }
 

@@ -142,6 +142,7 @@ public class CarJournalActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     journalList.remove(position);
                     adapter.notifyItemRemoved(position);
+                    adapter.notifyItemRangeChanged(position, journalList.size());
                     Toast.makeText(this, "Entry deleted successfully!", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {

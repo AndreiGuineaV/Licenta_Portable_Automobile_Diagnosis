@@ -24,7 +24,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //Deciding which layout type to use
     @Override
     public int getItemViewType(int position) {
-        if (chatList.get(position).getUser()) {
+        if (chatList.get(position).getIsUser()) {
             return VIEW_TYPE_USER;
         } else {
             return VIEW_TYPE_AI;
