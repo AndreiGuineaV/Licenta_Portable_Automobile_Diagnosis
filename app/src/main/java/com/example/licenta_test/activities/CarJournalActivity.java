@@ -88,6 +88,12 @@ public class CarJournalActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(JournalEntry entry, int position) {
+                String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if (!currentCar.getOwnerId().equals(myUid)) {
+                    Toast.makeText(CarJournalActivity.this, "Only the owner can delete journal entries!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 showDeleteConfirmationDialog(entry, position);
             }
         });

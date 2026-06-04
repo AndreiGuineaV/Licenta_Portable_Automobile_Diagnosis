@@ -251,14 +251,14 @@ public class ProfileActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         getSharedPreferences("LoginPrefs", MODE_PRIVATE).edit().clear().apply();
 
-                        Toast.makeText(this, "Contul a fost șters definitiv.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "The account has been permanently deleted.", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(this, "Eroare la ștergerea contului: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Error deleting account: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             });

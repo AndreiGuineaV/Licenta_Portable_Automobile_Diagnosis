@@ -37,7 +37,7 @@ public class ReminderWorker extends Worker {
     @Override
     public Result doWork() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        // Dacă nu e nimeni logat, nu facem nimic
+        // If nobody is logged in, do nothing
         if (user == null) {
             return Result.success();
         }
@@ -74,12 +74,12 @@ public class ReminderWorker extends Worker {
         long diffInMillis = expirationDate - now;
         int daysLeft = (int) TimeUnit.MILLISECONDS.toDays(diffInMillis);
 
-        // Dacă e în aceeași zi, dar diferența de ore a trecut-o pe negativ, o considerăm 0
+        // If it's on the same day, but the hour difference made it negative, we consider it 0
         if (diffInMillis > 0 && daysLeft == 0) daysLeft = 0;
 
         String message = null;
 
-        // Logica ta: 3, 2, 1, 0 sau expirat
+        // 3, 2, 1, 0 or expired
         if (daysLeft == 3) {
             message = documentType + " expires in exactly 3 days!";
         } else if (daysLeft == 2) {
@@ -89,7 +89,7 @@ public class ReminderWorker extends Worker {
         } else if (daysLeft == 0) {
             message = documentType + " EXPIRES TODAY! Please renew it.";
         } else if (daysLeft < 0 && daysLeft >= -3) {
-            // Îi spunem că a expirat timp de 3 zile după expirare (ca să nu îl spamăm la infinit)
+            // Tell the user it's expired for 3 days after expiration (to avoid spamming indefinitely)
             message = "ALERT: " + documentType + " is EXPIRED!";
         }
 

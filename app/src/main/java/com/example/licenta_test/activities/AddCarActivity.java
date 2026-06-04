@@ -56,7 +56,7 @@ public class AddCarActivity extends AppCompatActivity {
             uri -> {
                 if (uri != null) {
                     imagePath = saveUriToInternalStorage(uri);
-                    imgCarPreview.setImageURI(uri); // Afișăm pe ecran
+                    imgCarPreview.setImageURI(uri); // Display on screen
                 }
             }
     );
@@ -66,7 +66,7 @@ public class AddCarActivity extends AppCompatActivity {
             bitmap -> {
                 if (bitmap != null) {
                     imagePath = saveBitmapToInternalStorage(bitmap);
-                    imgCarPreview.setImageBitmap(bitmap); // Afișăm pe ecran
+                    imgCarPreview.setImageBitmap(bitmap); // Display on screen
                 }
             }
     );

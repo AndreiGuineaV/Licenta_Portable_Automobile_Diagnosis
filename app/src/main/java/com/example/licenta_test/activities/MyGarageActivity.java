@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.licenta_test.R;
 import com.example.licenta_test.adapters.CarAdapter;
 import com.example.licenta_test.entities.Car;
+import com.example.licenta_test.entities.CarInvite;
 import com.example.licenta_test.entities.FuelType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +49,8 @@ public class MyGarageActivity extends AppCompatActivity {
     private CarAdapter adapter;
     private RecyclerView recyclerViewCars;
     private long tempItp = 0, tempRca = 0, tempRovinieta = 0, tempOil = 0;
+    private View btnInvites;
+    private View badgeInvites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +70,23 @@ public class MyGarageActivity extends AppCompatActivity {
         iconBack = findViewById(R.id.iconBack);
         iconBack.setOnClickListener(v -> finish());
 
+        btnInvites = findViewById(R.id.btnInvites);
+        badgeInvites = findViewById(R.id.badgeInvites);
+
+        ImageView btnShowAlerts = findViewById(R.id.btnShowAlerts);
+        btnShowAlerts.setOnClickListener(v -> checkAndShowRemindersAlert(true));
+
+        checkPendingInvites();
+        btnInvites.setOnClickListener(v -> {
+            Intent intent = new Intent(this, InvitesActivity.class);
+            invitesLauncher.launch(intent);
+        });
+
         recyclerViewCars = findViewById(R.id.recyclerCars);
         recyclerViewCars.setLayoutManager(new LinearLayoutManager(this));
 
         carList = new ArrayList<>();
-        adapter = new CarAdapter(carList, this, this::showDeleteDialog, this::showEditRemindersDialog, this::showEditInfoDialog, car ->{
+        adapter = new CarAdapter(carList, this, this::showDeleteDialog, this::showEditRemindersDialog, this::showEditInfoDialog, car -> {
             Intent intent = new Intent(this, CarJournalActivity.class);
             intent.putExtra("car", car);
             startActivity(intent);
@@ -85,11 +100,14 @@ public class MyGarageActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddCarActivity.class);
             launcher.launch(intent);
         });
+
+
     }
 
     private interface DateSelectListener {
         void onDateSelected(long timestamp);
     }
+
     ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -108,6 +126,33 @@ public class MyGarageActivity extends AppCompatActivity {
             }
     );
 
+    ActivityResultLauncher<Intent> invitesLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                loadUserCars();
+                checkPendingInvites();
+            }
+    );
+
+    private void checkPendingInvites() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        FirebaseFirestore.getInstance().collection("Invites")
+                .whereEqualTo("targetUid", user.getUid())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (badgeInvites != null) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            badgeInvites.setVisibility(View.VISIBLE); // Turn on the red dot
+                        } else {
+                            badgeInvites.setVisibility(View.GONE); // Hide the red dot
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.e("INVITES", "Error checking invites", e));
+    }
+
     private void loadUserCars() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
@@ -115,14 +160,14 @@ public class MyGarageActivity extends AppCompatActivity {
         String uid = user.getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // 1. Preluăm profilul utilizatorului pentru a vedea care este mașina lui activă
+        // 1. Get the user profile to see which is their active car
         db.collection("Users").document(uid).get().addOnSuccessListener(userDoc -> {
             if (userDoc.exists() && userDoc.contains("activeCarId")) {
                 String activeCarId = userDoc.getString("activeCarId");
                 adapter.setActiveCarId(activeCarId);
             }
 
-            // 2. Descărcăm mașinile din colecția GLOBALĂ "Vehicles" (Owner SAU Shared)
+            // 2. Download cars from the GLOBAL "Vehicles" collection (Owner OR Shared)
             db.collection("Vehicles")
                     .where(Filter.or(
                             Filter.equalTo("ownerId", uid),
@@ -135,13 +180,13 @@ public class MyGarageActivity extends AppCompatActivity {
                         for (DocumentSnapshot doc : queryDocumentSnapshots) {
                             Car car = doc.toObject(Car.class);
                             if (car != null) {
-                                car.setId(doc.getId()); // Foarte important: setăm ID-ul din Firestore în obiect
+                                car.setId(doc.getId()); // Very important: set the ID from Firestore into the object
                                 carList.add(car);
                             }
                         }
 
                         updateUI();
-                        checkAndShowRemindersAlert();
+                        checkAndShowRemindersAlert(false);
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Error loading cars: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -151,7 +196,15 @@ public class MyGarageActivity extends AppCompatActivity {
             Toast.makeText(this, "Error loading user profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
+
     private void showEditInfoDialog(Car car, int position) {
+
+        String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (!car.getOwnerId().equals(myUid)) {
+            Toast.makeText(this, "Only the owner can edit the car's details!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog_edit_car_info, null);
         builder.setView(view);
@@ -180,8 +233,10 @@ public class MyGarageActivity extends AppCompatActivity {
                     etEngine.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+            }
         });
 
         etName.setText(car.getCarName());
@@ -266,13 +321,13 @@ public class MyGarageActivity extends AppCompatActivity {
     private void shareCarWithUser(Car car, String targetEmail) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // 1. Căutăm UID-ul utilizatorului după email
+        // 1. Search for the user's UID by email
         db.collection("Users").whereEqualTo("email", targetEmail).get()
                 .addOnSuccessListener(query -> {
                     if (!query.isEmpty()) {
-                        String targetUid = query.getDocuments().get(0).getId(); // Am găsit UID-ul tău
+                        String targetUid = query.getDocuments().get(0).getId(); // Found your UID
 
-                        // 2. Adăugăm UID-ul tău în lista "sharedWith" a mașinii
+                        // 2. Add your UID to the "sharedWith" list of the car
                         db.collection("Vehicles").document(car.getId())
                                 .update("sharedWith", FieldValue.arrayUnion(targetUid))
                                 .addOnSuccessListener(aVoid -> {
@@ -292,50 +347,84 @@ public class MyGarageActivity extends AppCompatActivity {
                     if (!query.isEmpty()) {
                         String newOwnerUid = query.getDocuments().get(0).getId();
 
-                        // Setăm noul owner și curățăm lista de shared (opțional)
+                        // Set the new owner and clear the shared list (optional)
                         db.collection("Vehicles").document(car.getId())
                                 .update(
                                         "ownerId", newOwnerUid,
-                                        "sharedWith", new ArrayList<String>() // Resetăm cine are acces
+                                        "sharedWith", new ArrayList<String>() // Reset who has access
                                 )
                                 .addOnSuccessListener(aVoid -> {
                                     Toast.makeText(this, "Ownership transferred!", Toast.LENGTH_SHORT).show();
-                                    // Aici ar trebui să scoți mașina din lista tatălui și să dai adapter.notifyDataSetChanged()
+                                    // Here you should remove the car from the list and call adapter.notifyDataSetChanged()
                                 });
                     }
                 });
     }
+
     private void showDeleteDialog(int position) {
+        Car carToDelete = carList.get(position);
+
+        if (carToDelete.getId() == null) {
+            Toast.makeText(this, "Error: car id is null", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        boolean isOwner = carToDelete.getOwnerId().equals(myUid);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete Vehicle");
-        builder.setMessage("Are you sure you want to delete " + carList.get(position).getCarName() + "?");
 
-        builder.setPositiveButton("Delete", (dialog, which) -> {
-            Car carToDelete = carList.get(position);
+        // 1. Adapt the dialog text
+        if (isOwner) {
+            builder.setTitle("Delete Vehicle");
+            builder.setMessage("Are you sure you want to permanently delete " + carToDelete.getCarName() + " from the database?");
+        } else {
+            builder.setTitle("Remove Shared Vehicle");
+            builder.setMessage("Are you sure you want to remove " + carToDelete.getCarName() + " from your garage? The owner will keep the vehicle.");
+        }
 
-            if (carToDelete.getId() == null) {
-                Toast.makeText(this, "Erorr: car id is null", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
+        // 2. Adapt the positive button action
+        builder.setPositiveButton(isOwner ? "Delete" : "Remove", (dialog, which) -> {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            db.collection("Vehicles").document(carToDelete.getId()).delete()
-                    .addOnSuccessListener(aVoid -> {
-                        if (carToDelete.getId().equals(adapter.getActiveCarId())) {
-                            db.collection("Users").document(uid).update("activeCarId", null);
-                            adapter.setActiveCarId(null);
-                        }
+            if (isOwner) {
+                // OWNER LOGIC: Deletes the document completely
+                db.collection("Vehicles").document(carToDelete.getId()).delete()
+                        .addOnSuccessListener(aVoid -> {
+                            // If the deleted car was set as active, we uncheck it
+                            if (carToDelete.getId().equals(adapter.getActiveCarId())) {
+                                db.collection("Users").document(myUid).update("activeCarId", null);
+                                adapter.setActiveCarId(null);
+                            }
 
-                        carList.remove(position);
-                        adapter.notifyItemRemoved(position);
-                        adapter.notifyItemRangeChanged(position, carList.size());
-                        updateUI();
+                            carList.remove(position);
+                            adapter.notifyItemRemoved(position);
+                            adapter.notifyItemRangeChanged(position, carList.size());
+                            updateUI();
 
-                        Toast.makeText(this, "Vehicle deleted", Toast.LENGTH_SHORT).show();
-                    });
+                            Toast.makeText(this, "Vehicle deleted completely.", Toast.LENGTH_SHORT).show();
+                        });
+            } else {
+                db.collection("Vehicles").document(carToDelete.getId())
+                        .update("sharedWith", FieldValue.arrayRemove(myUid))
+                        .addOnSuccessListener(aVoid -> {
+                            // Uncheck the car for deletion
+                            if (carToDelete.getId().equals(adapter.getActiveCarId())) {
+                                db.collection("Users").document(myUid).update("activeCarId", null);
+                                adapter.setActiveCarId(null);
+                            }
+
+                            carList.remove(position);
+                            adapter.notifyItemRemoved(position);
+                            adapter.notifyItemRangeChanged(position, carList.size());
+                            updateUI();
+
+                            Toast.makeText(this, "Vehicle removed from your garage.", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(this, "Error removing vehicle.", Toast.LENGTH_SHORT).show());
+            }
         });
+
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
         builder.create().show();
     }
@@ -354,11 +443,11 @@ public class MyGarageActivity extends AppCompatActivity {
         if (user == null) return;
 
         String uid = user.getUid();
-        car.setOwnerId(uid); // Tu ești proprietarul
+        car.setOwnerId(uid); // You are the owner
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // MODIFICAT: Salvăm direct în colecția globală "Vehicles"
+        // Save directly to the global "Vehicles" collection
         db.collection("Vehicles")
                 .add(car)
                 .addOnSuccessListener(documentReference -> {
@@ -374,105 +463,81 @@ public class MyGarageActivity extends AppCompatActivity {
                 });
     }
 
-    private void checkAndShowRemindersAlert() {
-        long now = System.currentTimeMillis();
-        long thirtyDaysInMs = 30L * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+    private void checkAndShowRemindersAlert(boolean forceShow) {
+        // 1. Verificăm în memoria telefonului când am afișat ultima dată alertele
+        android.content.SharedPreferences prefs = getSharedPreferences("GaragePrefs", MODE_PRIVATE);
+        long lastShownTime = prefs.getLong("last_alert_time", 0);
+        long currentTime = System.currentTimeMillis();
+
+        // Dacă nu forțăm afișarea și nu au trecut cel puțin 12 ore (43.200.000 ms), oprim execuția
+        if (!forceShow && (currentTime - lastShownTime < 43200000)) {
+            return;
+        }
+
+        long thirtyDaysInMs = 30L * 24 * 60 * 60 * 1000;
 
         StringBuilder expiredAlerts = new StringBuilder();
         StringBuilder upcomingAlerts = new StringBuilder();
-
         boolean hasAlerts = false;
 
         for (Car car : carList) {
             String carName = "<b>" + car.getCarName() + "</b>: ";
 
+            // ITP
             if (car.getItpExpiration() > 0) {
-                long diff = car.getItpExpiration() - now;
+                long diff = car.getItpExpiration() - currentTime;
                 if (diff < 0) {
                     expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("ITP Expired!</font><br>");
                     hasAlerts = true;
                 } else {
                     long daysLeft = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
-                    if (daysLeft == 0) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in less than 1 day (TODAY).</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 3) {
+                    if (daysLeft <= 30) {
                         upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in ").append(daysLeft).append(" days.</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 15) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in less than 15 days.</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 30) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("ITP expires in less than 30 days.</font><br>");
                         hasAlerts = true;
                     }
                 }
             }
 
+            // RCA
             if (car.getRcaExpiration() > 0) {
-                long diff = car.getRcaExpiration() - now;
+                long diff = car.getRcaExpiration() - currentTime;
                 if (diff < 0) {
                     expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("RCA Expired!</font><br>");
                     hasAlerts = true;
                 } else {
                     long daysLeft = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
-                    if (daysLeft == 0) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in less than 1 day (TODAY).</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 3) {
+                    if (daysLeft <= 30) {
                         upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in ").append(daysLeft).append(" days.</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 15) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in less than 15 days.</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 30) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("RCA expires in less than 30 days.</font><br>");
                         hasAlerts = true;
                     }
                 }
             }
 
+            // ROVINIETA
             if (car.getRovinietaExpiration() > 0) {
-                long diff = car.getRovinietaExpiration() - now;
+                long diff = car.getRovinietaExpiration() - currentTime;
                 if (diff < 0) {
                     expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("Rovinieta Expired!</font><br>");
                     hasAlerts = true;
                 } else {
                     long daysLeft = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
-                    if (daysLeft == 0) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in less than 1 day (TODAY).</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 3) {
+                    if (daysLeft <= 30) {
                         upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in ").append(daysLeft).append(" days.</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 15) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in less than 15 days.</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 30) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Rovinieta expires in less than 30 days.</font><br>");
                         hasAlerts = true;
                     }
                 }
             }
 
+            // OIL CHANGE
             if (car.getOilChangeDate() > 0) {
-                long diff = car.getOilChangeDate() - now;
+                long diff = car.getOilChangeDate() - currentTime;
                 if (diff < 0) {
                     expiredAlerts.append("<font color='#D32F2F'>").append(carName).append("Oil Change Overdue!</font><br>");
                     hasAlerts = true;
                 } else {
                     long daysLeft = java.util.concurrent.TimeUnit.MILLISECONDS.toDays(diff);
-                    if (daysLeft == 0) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed TODAY.</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 3) {
+                    if (daysLeft <= 30) {
                         upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed in ").append(daysLeft).append(" days.</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 15) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed in less than 15 days.</font><br>");
-                        hasAlerts = true;
-                    } else if (daysLeft <= 30) {
-                        upcomingAlerts.append("<font color='#F57F17'>").append(carName).append("Oil change needed soon.</font><br>");
                         hasAlerts = true;
                     }
                 }
@@ -485,12 +550,22 @@ public class MyGarageActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("⚠️ Vehicle Reminders");
             builder.setMessage(Html.fromHtml(finalMessage, Html.FROM_HTML_MODE_COMPACT));
-            builder.setPositiveButton("Understood", (dialog, which) -> dialog.dismiss());
+            builder.setPositiveButton("Understood", (dialog, which) -> {
+                // 2. Când utilizatorul dă "Understood", salvăm ora curentă în memorie!
+                prefs.edit().putLong("last_alert_time", System.currentTimeMillis()).apply();
+                dialog.dismiss();
+            });
             builder.show();
         }
     }
-
     private void showEditRemindersDialog(Car car, int position) {
+
+        String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (!car.getOwnerId().equals(myUid)) {
+            Toast.makeText(this, "Only the owner can edit the reminders!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         // loading the current data
         tempItp = car.getItpExpiration();
         tempRca = car.getRcaExpiration();
@@ -541,7 +616,7 @@ public class MyGarageActivity extends AppCompatActivity {
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(this, "Reminders Updated!", Toast.LENGTH_SHORT).show();
                         adapter.notifyItemChanged(position);
-                        checkAndShowRemindersAlert();
+                        checkAndShowRemindersAlert(true);
                         dialog.dismiss();
                     })
                     .addOnFailureListener(e -> Toast.makeText(this, "Error saving dates.", Toast.LENGTH_SHORT).show());
@@ -576,8 +651,7 @@ public class MyGarageActivity extends AppCompatActivity {
     }
 
     private void showShareTransferDialog(Car car, int position) {
-        // Verificăm dacă utilizatorul curent este proprietarul real al mașinii
-        // Nu poți transfera sau da share la o mașină care ți-a fost doar partajată!
+        // Only the owner can share or transfer this car
         String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         if (!car.getOwnerId().equals(myUid)) {
             Toast.makeText(this, "Only the owner can share or transfer this car!", Toast.LENGTH_LONG).show();
@@ -604,7 +678,7 @@ public class MyGarageActivity extends AppCompatActivity {
                 return;
             }
 
-            // Găsim RadioButton-ul selectat
+            // Get the selected radio button
             int selectedId = radioGroup.getCheckedRadioButtonId();
             boolean isTransfer = (selectedId == R.id.radioTransfer);
 
@@ -617,7 +691,6 @@ public class MyGarageActivity extends AppCompatActivity {
     private void executeShareOrTransfer(Car car, int position, String targetEmail, boolean isTransfer, AlertDialog dialog) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // 1. Căutăm utilizatorul țintă după Email în colecția "Users"
         db.collection("Users").whereEqualTo("email", targetEmail).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
@@ -626,42 +699,62 @@ public class MyGarageActivity extends AppCompatActivity {
                         return;
                     }
 
-                    // Luăm UID-ul utilizatorului găsit
                     String targetUid = queryDocumentSnapshots.getDocuments().get(0).getId();
                     String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                     if (targetUid.equals(myUid)) {
-                        Toast.makeText(this, "You cannot share a car with yourself!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "You cannot share/transfer a car to yourself!", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    // 2. Executăm logica în colecția "Vehicles"
-                    if (isTransfer) {
-                        // TRANSFER DE PROPRIETATE
-                        db.collection("Vehicles").document(car.getId())
-                                .update(
-                                        "ownerId", targetUid,
-                                        "sharedWith", new ArrayList<String>() // Opțional: Resetăm accesul altora
-                                )
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(this, "Ownership transferred successfully!", Toast.LENGTH_SHORT).show();
-                                    // Deoarece nu mai ești proprietar, scoatem mașina din lista ta locală
-                                    carList.remove(position);
-                                    adapter.notifyItemRemoved(position);
-                                    dialog.dismiss();
-                                })
-                                .addOnFailureListener(e -> Toast.makeText(this, "Transfer failed.", Toast.LENGTH_SHORT).show());
-                    } else {
-                        // SHARE ACCES
-                        // Folosim arrayUnion ca să adăugăm UID-ul doar dacă nu există deja
-                        db.collection("Vehicles").document(car.getId())
-                                .update("sharedWith", FieldValue.arrayUnion(targetUid))
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(this, "Car shared successfully!", Toast.LENGTH_SHORT).show();
-                                    dialog.dismiss();
-                                })
-                                .addOnFailureListener(e -> Toast.makeText(this, "Share failed.", Toast.LENGTH_SHORT).show());
-                    }
+                    // Check the car's database live
+                    db.collection("Vehicles").document(car.getId()).get().addOnSuccessListener(carDoc -> {
+                        if (carDoc.exists()) {
+                            List<String> currentSharedWith = (List<String>) carDoc.get("sharedWith");
+
+                            // If we want to share, check that they don't already have access
+                            if (!isTransfer && currentSharedWith != null && currentSharedWith.contains(targetUid)) {
+                                Toast.makeText(this, "This user already has access to this car!", Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
+                                return;
+                            }
+
+                            // Check that we haven't ALREADY sent a pending invitation for this car
+                            db.collection("Invites")
+                                    .whereEqualTo("carId", car.getId())
+                                    .whereEqualTo("targetUid", targetUid)
+                                    .get()
+                                    .addOnSuccessListener(inviteSnapshots -> {
+                                        if (!inviteSnapshots.isEmpty()) {
+                                            Toast.makeText(this, "An invite is already pending for this user!", Toast.LENGTH_LONG).show();
+                                            dialog.dismiss();
+                                            return;
+                                        }
+
+                                        // Everything is OK! Create the invitation. Set the type to "transfer" or "share"
+                                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                        String type = isTransfer ? "transfer" : "share";
+
+                                        CarInvite invite = new CarInvite(
+                                                car.getId(),
+                                                car.getCarName(),
+                                                currentUser.getEmail(),
+                                                targetUid,
+                                                type,
+                                                System.currentTimeMillis()
+                                        );
+
+                                        db.collection("Invites")
+                                                .add(invite)
+                                                .addOnSuccessListener(documentReference -> {
+                                                    String msg = isTransfer ? "Ownership transfer invite sent!" : "Share invite sent!";
+                                                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                                                    dialog.dismiss();
+                                                })
+                                                .addOnFailureListener(e -> Toast.makeText(this, "Failed to send invite.", Toast.LENGTH_SHORT).show());
+                                    });
+                        }
+                    });
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Error looking up user.", Toast.LENGTH_SHORT).show());
     }

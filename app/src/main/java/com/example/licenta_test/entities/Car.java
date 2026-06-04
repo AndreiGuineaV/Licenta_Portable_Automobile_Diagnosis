@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentId;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Car implements Serializable {
     @DocumentId
@@ -22,6 +23,15 @@ public class Car implements Serializable {
     private long rcaExpiration = 0;
     private long rovinietaExpiration = 0;
     private long oilChangeDate = 0;
+    private Map<String, String> sharedRoles;
+
+    public Map<String, String> getSharedRoles() {
+        return sharedRoles;
+    }
+
+    public void setSharedRoles(Map<String, String> sharedRoles) {
+        this.sharedRoles = sharedRoles;
+    }
 
     public Car(){} //Necessary constructor for Firestore
 

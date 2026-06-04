@@ -251,7 +251,7 @@ public class AIDiagnosticActivity extends AppCompatActivity {
 
         // Initialize the new model specifically for this JSON task
         GenerativeModel jsonModel = new GenerativeModel(
-                "gemini-2.5-flash",
+                "gemini-3.5-flash",
                 BuildConfig.GEMINI_API_KEY,
                 null, // GenerationConfig can safely be null
                 null,
@@ -487,7 +487,7 @@ public class AIDiagnosticActivity extends AppCompatActivity {
 
         // Initializing the AI model (Gemini)
         GenerativeModel gm = new GenerativeModel(
-                "gemini-2.5-flash",
+                "gemini-3.5-flash",
                 BuildConfig.GEMINI_API_KEY,
                 null,
                 null,
