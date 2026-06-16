@@ -18,14 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.licenta_test.BuildConfig;
 import com.example.licenta_test.R;
 import com.example.licenta_test.adapters.ChatAdapter;
-import com.example.licenta_test.additional.GarageStorage;
 import com.example.licenta_test.entities.Car;
 import com.example.licenta_test.entities.ChatMessage;
 import com.example.licenta_test.entities.DiagnosticReport;
@@ -35,7 +33,6 @@ import com.google.ai.client.generativeai.java.ChatFutures;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
 import com.google.ai.client.generativeai.type.Content;
 import com.google.ai.client.generativeai.type.GenerateContentResponse;
-import com.google.ai.client.generativeai.type.GenerationConfig;
 import com.google.ai.client.generativeai.type.RequestOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -53,7 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AIDiagnosticActivity extends AppCompatActivity {
 
@@ -230,7 +226,8 @@ public class AIDiagnosticActivity extends AppCompatActivity {
         String jsonPrompt = "Based on the following conversation history between a vehicle owner and an AI automotive mechanic, generate a final, structured diagnostic report.\n\n" +
                 "CONVERSATION HISTORY:\n" + chatHistory.toString() + "\n\n" +
                 "CRITICAL INSTRUCTIONS:\n" +
-                "1. You must output ONLY a valid JSON object. Do NOT include markdown code blocks (like ```json), no preamble, and no concluding remarks. The response must start with '{' and end with '}'.\n" +
+                "1. You must output ONLY a valid JSON object. Do NOT include markdown code blocks (like ```json), no preamble, and no concluding remarks. " +
+                "The response must start with '{' and end with '}'.\n" +
                 "2. Ensure all text strings within the JSON are properly escaped (e.g., avoid unescaped quotes).\n" +
                 "3. Use the exact JSON schema provided below.\n\n" +
                 "REQUIRED JSON SCHEMA:\n" +
@@ -242,7 +239,8 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 "    \"Specific, actionable step 1\",\n" +
                 "    \"Specific, actionable step 2\"\n" +
                 "  ],\n" +
-                "  \"estimated_cost\": \"An approximate price range including currency (e.g., 150 - 250 USD or 300 - 500 RON). If unknown, write 'Cost unavailable'.\",\n" +
+                "  \"estimated_cost\": \"An approximate price range. THIS MUST ALWAYS BE IN RON (Romanian Leu) regardless of the conversation language (e.g., 300 - 500 RON). " +
+                "If unknown, write 'Cost unavailable'.\",\n" +
                 "  \"parts_needed\": [\n" +
                 "    \"Name of Part 1 (if any)\",\n" +
                 "    \"Name of Part 2 (if any)\"\n" +
@@ -318,13 +316,16 @@ public class AIDiagnosticActivity extends AppCompatActivity {
                 String aiAnswer = result.getText();
                 runOnUiThread(() -> {
                     updateChatMessage(loadingPosition, aiAnswer);
-//                    saveDiagnosticReport(userCar, userSymptom, aiAnswer); we do not have to save it yet, only at the final report
 
                     attachedBitmap = null;
                     imgAttachmentPreview.setVisibility(View.GONE);
                     btnFindService.setVisibility(View.VISIBLE);
 
-                    if(aiAnswer != null && aiAnswer.contains("Generate Report")){
+                    if(aiAnswer != null && (
+                            aiAnswer.toLowerCase().contains("generate report") ||
+                                    aiAnswer.toLowerCase().contains("generează raport") ||
+                                    aiAnswer.toLowerCase().contains("genereaza raport"))) {
+
                         btnGenerateReport.setVisibility(View.VISIBLE);
                     }
                 });
@@ -474,16 +475,18 @@ public class AIDiagnosticActivity extends AppCompatActivity {
     }
     private void generateDiagnostic(Car userCar, String userSymptom, String databaseContext, String journalContext, int loadingPosition) {
 
-        // This is the SYSTEM INSTRUCTION. It tells the AI who it is and what data it has before the chat even starts.
-        String systemInstructionText = "You are an AI automotive mechanic assistant. Your goal is to troubleshoot car issues by asking the user clarifying questions. You have access to the vehicle's data, journal history, and local database.\n\n" +
+        // This is the SYSTEM INSTRUCTION. It dictates the AI's core behavior and logic flow.
+        String systemInstructionText = "You are an AI automotive mechanic assistant. Your goal is to troubleshoot car issues rapidly and accurately. You have access to the vehicle's data, journal history, and local database.\n\n" +
                 "1. VEHICLE DATA:\n" +
                 "Make & Model: " + userCar.getCarName() + " (" + userCar.getYear() + "), " + userCar.getEngine() + "L " + userCar.getFuel() + ", Mileage: " + userCar.getKm() + " km\n\n" +
                 "2. VEHICLE SERVICE HISTORY (Journal Records):\n" + journalContext + "\n\n" +
                 "3. LOCAL DATABASE (Primary source of truth):\n" + databaseContext + "\n\n" +
-                "*** CRITICAL RULES ***\n" +
-                "RULE 1: Do NOT generate a final diagnosis immediately. Ask 1 or 2 targeted questions to narrow down the symptom based on the user's input.\n" +
-                "RULE 2: NO OBD-II SCANNERS. Advise visual or sensory checks only.\n" +
-                "RULE 3: Once you are confident in the issue, STOP asking questions and output exactly this phrase at the end of your message: 'I have enough information to diagnose this. Please click Generate Report.'";
+                "*** CRITICAL DIAGNOSTIC RULES ***\n" +
+                "RULE 1: DECISIVENESS & BREVITY. If the user provides a detailed symptom, DO NOT ask questions. Provide ONLY a short, professional 2-3 sentence executive summary of the likely issue. DO NOT list repair steps or parts in this chat. Output exactly the trigger phrase at the end.\n" +
+                "RULE 2: PLAIN TEXT ONLY. You are strictly forbidden from using Markdown formatting. DO NOT use asterisks (**), hashes (###), or bullet points (*). Use standard plain text and normal paragraphs only.\n" +
+                "RULE 3: CLARIFICATION. Ask exactly 1 or 2 targeted questions ONLY IF the user's input is extremely vague and you cannot achieve an 80% confidence level.\n" +
+                "RULE 4: NO JSON. Never generate a full JSON response in this chat window.\n" +
+                "RULE 5: LANGUAGE MATCHING. You MUST reply in the exact same language the user writes in. If the user writes in Romanian, reply in Romanian and end with the trigger phrase: 'Te rog apasă pe Generează Raport'. If the user writes in English, reply in English and end with: 'Please click Generate Report'.";
 
         // Initializing the AI model (Gemini)
         GenerativeModel gm = new GenerativeModel(

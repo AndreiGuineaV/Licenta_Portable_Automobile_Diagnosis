@@ -434,7 +434,8 @@ public class MyGarageActivity extends AppCompatActivity {
             recyclerViewCars.setVisibility(View.GONE);
         } else {
             recyclerViewCars.setVisibility(View.VISIBLE);
-            adapter.notifyDataSetChanged();
+            adapter.sortCars();
+            recyclerViewCars.scrollToPosition(0);
         }
     }
 
@@ -464,12 +465,12 @@ public class MyGarageActivity extends AppCompatActivity {
     }
 
     private void checkAndShowRemindersAlert(boolean forceShow) {
-        // 1. Verificăm în memoria telefonului când am afișat ultima dată alertele
+        // 1. Check in the phone's memory when alerts were last displayed
         android.content.SharedPreferences prefs = getSharedPreferences("GaragePrefs", MODE_PRIVATE);
         long lastShownTime = prefs.getLong("last_alert_time", 0);
         long currentTime = System.currentTimeMillis();
 
-        // Dacă nu forțăm afișarea și nu au trecut cel puțin 12 ore (43.200.000 ms), oprim execuția
+        // If we don't force display and at least 12 hours (43,200,000 ms) haven't passed, stop execution
         if (!forceShow && (currentTime - lastShownTime < 43200000)) {
             return;
         }
@@ -551,7 +552,7 @@ public class MyGarageActivity extends AppCompatActivity {
             builder.setTitle("⚠️ Vehicle Reminders");
             builder.setMessage(Html.fromHtml(finalMessage, Html.FROM_HTML_MODE_COMPACT));
             builder.setPositiveButton("Understood", (dialog, which) -> {
-                // 2. Când utilizatorul dă "Understood", salvăm ora curentă în memorie!
+                // 2. When the user clicks "Understood", save current time in memory!
                 prefs.edit().putLong("last_alert_time", System.currentTimeMillis()).apply();
                 dialog.dismiss();
             });

@@ -128,20 +128,20 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             if (carId.equals(activeCarId)) {
-                //deselect
+                // deselect
                 db.collection("Users").document(uid).update("activeCarId", null)
                         .addOnSuccessListener(aVoid -> {
                             this.activeCarId = null;
-                            notifyDataSetChanged();
+                            sortCars(); // Sort and update the interface instantly
                             Toast.makeText(context, "Car set as inactive!", Toast.LENGTH_SHORT).show();
                         });
             }
             else{
-                //select the car for diagnostic
+                // select the car for diagnostic
                 db.collection("Users").document(uid).update("activeCarId", carId)
                         .addOnSuccessListener(aVoid -> {
                             this.activeCarId = carId;
-                            notifyDataSetChanged();
+                            sortCars(); // Sort and move the car to the first position instantly
                             Toast.makeText(context, "Car set as active!", Toast.LENGTH_SHORT).show();
                         });
             }
@@ -174,7 +174,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
                     if (shareListener != null) shareListener.onShareCar(currentCar, position);
                     return true;
                 } else if (id == R.id.menu_delete) {
-                    // Refolosim interfața ta veche de LongClick pentru a declanșa ștergerea
+                    // Reuse the old LongClick interface to trigger deletion
                     if (longClickListener != null) longClickListener.onCarLongClick(position);
                     return true;
                 }
@@ -184,6 +184,30 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
             popup.show();
         });
+    }
+
+    public void sortCars() {
+        if (carList == null || carList.isEmpty()) return;
+
+        // Sort the list: active car first, then alphabetically by name
+        java.util.Collections.sort(carList, (car1, car2) -> {
+            boolean isCar1Active = car1.getId() != null && car1.getId().equals(activeCarId);
+            boolean isCar2Active = car2.getId() != null && car2.getId().equals(activeCarId);
+
+            if (isCar1Active && !isCar2Active) {
+                return -1; // car1 (active) comes first
+            } else if (!isCar1Active && isCar2Active) {
+                return 1;  // car2 (active) comes first
+            } else {
+                // If neither is active (or both are unselected), sort alphabetically ignoring case
+                String name1 = car1.getCarName() != null ? car1.getCarName() : "";
+                String name2 = car2.getCarName() != null ? car2.getCarName() : "";
+
+                return name1.compareToIgnoreCase(name2);
+            }
+        });
+
+        notifyDataSetChanged();
     }
 
     private void showCarRemindersDialog(Car car, Context context) {
@@ -219,7 +243,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     }
 
     private String formatReminderStatus(String name, long expirationDate, long now, long thirtyDaysInMs) {
-        if (expirationDate == 0) return ""; // Nu a fost setat
+        if (expirationDate == 0) return ""; // Not set
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         String dateString = sdf.format(new Date(expirationDate));
@@ -229,7 +253,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         } else if (expirationDate - now <= thirtyDaysInMs) {
             return "<b>" + name + "</b>: <font color='#F57F17'>" + dateString + " (Expiring Soon)</font><br><br>";
         } else {
-            return "<b>" + name + "</b>: <font color='#388E3C'>" + dateString + " (Valid)</font><br><br>"; // Verde pentru valid
+            return "<b>" + name + "</b>: <font color='#388E3C'>" + dateString + " (Valid)</font><br><br>"; // Green for valid
         }
     }
 

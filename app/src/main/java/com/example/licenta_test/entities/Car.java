@@ -24,7 +24,6 @@ public class Car implements Serializable {
     private long rovinietaExpiration = 0;
     private long oilChangeDate = 0;
     private Map<String, String> sharedRoles;
-
     public Map<String, String> getSharedRoles() {
         return sharedRoles;
     }

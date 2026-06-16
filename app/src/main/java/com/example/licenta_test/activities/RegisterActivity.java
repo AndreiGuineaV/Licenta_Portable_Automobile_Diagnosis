@@ -93,7 +93,6 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setEnabled(false);
         btnRegister.setText("Creating account...");
 
-        //
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
                     // Gets the user ID created by Firebase

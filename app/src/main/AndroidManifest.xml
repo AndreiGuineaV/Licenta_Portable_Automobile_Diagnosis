@@ -64,9 +64,6 @@
         <activity
             android:name=".activities.HomePageActivity"
             android:exported="true" />
-        <activity
-            android:name=".activities.MainActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
