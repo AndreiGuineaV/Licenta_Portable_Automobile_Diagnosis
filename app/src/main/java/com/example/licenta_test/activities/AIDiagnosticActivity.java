@@ -226,21 +226,20 @@ public class AIDiagnosticActivity extends AppCompatActivity {
         String jsonPrompt = "Based on the following conversation history between a vehicle owner and an AI automotive mechanic, generate a final, structured diagnostic report.\n\n" +
                 "CONVERSATION HISTORY:\n" + chatHistory.toString() + "\n\n" +
                 "CRITICAL INSTRUCTIONS:\n" +
-                "1. You must output ONLY a valid JSON object. Do NOT include markdown code blocks (like ```json), no preamble, and no concluding remarks. " +
-                "The response must start with '{' and end with '}'.\n" +
-                "2. Ensure all text strings within the JSON are properly escaped (e.g., avoid unescaped quotes).\n" +
-                "3. Use the exact JSON schema provided below.\n\n" +
+                "1. LANGUAGE MATCHING: Detect the primary language used by the User in the CONVERSATION HISTORY. You MUST generate all text VALUES inside the JSON (title, diagnosis, recommended_actions, parts_needed) in THAT EXACT SAME LANGUAGE. If the user spoke Romanian, write the report content in Romanian.\n" +
+                "2. CONSTANT KEYS: Do NOT translate the JSON keys. The keys must strictly remain in English as defined in the schema below.\n" +
+                "3. You must output ONLY a valid JSON object. Do NOT include markdown code blocks (like ```json), no preamble, and no concluding remarks. The response must start with '{' and end with '}'.\n" +
+                "4. Ensure all text strings within the JSON are properly escaped.\n\n" +
                 "REQUIRED JSON SCHEMA:\n" +
                 "{\n" +
-                "  \"title\": \"A concise, professional title summarizing the issue (e.g., Worn Brake Pads, Engine Misfire)\",\n" +
+                "  \"title\": \"A concise, professional title summarizing the issue (e.g., 'Plăcuțe de frână uzate' or 'Worn Brake Pads')\",\n" +
                 "  \"severity\": \"Must be exactly one of: LOW, MEDIUM, HIGH, or CRITICAL\",\n" +
                 "  \"diagnosis\": \"A clear, 2-3 sentence technical explanation of the identified problem based on the conversation.\",\n" +
                 "  \"recommended_actions\": [\n" +
                 "    \"Specific, actionable step 1\",\n" +
                 "    \"Specific, actionable step 2\"\n" +
                 "  ],\n" +
-                "  \"estimated_cost\": \"An approximate price range. THIS MUST ALWAYS BE IN RON (Romanian Leu) regardless of the conversation language (e.g., 300 - 500 RON). " +
-                "If unknown, write 'Cost unavailable'.\",\n" +
+                "  \"estimated_cost\": \"An approximate price range. THIS MUST ALWAYS BE IN RON (Romanian Leu) regardless of the conversation language (e.g., 300 - 500 RON). If unknown, write 'Cost indisponibil' or 'Cost unavailable'.\",\n" +
                 "  \"parts_needed\": [\n" +
                 "    \"Name of Part 1 (if any)\",\n" +
                 "    \"Name of Part 2 (if any)\"\n" +
@@ -476,17 +475,24 @@ public class AIDiagnosticActivity extends AppCompatActivity {
     private void generateDiagnostic(Car userCar, String userSymptom, String databaseContext, String journalContext, int loadingPosition) {
 
         // This is the SYSTEM INSTRUCTION. It dictates the AI's core behavior and logic flow.
-        String systemInstructionText = "You are an AI automotive mechanic assistant. Your goal is to troubleshoot car issues rapidly and accurately. You have access to the vehicle's data, journal history, and local database.\n\n" +
+        String systemInstructionText = "You are an AI automotive mechanic assistant. Your goal is to troubleshoot car issues rapidly and accurately using the vehicle's data, journal history, and local database.\n\n" +
                 "1. VEHICLE DATA:\n" +
                 "Make & Model: " + userCar.getCarName() + " (" + userCar.getYear() + "), " + userCar.getEngine() + "L " + userCar.getFuel() + ", Mileage: " + userCar.getKm() + " km\n\n" +
                 "2. VEHICLE SERVICE HISTORY (Journal Records):\n" + journalContext + "\n\n" +
                 "3. LOCAL DATABASE (Primary source of truth):\n" + databaseContext + "\n\n" +
                 "*** CRITICAL DIAGNOSTIC RULES ***\n" +
-                "RULE 1: DECISIVENESS & BREVITY. If the user provides a detailed symptom, DO NOT ask questions. Provide ONLY a short, professional 2-3 sentence executive summary of the likely issue. DO NOT list repair steps or parts in this chat. Output exactly the trigger phrase at the end.\n" +
-                "RULE 2: PLAIN TEXT ONLY. You are strictly forbidden from using Markdown formatting. DO NOT use asterisks (**), hashes (###), or bullet points (*). Use standard plain text and normal paragraphs only.\n" +
-                "RULE 3: CLARIFICATION. Ask exactly 1 or 2 targeted questions ONLY IF the user's input is extremely vague and you cannot achieve an 80% confidence level.\n" +
-                "RULE 4: NO JSON. Never generate a full JSON response in this chat window.\n" +
-                "RULE 5: LANGUAGE MATCHING. You MUST reply in the exact same language the user writes in. If the user writes in Romanian, reply in Romanian and end with the trigger phrase: 'Te rog apasă pe Generează Raport'. If the user writes in English, reply in English and end with: 'Please click Generate Report'.";
+                "RULE 1: CLARIFICATION PHASE (LOW CONFIDENCE). If the user's input is vague (e.g., \"no power\", \"weird noise\") and you do not have an 80% confidence level, ask 1 or 2 targeted questions to narrow down the issue. DO NOT output the trigger phrase in this phase.\n" +
+                "RULE 2: DIAGNOSIS PHASE (HIGH CONFIDENCE). Once you have enough details to confidently diagnose the issue, provide a short, professional 2-3 sentence executive summary of the likely problem. DO NOT list repair steps.\n" +
+                "RULE 3: THE TRIGGER PHRASE. You must ONLY append the trigger phrase when you are in the DIAGNOSIS PHASE (Rule 2). Never use it when asking questions.\n" +
+                "RULE 4: PLAIN TEXT ONLY. No Markdown formatting (no asterisks, hashes, or bullet points).\n" +
+                "RULE 5: LANGUAGE MATCHING (STRICT). You MUST reply in the exact same language the user writes in.\n" +
+                "  - If diagnosing in Romanian, append exactly: 'Te rog apasă pe Generează Raport'.\n" +
+                "  - If diagnosing in English, append exactly: 'Please click Generate Report'.\n\n" +
+                "EXAMPLE CONVERSATION (ROMANIAN):\n" +
+                "User: Nu mai are putere ca înainte.\n" +
+                "Mechanic: Pentru a vă oferi un diagnostic precis, am nevoie de câteva detalii. Apare vreun martor aprins în bord (ex. check engine) sau ați observat fum excesiv pe evacuare?\n" +
+                "User: Da, s-a aprins check engine și scoate un fum negru la accelerare.\n" +
+                "Mechanic: Pe baza simptomelor, cel mai probabil aveți o problemă la supapa EGR sau un furtun de la intercooler spart, ceea ce cauzează pierderea de presiune și fumul negru. Vă recomand o verificare a traseului de admisie. Te rog apasă pe Generează Raport";
 
         // Initializing the AI model (Gemini)
         GenerativeModel gm = new GenerativeModel(
